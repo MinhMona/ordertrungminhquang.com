@@ -1,0 +1,1218 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NhapHangV2.API</name>
+    </assembly>
+    <members>
+        <member name="M:NhapHangV2.API.Controllers.AdminSendUserWalletController.UpdateStatus(System.Int32,System.Int32)">
+            <summary>
+            Cập nhật trạng thái của lịch sử nạp (User)
+            </summary>
+            <param name="id"></param>
+            <param name="status">2: Duyệt, 3: Hủy</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.AdminSendUserWalletController.AddItem(NhapHangV2.Request.AdminSendUserWalletRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.AdminSendUserWalletController.UpdateItem(NhapHangV2.Request.AdminSendUserWalletRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.AdminSendUserWalletController.ExportExcel(NhapHangV2.Entities.Search.AdminSendUserWalletSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.AdminSendUserWalletController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.AdminSendUserWalletController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.AdminSendUserWalletModel},NhapHangV2.Entities.Search.AdminSendUserWalletSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.PermitObjectController.GetCatalogueController">
+            <summary>
+            Lấy thông tin những chức năng cần được phân quyền
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.PermitObjectController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin chức năng theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.PermitObjectController.AddItem(NhapHangV2.Request.Auth.PermitObjectRequest)">
+            <summary>
+            Thêm mới chức năng
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.PermitObjectController.UpdateItem(NhapHangV2.Request.Auth.PermitObjectRequest)">
+            <summary>
+            Cập nhật thông tin chức năng
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.PermitObjectController.UserGroupForPermitObject(NhapHangV2.Entities.Search.UserGroupForPermitObjectSearch)">
+            <summary>
+            
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.PermitObjectController.UserGroupForPermitObject(System.Collections.Generic.List{NhapHangV2.Request.Auth.UserGroupForPermitObjectRequest})">
+            <summary>
+            
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.UserGroupController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin nhóm theo Id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.UserGroupController.GetPermissionCatalogue">
+            <summary>
+            Lấy danh sách quyền
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.UserGroupController.GetUserInGroups(NhapHangV2.Entities.Search.UserInGroupSearch)">
+            <summary>
+            Lấy danh sách phân trang người dùng thuộc nhóm
+            </summary>
+            <param name="searchUserInGroup"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetBankCatalogue(System.String)">
+            <summary>
+            Lấy danh sách ngân hàng
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetBigPackageCatalogue(System.String,System.Int32)">
+            <summary>
+            Lấy danh sách bao hàng
+            </summary>
+            <param name="searchContent"></param>
+            <param name="status">
+            0: Tất cả (ngoại trừ Hủy)
+            1: TQ
+            2: VN
+            3: Hủy
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetShippingTypeVNCatalogue(System.String)">
+            <summary>
+            Lấy danh sách vận chuyển trong nước
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetShippingTypeToWarehouseCatalogue(System.String)">
+            <summary>
+            Lấy danh sách hình thức vận chuyển
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetWarehouseFromCatalogue(System.String)">
+            <summary>
+            Lấy danh sách kho TQ
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetWarehouseCatalogue(System.String)">
+            <summary>
+            Lấy danh sách kho VN
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetUserGroupCatalogue(System.String)">
+            <summary>
+            Lấy danh sách quyền
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetUserLevelCatalogue(System.String)">
+            <summary>
+            Lấy danh sách phí người dùng
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetUserCatalogue(System.String,System.Int32)">
+            <summary>
+            Lấy danh sách User
+            </summary>
+            <param name="searchContent">UserName</param>
+            <param name="userGroupId">1: Admin, 2: User, 3: Quản lý, 4: Đặt hàng, 5: Kho TQ, 6: Kho VN, 7: Saler (kinh doanh), 8: Kế toán, 9: Thủ kho</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Auth.CatalogueController.GetPageTypeCatalogue(System.String)">
+            <summary>
+            Lấy danh sách chuyên mục bài viết
+            </summary>
+            <param name="searchContent"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.BankController.AddItem(NhapHangV2.Request.Catalogue.BankRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.BankController.UpdateItem(NhapHangV2.Request.Catalogue.BankRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.BigPackageController.ExportExcel(System.Int32)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.BigPackageController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.BigPackageController.GetParameterReport(NhapHangV2.Models.Catalogue.BigPackageModel,System.Int32)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="itemModel"></param>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.CustomerBenefitsController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.CustomerBenefitsController.AddItem(NhapHangV2.Request.Catalogue.CustomerBenefitsRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.CustomerBenefitsController.UpdateItem(NhapHangV2.Request.Catalogue.CustomerBenefitsRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.CustomerBenefitsController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa item
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.CustomerBenefitsController.Get(NhapHangV2.Entities.DomainEntities.BaseSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.MenuController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.MenuController.AddItem(NhapHangV2.Request.Catalogue.MenuRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.MenuController.UpdateItem(NhapHangV2.Request.Catalogue.MenuRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.MenuController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa item
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.MenuController.Get(NhapHangV2.Entities.DomainEntities.BaseSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.PageTypeController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.PageTypeController.GetByCode(System.String)">
+            <summary>
+            Lấy thông tin theo code
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.PageTypeController.AddItem(NhapHangV2.Request.Catalogue.PageTypeRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.PageTypeController.UpdateItem(NhapHangV2.Request.Catalogue.PageTypeRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.PageTypeController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa item
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.PageTypeController.Get(NhapHangV2.Entities.DomainEntities.BaseSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.ServiceController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.ServiceController.AddItem(NhapHangV2.Request.Catalogue.ServiceRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.ServiceController.UpdateItem(NhapHangV2.Request.Catalogue.ServiceRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.ServiceController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa item
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.ServiceController.Get(NhapHangV2.Entities.DomainEntities.BaseSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.StepController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.StepController.AddItem(NhapHangV2.Request.Catalogue.StepRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.StepController.UpdateItem(NhapHangV2.Request.Catalogue.StepRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.StepController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa item
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.Catalogue.StepController.Get(NhapHangV2.Entities.DomainEntities.BaseSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ComplainController.AddItem(NhapHangV2.Request.ComplainRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ComplainController.UpdateComplain(NhapHangV2.Request.FieldForUpdatedComplainRequest)">
+            <summary>
+            Cập nhật các trạng thái như đang xử lý, hủy,...
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ComplainController.ExportExcel(NhapHangV2.Entities.Search.ComplainSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ComplainController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ComplainController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.ComplainModel},NhapHangV2.Entities.Search.ComplainSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ConfigurationsController.GetCurrency">
+            <summary>
+            Lấy tỷ giá thanh toán hộ theo cấu hình
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ConfigurationsController.AddItem(NhapHangV2.Request.ConfigurationsRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ConfigurationsController.UpdateItem(NhapHangV2.Request.ConfigurationsRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.DashboardController.GetTotalInWeek">
+            <summary>
+            Số lượng đơn hàng + tổng tiền khách nạp trong tuần
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.DashboardController.GetItemInWeek">
+            <summary>
+            Đơn hàng + tiền khách nạp trong tuần (theo ngày)
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ExportRequestTurnController.UpdateStatus(NhapHangV2.Request.FieldForUpdatedExportRequestTurnRequest)">
+            <summary>
+            Cập nhật các trạng thái như Thanh toán bằng ví, thanh toán trực tiếp, hủy
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ExportRequestTurnController.UpdateNote(System.Int32,System.String)">
+            <summary>
+            Cập nhật ghi chú
+            </summary>
+            <param name="id"></param>
+            <param name="staffNote"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.ExportRequestTurnController.Export(NhapHangV2.Request.FieldForExportRequestTurnRequest)">
+            <summary>
+            Xuất kho
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.HistoryPayWalletCNYController.ExportExcel(NhapHangV2.Entities.Search.HistoryPayWalletCNYSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.HistoryPayWalletCNYController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.HistoryPayWalletCNYController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.HistoryPayWalletCNYModel},NhapHangV2.Entities.Search.HistoryPayWalletCNYSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.HistoryPayWalletController.ExportExcel(NhapHangV2.Entities.Search.HistoryPayWalletSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.HistoryPayWalletController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.HistoryPayWalletController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.HistoryPayWalletModel},NhapHangV2.Entities.Search.HistoryPayWalletSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.GetTotalStatus">
+            <summary>
+            (Chưa có filter) Đếm số các trạng thái của tài khoản (admin thì thấy được hết) - chưa phân quyền nên chưa làm cho admin
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.GetTotalAmount">
+            <summary>
+            (Chưa có filter) Tính tổng tiền hàng của khách hàng đó (admin thì tính tổng tất cả các đơn) - chưa phân quyền nên chưa làm cho admin
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.UpdateMainOrder(System.Collections.Generic.List{System.Int32},System.Int32)">
+            <summary>
+            Cập nhật trạng thái đơn hàng (Đặt cọc, thanh toán,...) cho User
+            </summary>
+            <param name="listId">Danh sách ID</param>
+            <param name="status">1: Hủy, 2: Đặt cọc, 7: Thanh toán</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.CheckDeposit(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Lấy tổng tiền đơn hàng đặt cọc
+            </summary>
+            <param name="listID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.CheckPayment(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Lấy tổng tiền cần thanh toán
+            </summary>
+            <param name="listID"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.AddAnotherOrder(NhapHangV2.Request.AnotherOrderRequest)">
+            <summary>
+            Tạo đơn hàng khác (UID = 0 nếu là trang Users)
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.UpdateNote(System.Int32,System.String)">
+            <summary>
+            Cập nhật ghi chú cho đơn hàng
+            </summary>
+            <param name="id"></param>
+            <param name="note"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.UpdateStaff(System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Cập nhật nhân viên đặt hàng, nhân viên kinh doanh của đơn hàng
+            </summary>
+            <param name="id"></param>
+            <param name="staffId"></param>
+            <param name="type">1: Nhân viên đặt hàng, 2: Nhân viên kinh doanh</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.Payment(System.Int32,System.Int32,System.Int32,System.Decimal,System.String)">
+            <summary>
+            Thanh toán hoặc đặt cọc của Quản lý
+            </summary>
+            <param name="id"></param>
+            <param name="paymentType">
+            1: Đặt cọc
+            2: Thanh toán
+            </param>
+            <param name="paymentMethod">
+            1: Trực tiếp
+            2: Ví điện tử
+            </param>
+            <param name="amount">Số tiền thanh toán</param>
+            <param name="note">Nội dung thanh toán</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.UpdateItem(NhapHangV2.Request.MainOrderRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.Commission(NhapHangV2.Request.MainOrderRequest,NhapHangV2.Entities.MainOrder,NhapHangV2.Entities.Users,NhapHangV2.Entities.Configurations)">
+            <summary>
+            Tính phí hoa hồng (cho cập nhật đơn hàng và chọn nhân viên)
+            </summary>
+            <param name="itemModel"></param>
+            <param name="item"></param>
+            <param name="user"></param>
+            <param name="configurations"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.ExportExcel(NhapHangV2.Entities.Search.MainOrderSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.MainOrderModel},NhapHangV2.Entities.Search.MainOrderSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.NotificationController.Get(NhapHangV2.Entities.Search.NoticationSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.NotificationController.GetTotalNotification">
+            <summary>
+            Lấy ra tổng số notification chưa đọc
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.NotificationController.ReadNotifications(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Đọc thông báo user
+            </summary>
+            <param name="notificationIds"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderCommentController.AddItem(NhapHangV2.Request.OrderCommentRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderController.UpdateItem(NhapHangV2.Request.OrderRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.UpdateItem(NhapHangV2.Request.OrderShopTempRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.GetTotalPriceVND(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Tính tổng tiền khi chọn shop
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa shop + những sản phẩm của shop trong giỏ hàng
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.UpdateField(NhapHangV2.Request.UpdateFieldOrderShopTempRequest)">
+            <summary>
+            Cập nhật 4 trường của shop
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.UpdateNote(System.Int32,System.String)">
+            <summary>
+            Cập nhật ghi chú của shop
+            </summary>
+            <param name="id"></param>
+            <param name="note"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.Payment(NhapHangV2.Request.PaymentRequest)">
+            <summary>
+            Thanh toán đơn hàng
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.AddItem(NhapHangV2.Request.OrderShopTempRequest)">
+            <summary>
+            Đặt hàng qua Extension
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderTempController.UpdateItem(NhapHangV2.Request.OrderTempRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderTempController.UpdateBrandAndQuantity(NhapHangV2.Request.UpdateBrandAndQuantityOrderTempRequest)">
+            <summary>
+            Update số lượng và ghi chú
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OutStockSessionController.UpdateStatus(NhapHangV2.Request.FieldForUpdatedOutStockSessionRequest)">
+            <summary>
+            Cập nhật các trạng thái như Thanh toán bằng ví, thanh toán bằng tiền mặt
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OutStockSessionController.DeleteNotPayment(System.Int32)">
+            <summary>
+            Ẩn đơn chưa thanh toán
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OutStockSessionController.Export(System.Int32)">
+            <summary>
+            Xuất kho
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OutStockSessionController.ExportExcel(NhapHangV2.Entities.Search.OutStockSessionSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OutStockSessionController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OutStockSessionController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.OutStockSessionModel},NhapHangV2.Entities.Search.OutStockSessionSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PageController.GetByCode(System.String)">
+            <summary>
+            Lấy thông tin theo code
+            </summary>
+            <param name="code"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PageController.AddItem(NhapHangV2.Request.PageRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PageController.UpdateItem(NhapHangV2.Request.PageRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.UpdatePayHelp(System.Int32,System.Int32)">
+            <summary>
+            Cập nhật các trạng thái như Xóa, Thanh toán của User
+            </summary>
+            <param name="id"></param>
+            <param name="status">2: Thanh toán, 3: Hủy</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.GetCurrency(System.Decimal)">
+            <summary>
+            Lấy tỷ giá thanh toán hộ theo cấu hình
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.UpdateItem(NhapHangV2.Request.PayHelpRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.ExportExcel(NhapHangV2.Entities.Search.PayHelpSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.PayHelpModel},NhapHangV2.Entities.Search.PayHelpSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.RefundController.UpdateStatus(System.Int32,System.Int32)">
+            <summary>
+            Cập nhật trạng thái của lịch sử yêu cầu rút tệ (User)
+            2: Duyệt
+            3: Hủy
+            </summary>
+            <param name="id"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.RefundController.UpdateItem(NhapHangV2.Request.RefundRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.RefundController.ExportExcel(NhapHangV2.Entities.Search.RefundSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.RefundController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.RefundController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.RefundModel},NhapHangV2.Entities.Search.RefundSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.Confirm(NhapHangV2.Request.ConfirmSmallPackageRequest)">
+            <summary>
+            Xác nhận lệnh trôi nổi (User)
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.Tracking(System.String,System.Boolean)">
+            <summary>
+            Tracking theo mã vận đơn cho User (Kiểm hàng cho Quản lý )
+            </summary>
+            <param name="transactionCode"></param>
+            <param name="isAssign">Gán kiện ký gửi cho khách</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.ExportForBarCode(System.Int32,System.String,System.Int32)">
+            <summary>
+            Xuất kho dựa vào mã barcode (mã vận đơn)
+            </summary>
+            <param name="uid">UID người dùng</param>
+            <param name="barcode">Mã vận đơn</param>
+            <param name="statusType">
+            1: Xuất kho ký gửi chưa yêu cầu
+            2: Xuất kho ký gửi đã yêu cầu
+            3: Xuất kho
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.ExportForUserName(System.Int32,System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Xuất kho dựa vào UserName
+            </summary>
+            <param name="uid">UID người dùng</param>
+            <param name="orderId">(Xuất kho) Mã đơn hàng </param>
+            <param name="statusType">
+            1: Xuất kho ký gửi chưa yêu cầu
+            2: Xuất kho ký gửi đã yêu cầu
+            3: Xuất kho
+            </param>
+            <param name="orderType">(Xuất kho)
+            0: Tất cả
+            1: ĐH mua hộ
+            2: ĐH vận chuyển hộ (Ký gửi)
+            </param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.AddItem(NhapHangV2.Request.SmallPackageRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.UpdateItem(System.Collections.Generic.List{NhapHangV2.Request.SmallPackageRequest})">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.UpdateIsLost(System.Int32)">
+            <summary>
+            Chọn kiện thất lạc
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.DownloadTemplateImport">
+            <summary>
+            Template Import Kho TQ
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.ImportTemplateFile(Microsoft.AspNetCore.Http.IFormFile,System.Int32)">
+            <summary>
+            Import Kho TQ
+            </summary>
+            <param name="file"></param>
+            <param name="bigPackageId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.ExportExcel(NhapHangV2.Entities.Search.SmallPackageSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.SmallPackageModel},NhapHangV2.Entities.Search.SmallPackageSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.DeleteItem(System.Int32)">
+            <summary>
+            Xóa item
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.Get(NhapHangV2.Entities.Search.SmallPackageSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.SmallPackageController.GetPermission">
+            <summary>
+            Lấy thông tin quyền của chức năng
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.StaffIncomeController.CommissionPayment(System.Int32,System.Int32,NhapHangV2.Entities.Search.StaffIncomeSearch)">
+            <summary>
+            Thanh toán hoa hồng 
+            </summary>        
+            <param name="type">1: Thanh toán theo Id (1 thằng), 2: Thanh toán tất cả (nhiều thằng)</param>
+            <param name="id">Thanh toán 1 Id</param>
+            <param name="baseSearch">Thanh toán tất cả dựa trên baseSearch (PageIndex = 0, PageSize = 0)</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.StaffIncomeController.ExportExcel(NhapHangV2.Entities.Search.StaffIncomeSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.StaffIncomeController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.StaffIncomeController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.StaffIncomeModel},NhapHangV2.Entities.Search.StaffIncomeSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TrackingController.Tracking(System.String)">
+            <summary>
+            Tracking theo mã vận đơn
+            </summary>
+            <param name="transactionCode"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.AddItem(NhapHangV2.Request.TransportationOrderRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.UpdateItem(NhapHangV2.Request.TransportationOrderRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.CancelItem(System.Int32,System.String)">
+            <summary>
+            Hủy kiện yêu cầu ký gửi
+            </summary>
+            <param name="id">Id ký gửi</param>
+            <param name="note">Ghi chú</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.GetBillingInfo(System.Collections.Generic.List{System.Int32},System.Boolean)">
+            <summary>
+            Lấy thông tin thanh toán xuất kho
+            </summary>
+            <param name="listID">Danh sách ID</param>
+            <param name="isAll">TRUE: Chọn tất cả, FALSE: Chọn từng cái</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.Payment(System.Collections.Generic.List{System.Int32},System.Int32,System.String,System.Int32)">
+            <summary>
+            Thanh toán tại kho, thanh toán bằng ví
+            </summary>
+            <param name="listID">Danh sách ID ký gửi</param>
+            <param name="shippingType">Hình thức vận chuyển trong nước</param>
+            <param name="note">Ghi chú</param>
+            <param name="type">0: Thanh toán tại kho, 2: Thanh toán qua ví</param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.ExportExcel(NhapHangV2.Entities.Search.TransportationOrderSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.TransportationOrderModel},NhapHangV2.Entities.Search.TransportationOrderSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.UpdateItem(NhapHangV2.Request.UserRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.AddItem(NhapHangV2.Request.UserRequest)">
+            <summary>
+            Thêm mới user
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.Get(NhapHangV2.Entities.Search.UserSearch)">
+            <summary>
+            Lấy danh sách item phân trang
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.ExportExcel(NhapHangV2.Entities.Search.UserSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.UserModel},NhapHangV2.Entities.Search.UserSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.WithdrawController.UpdateStatus(System.Int32,System.Int32)">
+            <summary>
+            Cập nhật trạng thái của lịch sử nạp tệ (User)
+            2: Duyệt
+            3: Hủy
+            </summary>
+            <param name="id"></param>
+            <param name="status"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.WithdrawController.UpdateItem(NhapHangV2.Request.WithdrawRequest)">
+            <summary>
+            Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.WithdrawController.ExportExcel(NhapHangV2.Entities.Search.WithdrawSearch)">
+            <summary>
+            Xuất Excel
+            </summary>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.WithdrawController.GetTemplateFilePath(System.String)">
+            <summary>
+            Lấy đường dẫn file template
+            </summary>
+            <param name="fileTemplateName"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.WithdrawController.GetParameterReport(NhapHangV2.Utilities.PagedList{NhapHangV2.Models.WithdrawModel},NhapHangV2.Entities.Search.WithdrawSearch)">
+            <summary>
+            Lấy thông số parameter truyền vào
+            </summary>
+            <param name="pagedList"></param>
+            <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,4432 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NhapHangV2.Entities</name>
+    </assembly>
+    <members>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.BankId">
+            <summary>
+            ID Bank
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.Amount">
+            <summary>
+            Số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TradeContent">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TotalStatus1">
+            <summary>
+            Số đơn chờ duyệt
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TotalStatus2">
+            <summary>
+            Số đơn đã duyệt
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TotalStatus3">
+            <summary>
+            Số đơn đã hủy
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.Wallet">
+            <summary>
+            Số dư (User)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TotalAmount">
+            <summary>
+            Tổng số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TotalAmount2">
+            <summary>
+            Tổng số tiền đã duyệt
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.TotalAmount1">
+            <summary>
+            Tổng số tiền chờ duyệt
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.AdminSendUserWallet.BankName">
+            <summary>
+            Tên ngân hàng
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Auth.Permissions">
+            <summary>
+            Quyền người dùng (AddNew, Update, Delete, View, Dowload, Upload, Import, Export, ViewAll)
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Auth.PermitObjectPermissions">
+            <summary>
+            Danh mục quyền ứng với chức năng người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjectPermissions.PermitObjectId">
+            <summary>
+            Chức năng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjectPermissions.Permissions">
+            <summary>
+            List quyền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjectPermissions.UserGroupId">
+            <summary>
+            Nhóm người dùng
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Auth.PermitObjects">
+            <summary>
+            Chức năng người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjects.ControllerNames">
+            <summary>
+            Tên controller
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjects.UserGroupId">
+            <summary>
+            Id nhóm người dùng (Dùng để POST)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjects.PermitObjectPermissions">
+            <summary>
+            List quyền + chức năng (Dùng để GET)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.PermitObjects.Controllers">
+            <summary>
+            Danh sách tên controller
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Auth.UserGroups">
+            <summary>
+            Nhóm người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.UserGroups.UserInGroups">
+            <summary>
+            Người dùng thuộc nhóm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.UserGroups.PermitObjectPermissions">
+            <summary>
+            Chức năng + quyền của nhóm
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Auth.UserInGroups">
+            <summary>
+            Người dùng thuộc nhóm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.UserInGroups.UserId">
+            <summary>
+            Người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.UserInGroups.UserGroupId">
+            <summary>
+            Nhóm người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.UserInGroups.Users">
+            <summary>
+            Lấy thông tin Người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Auth.UserInGroups.UserGroups">
+            <summary>
+            Lấy thông tin Nhóm người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Bank.BankName">
+            <summary>
+            Tên ngân hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Bank.BankNumber">
+            <summary>
+            Số tài khoản
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Bank.Branch">
+            <summary>
+            Chi nhánh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Bank.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Bank.BankInfo">
+            <summary>
+            Thông tin
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.BigPackage.Weight">
+            <summary>
+            Cân nặng (kg)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.BigPackage.Volume">
+            <summary>
+            Khối (m3)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.BigPackage.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.BigPackage.Total">
+            <summary>
+            Tổng kiện
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.CustomerBenefits.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.CustomerBenefits.Link">
+            <summary>
+            Link
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.CustomerBenefits.Position">
+            <summary>
+            Vị trí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.CustomerBenefits.ItemType">
+            <summary>
+            1. Cam kết, 2. Quyền lợi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Menu.Link">
+            <summary>
+            Link menu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Menu.Type">
+            <summary>
+            1. Ngoài, 2. Trong
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Menu.Parent">
+            <summary>
+            Id menu Cha
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Menu.Position">
+            <summary>
+            Vị trí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationSetting.IsNotifyAdmin">
+            <summary>
+            Thông báo cho admin
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationSetting.IsNotifyUser">
+            <summary>
+            Thông báo cho người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationSetting.IsEmailAdmin">
+            <summary>
+            Gửi email cho admin
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationSetting.IsEmailUser">
+            <summary>
+            Gửi email cho người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationTemplate.Title">
+            <summary>
+            Tiêu đề
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationTemplate.Content">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.NotificationTemplate.IsTemplateDefault">
+            <summary>
+            Template mặc định
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.OGUrl">
+            <summary>
+            OG Url
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.OGTitle">
+            <summary>
+            OG Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.OGDescription">
+            <summary>
+            OG Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.OGImage">
+            <summary>
+            OG Image
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.MetaTitle">
+            <summary>
+            Meta Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.MetaDescription">
+            <summary>
+            Meta Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageSEO.MetaKeyword">
+            <summary>
+            Meta Keyword
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGUrl">
+            <summary>
+            OG Url
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGTitle">
+            <summary>
+            OG Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGDescription">
+            <summary>
+            OG Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGImage">
+            <summary>
+            OG Image
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.MetaTitle">
+            <summary>
+            Meta Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.MetaDescription">
+            <summary>
+            Meta Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.MetaKeyword">
+            <summary>
+            Meta Keyword
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGFacebookTitle">
+            <summary>
+            OG Facebook Title 
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGFacebookDescription">
+            <summary>
+            OG Facebook Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGFacebookIMG">
+            <summary>
+            OG Facebook IMG
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGTwitterTitle">
+            <summary>
+            OG Twitter Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGTwitterDescription">
+            <summary>
+            OG Twitter Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.OGTwitterIMG">
+            <summary>
+            OG Twitter IMG
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.SideBar">
+            <summary>
+            SideBar
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.PageType.Pages">
+            <summary>
+            Danh sách bài viết
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Service.Link">
+            <summary>
+            Link
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Service.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Service.Position">
+            <summary>
+            Vị trí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Step.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Step.Position">
+            <summary>
+            Vị trí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Step.Link">
+            <summary>
+            Link
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Warehouse.Latitude">
+            <summary>
+            Vĩ độ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Warehouse.Longitude">
+            <summary>
+            Kinh độ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.Warehouse.ExpectedDate">
+            <summary>
+            Ngày dự kiến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.WarehouseFrom.Latitude">
+            <summary>
+            Vỹ độ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Catalogue.WarehouseFrom.Longitude">
+            <summary>
+            Kinh độ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.MainOrderId">
+            <summary>
+            Mã shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.Amount">
+            <summary>
+            Tiền bồi thường
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.ComplainText">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Complain.CurrentCNYVN">
+            <summary>
+            Tỉ giá theo Shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.WebsiteName">
+            <summary>
+            Tên website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.LogoIMG">
+            <summary>
+            Hình Logo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.CompanyShortName">
+            <summary>
+            Tên công ty viết tắt
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.CompanyLongName">
+            <summary>
+            Tên công ty dài
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.CompanyName">
+            <summary>
+            Tên công ty ngắn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.TaxCode">
+            <summary>
+            Mã số thuế
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.BannerIMG">
+            <summary>
+            Banner
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.BannerText">
+            <summary>
+            Chữ trên banner
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.ChromeExtensionLink">
+            <summary>
+            Link Extension (Chrome)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.CocCocExtensionLink">
+            <summary>
+            Link Extension (CocCoc)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.AboutText">
+            <summary>
+            Về chúng tôi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.EmailSupport">
+            <summary>
+            Email hỗ trợ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.EmailContact">
+            <summary>
+            Email liên lạc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Hotline">
+            <summary>
+            Hotline
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.HotlineSupport">
+            <summary>
+            Hotline hỗ trợ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.HotlineFeedback">
+            <summary>
+            Hotline phản hồi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Address">
+            <summary>
+            Địa chỉ 1
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Address2">
+            <summary>
+            Địa chỉ 2 
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Address3">
+            <summary>
+            Địa chỉ 3
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.TimeWork">
+            <summary>
+            Thời gian làm việc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Facebook">
+            <summary>
+            Link facebook
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Twitter">
+            <summary>
+            Link twitter
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.GooglePlus">
+            <summary>
+            Link google
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Instagram">
+            <summary>
+            Link Instagram
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Skype">
+            <summary>
+            Link Skype
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Pinterest">
+            <summary>
+            Link Pinterest
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.LinkedIn">
+            <summary>
+            Link LinkedIn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.YoutubeLink">
+            <summary>
+            Link Youtube
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.ZaloLink">
+            <summary>
+            Link Zalo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.WechatLink">
+            <summary>
+            Link WeChat
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.Currency">
+            <summary>
+            Tỷ giá mua hàng hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.PricePayHelpDefault">
+            <summary>
+            Tỉ giá thanh toán hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.AgentCurrency">
+            <summary>
+            Tỉ giá ký gửi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.SalePercent">
+            <summary>
+            Phần trăm nhân viên sale trong 3 tháng đầu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.SalePercentAfter3Month">
+            <summary>
+            Phần trăm nhân viên sale sau 3 tháng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.DatHangPercent">
+            <summary>
+            Phần trăm nhân viên đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.InsurancePercent">
+            <summary>
+            Phần trăm bảo hiểm đơn hàng mua hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.InsurancePercentTransport">
+            <summary>
+            Phần trăm bảo hiểm đơn hàng ký gửi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.NumberLinkOfOrder">
+            <summary>
+            Số lượng link trong 1 đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.NotiPopup">
+            <summary>
+            Nội dung thông báo Popup
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.NotiPopupTitle">
+            <summary>
+            Tiêu đề thông báo Popup
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.NotiPopupEmail">
+            <summary>
+            Email liên hệ Popup
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.MetaTitle">
+            <summary>
+            Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.MetaKeyword">
+            <summary>
+            Meta keyword
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.MetaDescription">
+            <summary>
+            Meta description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGUrl">
+            <summary>
+            OG Url
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGTitle">
+            <summary>
+            OG Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGDescription">
+            <summary>
+            OG Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGImage">
+            <summary>
+            OG Image
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGFBTitle">
+            <summary>
+            OG FB Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGFBDescription">
+            <summary>
+            OG FB Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGFBImage">
+            <summary>
+            OG FB Image
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGTwitterTitle">
+            <summary>
+            OG Twitter Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGTwitterDescription">
+            <summary>
+            OG Twitter Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.OGTwitterImage">
+            <summary>
+            OG Twitter Image
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.GoogleAnalytics">
+            <summary>
+            Google Analytics (Đặt nội dung trong thẻ script)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.WebmasterTools">
+            <summary>
+            Webmaster Tools (Đặt nội dung trong thẻ script)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.HeaderScriptCode">
+            <summary>
+            Header Script Code (Đặt nội dung trong thẻ script)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configurations.FooterScriptCode">
+            <summary>
+            Footer Script Code (Đặt nội dung trong thẻ script)
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Configuration.EmailConfigurations">
+            <summary>
+            Bảng cấu hình Email
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Configuration.OTPHistories">
+            <summary>
+            Lịch sử OTP
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.OTPHistories.UserId">
+            <summary>
+            Thông tin người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.OTPHistories.Phone">
+            <summary>
+            SDT gửi OTP
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.OTPHistories.Email">
+            <summary>
+            Email gửi OTP
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.OTPHistories.OTPValue">
+            <summary>
+            Mã OTP
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.OTPHistories.ExpiredDate">
+            <summary>
+            Thời gian hết hạn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.OTPHistories.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="T:NhapHangV2.Entities.Configuration.SMSConfigurations">
+            <summary>
+            Cấu hình SMS
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.SMSConfigurations.TemplateText">
+            <summary>
+            Cú pháp tin nhắn mẫu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.SMSConfigurations.WebServiceUrl">
+            <summary>
+            Url web service
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.SMSEmailTemplates.Subject">
+            <summary>
+            Tiêu đề
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.SMSEmailTemplates.Body">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Configuration.SMSEmailTemplates.IsSMS">
+            <summary>
+            Mẫu là SMS
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetItemInWeek.DateOfWeek">
+            <summary>
+            Ngày trong tuần
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetItemInWeek.MainOrder">
+            <summary>
+            Mua hàng hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetItemInWeek.MainOrderAnother">
+            <summary>
+            Mua hàng hộ khác
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetItemInWeek.TransportationOrder">
+            <summary>
+            Vận chuyển hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetItemInWeek.PayHelp">
+            <summary>
+            Thanh toán hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetItemInWeek.AdminSendUserWallet">
+            <summary>
+            Tiền khách nạp trong tuần
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.MainOrderCount">
+            <summary>
+            Mua hàng hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.MainOrderAnotherCount">
+            <summary>
+            Mua hàng hộ khác
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.TransportationOrderCount">
+            <summary>
+            Vận chuyển hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.PayHelpCount">
+            <summary>
+            Thanh toán hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.TotalAmount">
+            <summary>
+            Tổng tiền khách nạp trong tuần
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.TotalAmountPrev">
+            <summary>
+            Tổng tiền khách nạp trong tuần vừa rồi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Dashboard_GetTotalInWeek.TotalAmountPercent">
+            <summary>
+            Tỉ lệ nạp tiền của tuần vừa rồi và tuần này
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.RowNumber">
+            <summary>
+            STT
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.TotalItem">
+            <summary>
+            Tổng số item phân trang
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.Created">
+            <summary>
+            Ngày tạo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.CreatedBy">
+            <summary>
+            Tạo bởi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.Updated">
+            <summary>
+            Ngày cập nhật
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.UpdatedBy">
+            <summary>
+            Người cập nhật
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.Deleted">
+            <summary>
+            Cờ xóa
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomain.Active">
+            <summary>
+            Cờ active
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainFile.FileName">
+            <summary>
+            Tên file (Tên lưu trong thư mục)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainFile.ContentType">
+            <summary>
+            Loại file
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainFile.FileExtension">
+            <summary>
+            Đuôi file
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainFile.Description">
+            <summary>
+            Mô tả
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainFile.FileUrl">
+            <summary>
+            Link download File
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.RowNumber">
+            <summary>
+            STT
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.TotalItem">
+            <summary>
+            Tổng số item phân trang
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.Created">
+            <summary>
+            Ngày tạo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.CreatedBy">
+            <summary>
+            Tạo bởi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.Updated">
+            <summary>
+            Ngày cập nhật
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.AppDomainReport.UpdatedBy">
+            <summary>
+            Người cập nhật
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.BaseSearch.PageIndex">
+            <summary>
+            Trang hiện tại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.BaseSearch.PageSize">
+            <summary>
+            Số lượng item trên 1 trang
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.BaseSearch.SearchContent">
+            <summary>
+            Nội dung tìm kiếm chung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.DomainEntities.BaseSearch.OrderBy">
+            <summary>
+            Cột sắp xếp
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExcelMapper.CatalogueMapper.Code">
+            <summary>
+            Mã
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExcelMapper.CatalogueMapper.Name">
+            <summary>
+            Tên
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExcelMapper.CatalogueMapper.Description">
+            <summary>
+            Mô tả
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExcelMapper.CatalogueMapper.ResultMessage">
+            <summary>
+            Kết quả trả về
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExcelMapper.SmallPackageMapper.OrderTransactionCode">
+            <summary>
+            Mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.TotalPriceVND">
+            <summary>
+            Tổng tiền (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.TotalPriceCNY">
+            <summary>
+            Tổng tiền (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.TotalWeight">
+            <summary>
+            Tổng kg
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.Note">
+            <summary>
+            Ghi chú của nhân viên
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.ShippingTypeInVNId">
+            <summary>
+            ID hình thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.StaffNote">
+            <summary>
+            Ghi chú của khách hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.Status">
+            <summary>
+            Trạng thái thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.StatusExport">
+            <summary>
+            Trạng thái xuất kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.OutStockDate">
+            <summary>
+            Ngày xuất kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.TotalPackage">
+            <summary>
+            Tổng số kiện
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.ExportRequestTurn.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeBuyPro.PriceFrom">
+            <summary>
+            Giá từ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeBuyPro.PriceTo">
+            <summary>
+            Giá đến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeBuyPro.FeePercent">
+            <summary>
+            Phí theo phần trăm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeCheckProduct.AmountFrom">
+            <summary>
+            Số lượng từ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeCheckProduct.AmountTo">
+            <summary>
+            Số lượng đến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeCheckProduct.Fee">
+            <summary>
+            Phí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeCheckProduct.Type">
+            <summary>
+            Loại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeePackaged.InitialKg">
+            <summary>
+            Số ký ban đầu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeePackaged.FirstPrice">
+            <summary>
+            Số tiền ký ban đầu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeePackaged.NextPrice">
+            <summary>
+            Số tiền cộng thêm trên mỗi ký
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeSupport.SupportName">
+            <summary>
+            Tên phụ phí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.FeeSupport.SupportInfoVND">
+            <summary>
+            Số tiền (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryOrderChange.HistoryContent">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryOrderChange.Type">
+            <summary>
+            Loại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryOrderChange.UserGroupName">
+            <summary>
+            Quyền hạn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.MainOrderId">
+            <summary>
+            ID shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.Amount">
+            <summary>
+            Số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.Content">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.MoneyLeft">
+            <summary>
+            Số dư
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.Type">
+            <summary>
+            1: Trừ, 2: Cộng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.TradeType">
+            <summary>
+            Loại giao dịch
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.TotalAmount4">
+            <summary>
+            Tổng tiền đã nạp (User)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWallet.Wallet">
+            <summary>
+            Số dư hiện tại (User)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWalletCNY.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWalletCNY.Amount">
+            <summary>
+            Số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWalletCNY.MoneyLeft">
+            <summary>
+            Số dư
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWalletCNY.Type">
+            <summary>
+            1: Trừ, 2: Cộng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWalletCNY.TradeType">
+            <summary>
+            Loại giao dịch
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryPayWalletCNY.Note">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.HistoryScanPackage.WareHouseId">
+            <summary>
+            Id kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.InWareHousePrice.WeightFrom">
+            <summary>
+            Cân nặng từ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.InWareHousePrice.WeightTo">
+            <summary>
+            Cân nặng đến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.InWareHousePrice.MaxDay">
+            <summary>
+            Tổng ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.InWareHousePrice.PricePay">
+            <summary>
+            Giá tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.UID">
+            <summary>
+            ID User người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ShopId">
+            <summary>
+            ID Shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ShopName">
+            <summary>
+            Tên shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Site">
+            <summary>
+            Website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsFastDelivery">
+            <summary>
+            Giao hàng tận nhà
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsFastDeliveryPrice">
+            <summary>
+            Phí giao hàng tận nhà
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsCheckProduct">
+            <summary>
+            Kiểm đếm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsCheckProductPrice">
+            <summary>
+            Phí kiểm đếm (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsCheckProductPriceCNY">
+            <summary>
+            Phí kiểm đếm (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsPacked">
+            <summary>
+            Đóng gỗ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsPackedPrice">
+            <summary>
+            Phí đóng gỗ (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsPackedPriceCNY">
+            <summary>
+            Phí đóng gỗ (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.PriceVND">
+            <summary>
+            Tiền hàng (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.PriceCNY">
+            <summary>
+            Tiền hàng (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeShipCNCNY">
+            <summary>
+            Phí ship TQ (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeShipCN">
+            <summary>
+            Phí ship TQ (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeBuyPro">
+            <summary>
+            Phí mua hàng (Phí mua hàng - Chiết khấu (VNĐ))
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.CKFeeBuyPro">
+            <summary>
+            Phí mua hàng - chiết khấu (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeWeight">
+            <summary>
+            Phí vận chuyển TQ - VN - VNĐ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeWeightCK">
+            <summary>
+            Chiết khấu - Phí vận chuyển TQ - VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ReceiverFullName">
+            <summary>
+            Họ và tên người nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ReceiverPhone">
+            <summary>
+            Số điện thoại người nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.DeliveryAddress">
+            <summary>
+            Địa chỉ nhận hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ReceiverEmail">
+            <summary>
+            Email người nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Note">
+            <summary>
+            Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Deposit">
+            <summary>
+            Đã thanh toán (Số tiền đã cọc - Đã trả)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.CurrentCNYVN">
+            <summary>
+            Tỉ giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalPriceVND">
+            <summary>
+            Tổng tiền (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.SalerId">
+            <summary>
+            ID nhân viên kinh doanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.DatHangId">
+            <summary>
+            Id nhân viên đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ReceivePlace">
+            <summary>
+            ID Kho nhận (VN)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FromPlace">
+            <summary>
+            ID kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ShippingType">
+            <summary>
+            Phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.AmountDeposit">
+            <summary>
+            Tổng tiền phải cọc (Số tiền phải cọc)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.OrderWeight">
+            <summary>
+            Tổng cân nặng (Kg)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TQVNWeight">
+            <summary>
+            Phí vận chuyển TQ - VN - Cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalPriceReal">
+            <summary>
+            Tổng số tiền mua thật (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalPriceRealCNY">
+            <summary>
+            Tổng số tiền mua thật (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.OrderType">
+            <summary>
+            Trạng thái đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsCheckNotiPrice">
+            <summary>
+            Báo giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeInWareHouse">
+            <summary>
+            Phí lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.DepositDate">
+            <summary>
+            Ngày đặt cọc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.PayDate">
+            <summary>
+            Ngày khách thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.DateBuy">
+            <summary>
+            Ngày đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.DateTQ">
+            <summary>
+            Ngày đã về kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.DateVN">
+            <summary>
+            Ngày đã về kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.CompleteDate">
+            <summary>
+            Ngày hoàn thành
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsInsurance">
+            <summary>
+            Bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.InsuranceMoney">
+            <summary>
+            Phí bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.InsurancePercent">
+            <summary>
+            Phí bảo hiểm (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeShipCNRealCNY">
+            <summary>
+            Phí ship TQ thật (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsDoneSmallPackage">
+            <summary>
+            Đủ mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeShipCNReal">
+            <summary>
+            Phí ship TQ thật (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ExpectedDate">
+            <summary>
+            Ngày dự kiến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.LessDeposit">
+            <summary>
+            Đặt cọc (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeBuyProPT">
+            <summary>
+            Phí dịch vụ (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeBuyProUser">
+            <summary>
+            Phí mua hàng của User
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsComplain">
+            <summary>
+            Đơn có đang bị khiếu nại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.IsUpdatePrice">
+            <summary>
+            Đơn có cập nhật sản phẩm trong đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeShipCNToVN">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Surcharge">
+            <summary>
+            (Tổng phụ phí)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalLink">
+            <summary>
+            Tổng link
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ImageOrigin">
+            <summary>
+            Ảnh sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ReceivePlaceName">
+            <summary>
+            Tên kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FromPlaceName">
+            <summary>
+            Tên kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ShippingTypeName">
+            <summary>
+            Tên phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.UserName">
+            <summary>
+            UserName đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Wallet">
+            <summary>
+            Số dư người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FullName">
+            <summary>
+            Họ và tên người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Address">
+            <summary>
+            Địa chỉ người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Email">
+            <summary>
+            Email người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Phone">
+            <summary>
+            Số điện thoại người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalAllPrice">
+            <summary>
+            Tổng tiền hàng (Danh sách)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalAllPriceReal">
+            <summary>
+            Tổng tiền hàng mua thật (Danh sách)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalAllDeposit">
+            <summary>
+            Tổng tiền hàng đã thanh toán (Danh sách)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus0">
+            <summary>
+            Tổng đơn mới
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus1">
+            <summary>
+            Tổng đơn đã đặt cọc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus2">
+            <summary>
+            Tổng đơn đã mua hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus5">
+            <summary>
+            Tổng đơn về kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus6">
+            <summary>
+            Tổng đơn về kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus7">
+            <summary>
+            Tổng đơn đã thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus9">
+            <summary>
+            Tổng đơn đã hoàn thành
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.TotalStatus10">
+            <summary>
+            Tổng đơn hủy
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.MainOrderTransactionCode">
+            <summary>
+            Mã đơn hàng - Mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.FeeSupports">
+            <summary>
+            Danh sách phụ phí
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.MainOrderCodes">
+            <summary>
+            Danh sách mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.SmallPackages">
+            <summary>
+            Danh sách mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Orders">
+            <summary>
+            Danh sách sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.HistoryOrderChanges">
+            <summary>
+            Lịch sử thay đổi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.PayOrderHistories">
+            <summary>
+            Lịch sử thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.Complains">
+            <summary>
+            Lịch sử khiếu nại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.StaffIncomes">
+            <summary>
+            Tính hoa hồng cho đặt hàng và saler
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.OrderComments">
+            <summary>
+            Nhắn tin với khách hàng, với nội bộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.OrdererUserName">
+            <summary>
+            UserName nhân viên đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.SalerUserName">
+            <summary>
+            UserName Nhân viên kinh doanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrder.ShopTempId">
+            <summary>
+            Id để khi đặt hàng xong sẽ xóa trong OrderTemp
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.MainOrderCode.Code">
+            <summary>
+            Mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.NotificationTemplateId">
+            <summary>
+            Mã template thông báo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.NotificationContent">
+            <summary>
+            Nội dung thông báo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.IsRead">
+            <summary>
+            Cờ đã xem
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.ToUserId">
+            <summary>
+            Gửi đến người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.UserGroupId">
+            <summary>
+            Gửi đến nhóm người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.Url">
+            <summary>
+            Link Url
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Notification.MainOrderId">
+            <summary>
+            Mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.TitleOrigin">
+            <summary>
+            Tên sản phẩm (gốc)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.TitleTranslated">
+            <summary>
+            Tên sản phẩm (dịch)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Quantity">
+            <summary>
+            Số lượng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.RealPrice">
+            <summary>
+            Giá mua thực tế (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Brand">
+            <summary>
+            Ghi chú sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.ProductStatus">
+            <summary>
+            Trạng thái (1: Còn hàng, 2: Hết hàng)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.PriceOrigin">
+            <summary>
+            Giá gốc (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.PricePromotion">
+            <summary>
+            Giá khuyến mãi (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.PropertyTranslated">
+            <summary>
+            Thông số (dịch)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Property">
+            <summary>
+            Thông số (Gốc)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.ImageOrigin">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.ShopId">
+            <summary>
+            Id của shop trên web
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.ShopName">
+            <summary>
+            Tên của shop trên web
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.SellerId">
+            <summary>
+            Id của người bán trên web
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Wangwang">
+            <summary>
+            Extension (Chưa biết là gì)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Stock">
+            <summary>
+            Hàng trong kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.LocationSale">
+            <summary>
+            Địa chỉ của shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Site">
+            <summary>
+            Website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Comment">
+            <summary>
+            Extension (Có xài mà không biết là gì)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.ItemId">
+            <summary>
+            Id của sản phẩm trên website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.LinkOrigin">
+            <summary>
+            Link của sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Error">
+            <summary>
+            Extension (Lỗi)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Weight">
+            <summary>
+            Cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.CategoryName">
+            <summary>
+            Extension (Tên danh mục)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.CategoryId">
+            <summary>
+            Extension (Id danh mục)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Tool">
+            <summary>
+            Extension (Công cụ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.Version">
+            <summary>
+            Extension (Phiên bản)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.IsTranslate">
+            <summary>
+            Dịch
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.CurrentCNYVN">
+            <summary>
+            Tỉ giá theo sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.UPriceBuy">
+            <summary>
+            Đơn giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.UPriceBuyVN">
+            <summary>
+            Đơn giá (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Order.HistoryOrderChanges">
+            <summary>
+            Lịch sử thay đổi (Cập nhật)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderComment.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderComment.MainOrderId">
+            <summary>
+            Id đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderComment.Comment">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderComment.Type">
+            <summary>
+            1. Nhắn tin với khách
+            2. Nhắn tin nội bộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderComment.FileLink">
+            <summary>
+            Lưu tập tin
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderComment.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.UID">
+            <summary>
+            ID user
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.ShopId">
+            <summary>
+            Id của shop trên website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.ShopName">
+            <summary>
+            Tên shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.Site">
+            <summary>
+            Website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsFastDelivery">
+            <summary>
+            Giao tận nhà
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsFastDeliveryPrice">
+            <summary>
+            Phí giao tận nhà
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsCheckProduct">
+            <summary>
+            Kiểm hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsCheckProductPrice">
+            <summary>
+            Phí kiểm tra hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsPacked">
+            <summary>
+            Đóng gỗ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsPackedPrice">
+            <summary>
+            Phí đóng gỗ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsFast">
+            <summary>
+            Giao nhanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsFastPrice">
+            <summary>
+            Phí giao nhanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.IsInsurance">
+            <summary>
+            Bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.InsuranceMoney">
+            <summary>
+            Phí bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.PriceVND">
+            <summary>
+            Tổng giá của shop (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.PriceCNY">
+            <summary>
+            Tổng giá của shop (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.Note">
+            <summary>
+            Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.FeeBuyPro">
+            <summary>
+            Phí mua hàng (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.FullName">
+            <summary>
+            Họ tên người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.Phone">
+            <summary>
+            Số điện thoại người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.Email">
+            <summary>
+            Email người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.Address">
+            <summary>
+            Địa chỉ người đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderShopTemp.TotalPriceVND">
+            <summary>
+            Tổng tiền (bao gồm phí)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.TitleOrigin">
+            <summary>
+            Tên sản phẩm (Gốc)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.TitleTranslated">
+            <summary>
+            Tên sản phẩm (Dịch)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.PriceOrigin">
+            <summary>
+            Giá gốc (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.PricePromotion">
+            <summary>
+            Giá khuyến mãi (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.PropertyTranslated">
+            <summary>
+            Thông số (Dịch)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Property">
+            <summary>
+            Thông số (Gốc)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.ShopId">
+            <summary>
+            Id của shop trên website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.ShopName">
+            <summary>
+            Tên shop trên website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.SellerId">
+            <summary>
+            Id người bán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Wangwang">
+            <summary>
+            Cái gì của shop ấy
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Quantity">
+            <summary>
+            Số lượng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Stock">
+            <summary>
+            Hàng trong kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.LocationSale">
+            <summary>
+            Địa chỉ của shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Site">
+            <summary>
+            Website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.ItemId">
+            <summary>
+            Id của sản phẩm trên website
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.LinkOrigin">
+            <summary>
+            Link của sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Weight">
+            <summary>
+            Cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Brand">
+            <summary>
+            Ghi chú sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.CategoryName">
+            <summary>
+            Extension (Danh mục)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.CategoryId">
+            <summary>
+            Extension (Id Danh mục)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Tool">
+            <summary>
+            Extension (Công cụ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Version">
+            <summary>
+            Extension (Phiên bản)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Error">
+            <summary>
+            Extension (Lỗi)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.IsTranslate">
+            <summary>
+            Dịch
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.StepPrice">
+            <summary>
+            Bước nhảy
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Comment">
+            <summary>
+            Có xài mà không biết là gì
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.ImageOrigin">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.Currency">
+            <summary>
+            Tỉ giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.UPriceBuy">
+            <summary>
+            Đơn giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.UPriceBuyVN">
+            <summary>
+            Đơn giá (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.EPriceBuy">
+            <summary>
+            Tiền hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.EPriceBuyVN">
+            <summary>
+            Tiền hàng (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OrderTemp.MaxEPriceBuyVN">
+            <summary>
+            Tổng tiền tất cả đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.UID">
+            <summary>
+            UID người nhập
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.FullName">
+            <summary>
+            Họ và tên người nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.UserPhone">
+            <summary>
+            Số điện thoại người nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.UserName">
+            <summary>
+            UserName người nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.Status">
+            <summary>
+            Trạng thái (1: Chưa xác nhận, 2: Đã xác nhận)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.TotalPay">
+            <summary>
+            Tổng tiền phải trả (Tiền cần thanh toán)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.TotalWeight">
+            <summary>
+            Tổng cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.TotalWarehouseFee">
+            <summary>
+            Tổng tiền lưu kho tất cả đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.Type">
+            <summary>
+            Trạng thái thanh toán
+            1. Thanh toán bằng ví điện tử
+            2. Thanh toán bằng tiền mặt
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.Note">
+            <summary>
+            Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSession.OutStockSessionPackages">
+            <summary>
+            Chi tiết phiên xuất kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSessionPackage.DateOutStock">
+            <summary>
+            Ngày xuất kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSessionPackage.WarehouseFee">
+            <summary>
+            Tổng tiền lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSessionPackage.TotalLeftPay">
+            <summary>
+            Tiền cần thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSessionPackage.IsPayment">
+            <summary>
+            Trạng thái thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.OutStockSessionPackage.TotalPriceVND">
+            <summary>
+            Tiền hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.PageTypeId">
+            <summary>
+            Id chuyên mục bài viết
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.Title">
+            <summary>
+            Tiêu đề
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.Code">
+            <summary>
+            Code
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.Summary">
+            <summary>
+            Mô tả ngắn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.PageContent">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.IsHidden">
+            <summary>
+            Cờ ẩn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.SideBar">
+            <summary>
+            Cờ Sidebar
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.IMG">
+            <summary>
+            Ảnh đại diện
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGUrl">
+            <summary>
+            OG Url
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGTitle">
+            <summary>
+            OG Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGDescription">
+            <summary>
+            OG Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGImage">
+            <summary>
+            OG Image
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.MetaTitle">
+            <summary>
+            Meta Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.MetaDescription">
+            <summary>
+            Meta Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.MetaKeyword">
+            <summary>
+            Meta Keyword
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGFacebookTitle">
+            <summary>
+            OG Facebook Tile
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGFacebookDescription">
+            <summary>
+            OG Facebook Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGFacebookIMG">
+            <summary>
+            OG Facebook IMG
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGTwitterTitle">
+            <summary>
+            OG Twitter Title
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGTwitterDescription">
+            <summary>
+            OG Twitter Description
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Page.OGTwitterIMG">
+            <summary>
+            OG Twitter IMG
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.UID">
+            <summary>
+            Id User
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.Note">
+            <summary>
+            Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.TotalPrice">
+            <summary>
+            Tổng tiền (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.TotalPriceVND">
+            <summary>
+            Tổng tiền (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.Currency">
+            <summary>
+            Tỉ giá (Tỉ giá tính tiền)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.Deposit">
+            <summary>
+            Đã trả
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.CurrencyConfig">
+            <summary>
+            Tỉ giá hệ thống
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.IsComplete">
+            <summary>
+            Hoàn thiện
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.PayHelpDetails">
+            <summary>
+            Hóa đơn thanh toán hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelp.HistoryServicess">
+            <summary>
+            Lịch sử thay đổi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelpDetail.Desc1">
+            <summary>
+            Giá tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PayHelpDetail.Desc2">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.PriceFromCNY">
+            <summary>
+            Giá tệ từ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.PriceToCNY">
+            <summary>
+            Giá tệ đến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.PriceVND">
+            <summary>
+            Tiền VNĐ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip0">
+            <summary>
+            VIP 0
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip1">
+            <summary>
+            VIP 1
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip2">
+            <summary>
+            VIP 2
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip3">
+            <summary>
+            VIP 3
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip4">
+            <summary>
+            VIP 4
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip5">
+            <summary>
+            VIP 5
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip6">
+            <summary>
+            VIP 6
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip7">
+            <summary>
+            VIP 7
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.PriceChange.Vip8">
+            <summary>
+            VIP 8
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Refund.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Refund.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Refund.Amount">
+            <summary>
+            Số tiền (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Refund.Note">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Refund.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.AdminSendUserWalletReport.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.AdminSendUserWalletReport.Amount">
+            <summary>
+            Số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.AdminSendUserWalletReport.TotalAmount">
+            <summary>
+            Tổng số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.AdminSendUserWalletReport.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.AdminSendUserWalletReport.BankName">
+            <summary>
+            Ngân hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.Content">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.Amount">
+            <summary>
+            Số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TradeType">
+            <summary>
+            Loại giao dịch
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.MoneyLeft">
+            <summary>
+            Số dư
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalAmount">
+            <summary>
+            Tổng số tiền giao dịch
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalDeposit">
+            <summary>
+            Tổng tiền đặt cọc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalReciveDeposit">
+            <summary>
+            Tổng tiền nhận lại đặt cọc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalPaymentBill">
+            <summary>
+            Tổng tiền thanh toán hóa đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalAdminSend">
+            <summary>
+            Tổng tiền admin nạp tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalWithDraw">
+            <summary>
+            Tổng rút tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalCancelWithDraw">
+            <summary>
+            Tổng hủy rút tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalComplain">
+            <summary>
+            Tổng nhận tiền khiếu nại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalPaymentTransport">
+            <summary>
+            Tổng tiền thanh toán vận chuyển hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalPaymentHo">
+            <summary>
+            Tổng tiền thanh toán hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalPaymentSaveWare">
+            <summary>
+            Tổng tiền thanh toán lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.HistoryPayWalletReport.TotalRecivePaymentTransport">
+            <summary>
+            Tổng tiền nhận lại vận chuyển hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRealReport.MaxTotalPriceRealCNY">
+            <summary>
+            Tổng tiền mua hàng thật (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.ShopName">
+            <summary>
+            Tên shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.SalerUserName">
+            <summary>
+            NV kinh doanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.FeeShipCN">
+            <summary>
+            Phí ship TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.FeeWeight">
+            <summary>
+            Phí ship TQ - VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.FeeBuyPro">
+            <summary>
+            Phí mua hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.TQVNWeight">
+            <summary>
+            Phí cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.IsFastDeliveryPrice">
+            <summary>
+            Phí giao hàng tận nhà
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.IsCheckProductPrice">
+            <summary>
+            Phí kiểm đếm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.IsPackedPrice">
+            <summary>
+            Phí đóng gỗ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.TotalPriceVND">
+            <summary>
+            Tổng tiền (VNĐ) - Tổng tiền đã mua
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.Deposit">
+            <summary>
+            Đặt cọc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MustPay">
+            <summary>
+            Còn lại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.Profit">
+            <summary>
+            Tiền lời
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.InsuranceMoney">
+            <summary>
+            Phí bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.FeeInWareHouse">
+            <summary>
+            Phí lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxTotalPriceVND">
+            <summary>
+            Tổng tiền đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxMustPay">
+            <summary>
+            Tổng tiền cần thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxTotalPriceReal">
+            <summary>
+            Tổng tiền thật
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxProfit">
+            <summary>
+            Tổng tiền lời
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxPriceVND">
+            <summary>
+            Tổng tiền hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxFeeShipCN">
+            <summary>
+            Tổng tiền ship TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxFeeWeight">
+            <summary>
+            Tổng tiền TQ - VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxFeeBuyPro">
+            <summary>
+            Tổng tiền mua hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxIsCheckProductPrice">
+            <summary>
+            Tổng tiền kiểm đếm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxIsPackedPrice">
+            <summary>
+            Tổng tiền đóng gỗ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxInsuranceMoney">
+            <summary>
+            Tổng tiền bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderReport.MaxFeeInWareHouse">
+            <summary>
+            Tổng tiền lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.TotalPriceVND">
+            <summary>
+            Giá trị đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.PriceVND">
+            <summary>
+            Tiền hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.FeeBuyPro">
+            <summary>
+            Phí mua hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.FeeShipCN">
+            <summary>
+            Vận chuyển nội địa
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.TQVNWeight">
+            <summary>
+            Cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.FeeWeight">
+            <summary>
+            Vận chuyển TQ - VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.OrderFee">
+            <summary>
+            Phí đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.BargainMoney">
+            <summary>
+            Mặc cả
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.TotalOrder">
+            <summary>
+            Số đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.TotalCus">
+            <summary>
+            Số khách hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxTotalPriceVND">
+            <summary>
+            Tổng giá trị đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxPriceVND">
+            <summary>
+            Tổng tiền hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxFeeBuyPro">
+            <summary>
+            Tổng phí mua hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxFeeShipCN">
+            <summary>
+            Tổng vận chuyển nội địa
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxTQVNWeight">
+            <summary>
+            Tổng cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxFeeWeight">
+            <summary>
+            Tổng vận chuyển TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxOrderFee">
+            <summary>
+            Tổng phí đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxBargainMoney">
+            <summary>
+            Tổng mặc cả
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.MainOrderRevenueReport.MaxTotalOrder">
+            <summary>
+            Tổng số đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.OutStockSessionReport.UID">
+            <summary>
+            Mã khách hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.OutStockSessionReport.MainOrderId">
+            <summary>
+            Mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.OutStockSessionReport.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.OutStockSessionReport.TotalPrice">
+            <summary>
+            Tổng tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.OutStockSessionReport.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.TotalPrice">
+            <summary>
+            Tổng tiền (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.TotalPriceVNDGiaGoc">
+            <summary>
+            Tiền gốc (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.TotalPriceVND">
+            <summary>
+            Tiền thu (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.Profit">
+            <summary>
+            Tiền lời (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.MaxTotalPrice">
+            <summary>
+            Tổng tiền tệ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.MaxTotalPriceVND">
+            <summary>
+            Tổng tiền vốn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.MaxTotalPriceVNDGiaGoc">
+            <summary>
+            Tổng tiền thu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayHelpReport.MaxProfit">
+            <summary>
+            Tổng tiền lời
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayOrderHistoryReport.MainOrderId">
+            <summary>
+            Mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayOrderHistoryReport.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayOrderHistoryReport.Status">
+            <summary>
+            Loại thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.PayOrderHistoryReport.Amount">
+            <summary>
+            Số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.OrderTransactionCode">
+            <summary>
+            Mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.Weight">
+            <summary>
+            Cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.WareHouseFrom">
+            <summary>
+            Kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.WareHouseTo">
+            <summary>
+            Kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.ShippingTypeName">
+            <summary>
+            Phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.SensorFeeVND">
+            <summary>
+            Cước vật tư (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.AdditionFeeVND">
+            <summary>
+            Phụ phí hàng đặc biệt (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.FeeWeightPerKg">
+            <summary>
+            Tiền cân / Kg
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.TotalPriceVND">
+            <summary>
+            Tổng tiền (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.DateInTQWarehouse">
+            <summary>
+            Ngày về TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.DateInLasteWareHouse">
+            <summary>
+            Ngày về VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.DateExportRequest">
+            <summary>
+            Ngày về YKXK
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.DateExport">
+            <summary>
+            Ngày XK
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.MaxWeight">
+            <summary>
+            Tổng cân nặng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.TransportationOrderReport.MaxTotalPriceVND">
+            <summary>
+            Tổng tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.Wallet">
+            <summary>
+            Số dư
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.UserGroupName">
+            <summary>
+            Quyền hạn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.SalerUserName">
+            <summary>
+            Nhân viên kinh doanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.OrdererUserName">
+            <summary>
+            Nhân viên đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.TotalWallet">
+            <summary>
+            Tổng số dư
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.GreaterThan0">
+            <summary>
+            Lớn hơn 0
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.Equals0">
+            <summary>
+            Bằng 0
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.From1MTo5M">
+            <summary>
+            1 triệu - 5 triệu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.From5MTo10M">
+            <summary>
+            5 triệu - 10 triệu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.UserReport.GreaterThan10M">
+            <summary>
+            Lớn hơn 10 triệu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.WithdrawReport.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.WithdrawReport.Amount">
+            <summary>
+            Số tiền nạp
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.WithdrawReport.TotalAmount">
+            <summary>
+            Tổng số tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Report.WithdrawReport.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.RequestOutStock.Status">
+            <summary>
+            Trạng thái
+            1. Chờ xuất
+            2. Đã xuất
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.AdminSendUserWalletSearch.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.AdminSendUserWalletSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.AdminSendUserWalletSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.AdminSendUserWalletSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.UID">
+            <summary>
+            Nếu là trang quản lý thì bỏ trống
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.TypeSearch">
+            <summary>
+            Tìm kiếm theo
+            1. Id
+            2. Mã vận đơn
+            3. Website
+            5. UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.OrderType">
+            <summary>
+            Loại đơn hàng
+            1: Đơn mua hộ
+            2: Đơn vận chuyển hộ
+            3: Không xác định
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.FromPrice">
+            <summary>
+            Giá từ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.ToPrice">
+            <summary>
+            Giá đến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.IsNotMainOrderCode">
+            <summary>
+            Đơn không có mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.MainOrderCode">
+            <summary>
+            Search theo mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.MainOrderSearch.OrderTransactionCode">
+            <summary>
+            Search theo mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.NoticationSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.NoticationSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.OrderShopTempSearch.UID">
+            <summary>
+            ID của User
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.OrderTempSearch.UID">
+            <summary>
+            Id người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.OrderTempSearch.ShopID">
+            <summary>
+            ShopID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.OutStockSessionSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.OutStockSessionSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.OutStockSessionSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.RefundSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.AdminSendUserWalletReportSearch.BankId">
+            <summary>
+            Ngân hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.AdminSendUserWalletReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.AdminSendUserWalletReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.HistoryPayWalletReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.HistoryPayWalletReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderRealReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderRealReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderReportSearch.Status">
+            <summary>
+            5. Thống kê lợi nhuận mua hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderRevenueReportSearch.Type">
+            <summary>
+            1: Thống kê doanh thu cho saler
+            2: Thống kê doanh thu cho đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderRevenueReportSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderRevenueReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.MainOrderRevenueReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.OutStockSessionReportSearch.UID">
+            <summary>
+            Mã khách hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.OutStockSessionReportSearch.MainOrderId">
+            <summary>
+            Mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.OutStockSessionReportSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.OutStockSessionReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.OutStockSessionReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.PayHelpReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.PayHelpReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.PayOrderHistoryReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.PayOrderHistoryReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.TransportationOrderReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.TransportationOrderReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.WithdrawReportSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.Report.WithdrawReportSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.MainOrderId">
+            <summary>
+            ID Shop
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.BigPackageId">
+            <summary>
+            ID kiện lớn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.SearchType">
+            <summary>
+            SearchContent theo loại (mặc định search theo OrderTransactionCode)
+            1: Theo MainOrderId
+            2: Theo Id
+            3: Theo UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.SmallPackageSearch.Menu">
+            <summary>
+            Chọn menu
+            0: Danh sách kiện trôi nổi
+            1: Các kiện dựa vào kiện lớn
+            2: Quản lý mã vận đơn
+            3: Danh sách kiện thất lạc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.StaffIncomeSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.StaffIncomeSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.StaffIncomeSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.TransportationOrderSearch.UID">
+            <summary>
+            ID User
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.TransportationOrderSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.TransportationOrderSearch.TypeSearch">
+            <summary>
+            Tìm kiếm theo
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.TransportationOrderSearch.FromDate">
+            <summary>
+            Từ ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.TransportationOrderSearch.ToDate">
+            <summary>
+            Đến ngày
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserInGroupSearch.UserId">
+            <summary>
+            Id người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserInGroupSearch.UserGroupId">
+            <summary>
+            Nhóm người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.Id">
+            <summary>
+            Tìm kiếm theo Id (Mã khách hàng)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.UserName">
+            <summary>
+            Tìm kiếm theo UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.Phone">
+            <summary>
+            Tìm kiếm theo số điện thoại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.UserGroupId">
+            <summary>
+            Theo quyền hạn (Trang Danh sách khách hàng => UserGroupId = 2)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.Status">
+            <summary>
+            Theo trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.SalerID">
+            <summary>
+            Tìm kiếm theo saler (thống kê)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.UserSearch.OrdererID">
+            <summary>
+            Tìm kiếm theo người đặt hàng (thống kê)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.WithdrawSearch.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.WithdrawSearch.Type">
+            <summary>
+            Loại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Search.WithdrawSearch.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.TransportationOrderId">
+            <summary>
+            Id đơn vận chuyển hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.MainOrderId">
+            <summary>
+            Id đơn mua hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.BigPackageId">
+            <summary>
+            Id bao lớn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.MainOrderCodeId">
+            <summary>
+            Id mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.UID">
+            <summary>
+            UID (SmallPackage = MainOrder = TransportationOrder)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.OrderTransactionCode">
+            <summary>
+            Mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.ProductType">
+            <summary>
+            Loại hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Weight">
+            <summary>
+            Cân nặng - Cân thực (kg)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Description">
+            <summary>
+            Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.FloatingUserName">
+            <summary>
+            Kiện trôi nổi - UserName xác nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.FloatingUserPhone">
+            <summary>
+            Kiện trôi nổi - Số điện thoại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.FloatingStatus">
+            <summary>
+            Kiện trôi nội - Trạng thái xác nhận
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.FeeShip">
+            <summary>
+            Kiện trôi nổi - Phí ship (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.UserNote">
+            <summary>
+            Khách hàng ghi chú (Kiện trôi nổi)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.StaffVNWarehouse">
+            <summary>
+            Nhân viên thay đổi trạng thái thành "Đến kho VN"
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.DateOutWarehouse">
+            <summary>
+            Ngày xuất kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IMG">
+            <summary>
+            Hình ảnh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Length">
+            <summary>
+            Dài
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Height">
+            <summary>
+            Rộng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Width">
+            <summary>
+            Cao
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.StaffNoteCheck">
+            <summary>
+            Nhân viên kho kinh doanh (Ghi chú nội bộ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.StaffTQWarehouse">
+            <summary>
+            Nhân viên thay đổi trạng thái thành "Đến kho TQ"
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.StaffVNOutWarehouse">
+            <summary>
+            Nhân viên thay đổi trạng thái thành "Đã thanh toán"
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.TotalPrice">
+            <summary>
+            Tổng tiền
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.DateScanTQ">
+            <summary>
+            Ngày kiểm hàng ở TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.DateInTQWarehouse">
+            <summary>
+            Ngày đến kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.DateScanVN">
+            <summary>
+            Ngày kiểm hàng ở VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.DateInLasteWareHouse">
+            <summary>
+            Ngày lưu kho (Ngày đến kho VN)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.TotalDateInLasteWareHouse">
+            <summary>
+            Tổng ngày lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.AdditionFeeCNY">
+            <summary>
+            Phụ phí hàng đặc biệt (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.AdditionFeeVND">
+            <summary>
+            Phụ phí hàng đặc biệt (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.SensorFeeCNY">
+            <summary>
+            Cước vật tư (tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.SensorFeeVND">
+            <summary>
+            Cước vật tư (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IsLost">
+            <summary>
+            Cờ kiện thất lạc
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.CurrentPlaceId">
+            <summary>
+            Id nơi mà hàng đang ở đó
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IsCheckProduct">
+            <summary>
+            Kiểm đếm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IsPackged">
+            <summary>
+            Đóng gỗ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IsInsurance">
+            <summary>
+            Bảo hiểm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.OrderType">
+            <summary>
+            Loại đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Code">
+            <summary>
+            Bao hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Volume">
+            <summary>
+            Khối (m3) - Cân quy đổi (kg)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.PayableWeight">
+            <summary>
+            Cân tính tiền (Kg)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.TotalOrder">
+            <summary>
+            Số lượng sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.TotalOrderQuantity">
+            <summary>
+            Số lượng sản phẩm của sản phẩm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IsFloating">
+            <summary>
+            (PUT) Cờ cập nhập - xác nhận kiện trôi nổi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.IsAssign">
+            <summary>
+            (POST) Cờ gán đơn cho khách
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.AssignType">
+            <summary>
+            Loại gán đơn
+            1. Gán đơn cho khách mua hộ
+            2. Gán đơn cho khách ký gửi
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.AssignMainOrderId">
+            <summary>
+            (POST) Gán đơn cho khách mua hộ - Id đơn hàng gán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.AssignUID">
+            <summary>
+            (POST) Gán đơn cho khách ký gửi - Id User
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.AssignNote">
+            <summary>
+            (POST) Gán đơn cho khách ký gửi - Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.WareHouseFromId">
+            <summary>
+            (POST) Gán đơn cho khách ký gửi - Kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.WareHouseId">
+            <summary>
+            (POST) Gán đơn cho khách ký gửi - Kho đích
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.ShippingTypeId">
+            <summary>
+            (POST) Gán đơn cho khách ký gửi - Phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Currency">
+            <summary>
+            Tỷ giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.UserName">
+            <summary>
+            User Name của UID (SmallPackage = MainOrder = TransportationOrder)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.SmallPackage.Phone">
+            <summary>
+            Phone của UID (SmallPackage = MainOrder = TransportationOrder)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.MainOrderId">
+            <summary>
+            Mã đơn hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.PercentReceive">
+            <summary>
+            Phần trăm
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.UID">
+            <summary>
+            ID người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.TotalPriceReceive">
+            <summary>
+            Hoa hồng (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.RoleName">
+            <summary>
+            Quyền hạn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.MaxTotalPriceReceivePayment">
+            <summary>
+            Tổng tiền đã thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.StaffIncome.MaxTotalPriceReceiveNotPayment">
+            <summary>
+            Tổng tiền chưa thanh toán
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.UID">
+            <summary>
+            ID User
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.Currency">
+            <summary>
+            Tỷ giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.Note">
+            <summary>
+            Ghi chú khách hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.StaffNote">
+            <summary>
+            Ghi chú nhân viên
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.TotalPriceCNY">
+            <summary>
+            Tổng tiền (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.TotalPriceVND">
+            <summary>
+            Tổng tiền (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.ExportRequestNote">
+            <summary>
+            Ghi chú
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.DateExportRequest">
+            <summary>
+            Ngày về YKXK
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.DateExport">
+            <summary>
+            Ngày XK
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.ShippingTypeVN">
+            <summary>
+            Id Hình thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.CancelReason">
+            <summary>
+            Ghi chú hủy kiện
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.WareHouseFromId">
+            <summary>
+            Id kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.WareHouseId">
+            <summary>
+            Id Kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.ShippingTypeId">
+            <summary>
+            ID Phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.FeeWeightPerKg">
+            <summary>
+            Tiền cân / Kg
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.WarehouseFee">
+            <summary>
+            Phí lưu kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.OrderTransactionCode">
+            <summary>
+            Mã vận đơn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.WareHouseFrom">
+            <summary>
+            Kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.WareHouseTo">
+            <summary>
+            Kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.ShippingTypeName">
+            <summary>
+            Phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.ShippingTypeVNName">
+            <summary>
+            Hình thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.PayableWeight">
+            <summary>
+            Cân tính tiền (Kg) - Lấy từ SmallPackage
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.AdditionFeeVND">
+            <summary>
+            Phụ phí hàng đặc biệt (VNĐ) - Lấy từ SmallPackage
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.SensorFeeVND">
+            <summary>
+            Cước vật tư (VNĐ) - Lấy từ SmallPackage
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.DateInTQWarehouse">
+            <summary>
+            Ngày về kho TQ - Lấy từ SmallPackage
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.TransportationOrder.DateInLasteWareHouse">
+            <summary>
+            Ngày về kho VN - Lấy từ SmallPackage
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.UserLevel.Name">
+            <summary>
+            Cấp người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.UserLevel.FeeBuyPro">
+            <summary>
+            Chiết khấu phí mua hàng (%)	
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.UserLevel.FeeWeight">
+            <summary>
+            Chiết khấu phí vận chuyển TQ - VN (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.UserLevel.LessDeposit">
+            <summary>
+            Đặt cọc tối thiểu (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.UserLevel.Money">
+            <summary>
+            Tiền từ (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.UserLevel.MoneyTo">
+            <summary>
+            Tiền đến (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.FullName">
+            <summary>
+            Họ và tên
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Phone">
+            <summary>
+            Số điện thoại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Email">
+            <summary>
+            Email
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Address">
+            <summary>
+            Địa chỉ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Status">
+            <summary>
+            Trạng thái (1: Đã kích hoạt, 2: Chưa kích hoạt, 3: Đang bị khóa)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Birthday">
+            <summary>
+            Ngày sinh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.IsAdmin">
+            <summary>
+            Phải là admin không
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Password">
+            <summary>
+            Mật khẩu người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Token">
+            <summary>
+            Token đăng nhập
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.ExpiredDate">
+            <summary>
+            Thời gian hết hạn token
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Gender">
+            <summary>
+            Giới tính
+            0 => Nữ
+            1 => Nam
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.IsCheckOTP">
+            <summary>
+            Cờ kiểm tra OTP của user
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.IsLoginFaceBook">
+            <summary>
+            Cờ check login = facebook
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.IsLoginGoogle">
+            <summary>
+            Cờ check login = google
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.IsResetPassword">
+            <summary>
+            Cờ xét reset mật khẩu
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.UserGroupId">
+            <summary>
+            ID nhóm người dùng được chọn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.UserGroupName">
+            <summary>
+            Tên nhóm người dùng được chọn
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.LevelId">
+            <summary>
+            Cấp người dùng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Wallet">
+            <summary>
+            Số dư (VNĐ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.SaleId">
+            <summary>
+            ID nhân viên kinh doanh
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.DatHangId">
+            <summary>
+            ID nhân viên đặt hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.WalletCNY">
+            <summary>
+            Số dư (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.WarehouseFrom">
+            <summary>
+            Kho TQ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.WarehouseTo">
+            <summary>
+            Kho VN
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Currency">
+            <summary>
+            Tỉ giá riêng (Tệ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.FeeBuyPro">
+            <summary>
+            Phí mua hàng riêng (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.FeeTQVNPerWeight">
+            <summary>
+            Phí cân nặng riêng (VNĐ/KG)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.Deposit">
+            <summary>
+            Phần trăm đặt cọc (%)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.ShippingType">
+            <summary>
+            Phương thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.SumAmount">
+            <summary>
+            Tổng nạp
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.TotalMainOrder">
+            <summary>
+            Tổng đơn mua hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.TotalTransportationOrder">
+            <summary>
+            Tổng đơn vận chuyển hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Users.TotalPayHelp">
+            <summary>
+            Tổng đơn thanh toán hộ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.WarehouseFromId">
+            <summary>
+            ID từ kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.WarehouseFromName">
+            <summary>
+            Tên từ kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.WarehouseId">
+            <summary>
+            ID đến kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.WareHouseToName">
+            <summary>
+            Tên đến kho
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.WeightFrom">
+            <summary>
+            Cân nặng từ
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.WeightTo">
+            <summary>
+            Cân nặng đến
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.Price">
+            <summary>
+            Giá
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.ShippingTypeToWareHouseId">
+            <summary>
+            ID Hình thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.ShippingTypeToWareHouseName">
+            <summary>
+            Tên hình thức vận chuyển
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.WarehouseFee.IsHelpMoving">
+            <summary>
+            Loại đơn hàng (True: Đơn ký gửi, False: Đơn mua hộ)
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.UID">
+            <summary>
+            UID
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.UserName">
+            <summary>
+            UserName
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.FullName">
+            <summary>
+            Họ tên khách
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.Amount">
+            <summary>
+            Số tiền nạp
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.Status">
+            <summary>
+            Trạng thái
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.Note">
+            <summary>
+            Nội dung
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.Type">
+            <summary>
+            Loại
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.BankAddress">
+            <summary>
+            Ngân hàng
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.BankNumber">
+            <summary>
+            Số tài khoản
+            </summary>
+        </member>
+        <member name="P:NhapHangV2.Entities.Withdraw.Beneficiary">
+            <summary>
+            Người hưởng
+            </summary>
+        </member>
+    </members>
+</doc>
