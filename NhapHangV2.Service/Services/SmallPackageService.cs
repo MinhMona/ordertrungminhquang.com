@@ -720,6 +720,10 @@ namespace NhapHangV2.Service.Services
                         smallPackage = new SmallPackage();
                         smallPackage.OrderTransactionCode = orderTransactionCode;
                         smallPackage.IsTemp = true;
+                        smallPackage.Weight = catalogueMapper.Weight;
+                        smallPackage.BigPackageId = bigPackageId;
+                        smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
+                        smallPackage.DateInTQWarehouse = currentDate;
 
                         await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
                         await unitOfWork.SaveAsync();
