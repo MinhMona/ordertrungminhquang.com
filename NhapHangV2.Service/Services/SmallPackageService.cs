@@ -698,6 +698,10 @@ namespace NhapHangV2.Service.Services
                 List<string> failedResult = new List<string>();
 
                 var ws = package.Workbook.Worksheets.FirstOrDefault();
+
+                if (ws.Columns.Range.Columns != 2 || !((string)(ws.Cells[1, 1]).Value).Equals("MÃ VẬN ĐƠN") || !((string)(ws.Cells[1, 2]).Value).Equals("CÂN NẶNG"))
+                    throw new AppException("Tập tin không đúng định dạng");
+
                 if (ws == null) throw new Exception("Sheet name không tồn tại");
                 var catalogueMappers = new ExcelMapper(stream) { HeaderRow = false, MinRowNumber = 1 }.Fetch<SmallPackageMapper>().ToList();
                 if (catalogueMappers == null || !catalogueMappers.Any()) throw new Exception("Sheet không có dữ liệu");
