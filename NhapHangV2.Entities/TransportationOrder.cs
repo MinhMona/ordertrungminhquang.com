@@ -237,5 +237,10 @@ namespace NhapHangV2.Entities
         /// </summary>
         [Column(TypeName = "decimal(18,0)")]
         public decimal? CODFeeTQ { get; set; } = 0;
+
+        /// <summary>
+        /// ID Saler tạo dùm
+        /// </summary>
+        public int? SalerID { get; set; }
     }
 }

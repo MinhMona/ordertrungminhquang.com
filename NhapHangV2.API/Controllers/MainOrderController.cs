@@ -1140,9 +1140,12 @@ namespace NhapHangV2.API.Controllers
 
             if (staffIncomeOrderer != null)
             {
-                //Tính
+                //Tính hoa hồng
                 staffIncomeOrderer.PercentReceive = datHangPercent;
-                decimal? totalPriceLoi = (item.PriceVND + item.FeeShipCN) - item.TotalPriceReal;
+                //decimal? totalPriceLoi = (item.PriceVND + item.FeeShipCN) - item.TotalPriceReal;
+                //decimal? totalPriceLoi = (item.PriceVND + item.FeeShipCN) - item.TotalPriceReal - item.FeeShipCNReal;
+                decimal? totalPriceLoi = (itemModel.PriceVND + itemModel.FeeShipCN) - itemModel.TotalPriceReal - itemModel.FeeShipCNReal;
+
                 staffIncomeOrderer.OrderTotalPrice = item.TotalPriceReal;
                 staffIncomeOrderer.Status = (int?)StatusStaffIncome.Unpaid;
                 staffIncomeOrderer.TotalPriceReceive = (totalPriceLoi * staffIncomeOrderer.PercentReceive / 100);
@@ -1193,14 +1196,13 @@ namespace NhapHangV2.API.Controllers
         /// <summary>
         /// Tính số lượng đơn theo trạng thái
         /// </summary>
-        /// <param name="orderType"> 1:Đơn mua hộ, 3: Đơn mua hộ khác</param>
-        /// <param name="UID"></param>
+        /// <param name="mainOrderSearch"> 1:Đơn mua hộ, 3: Đơn mua hộ khác</param>
         /// <returns></returns>
         [HttpGet("number-of-orders")]
         [AppAuthorize(new int[] { CoreContants.View })]
-        public async Task<AppDomainResult> NumberOfOrder(int orderType, int? UID)
+        public async Task<AppDomainResult> NumberOfOrder([FromQuery] MainOrderSearch mainOrderSearch)
         {
-            var numberOfOrders = await mainOrderService.GetNumberOfOrders(orderType, UID);
+            var numberOfOrders = await mainOrderService.GetNumberOfOrders(mainOrderSearch);
             return new AppDomainResult
             {
                 Data = numberOfOrders,

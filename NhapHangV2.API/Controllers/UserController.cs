@@ -12,7 +12,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using NhapHangV2.Models;
@@ -20,12 +19,9 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Authorization;
 using NhapHangV2.Request;
 using NhapHangV2.Entities.Search;
-using NhapHangV2.Entities.Auth;
-using NhapHangV2.Models.Auth;
 using NhapHangV2.BaseAPI.Controllers;
 using static NhapHangV2.Utilities.CoreContants;
 using Microsoft.AspNetCore.SignalR;
-using static System.Net.WebRequestMethods;
 
 namespace NhapHangV2.API.Controllers
 {

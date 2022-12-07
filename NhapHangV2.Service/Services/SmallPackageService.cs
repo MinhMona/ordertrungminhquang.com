@@ -447,7 +447,7 @@ namespace NhapHangV2.Service.Services
                                     mainOrderUpdated = mainOrderList.LastOrDefault();
                                     if (historyOrderChanges.Any())
                                         await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(historyOrderChanges);
-                                    await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, mainOrder.Id.ToString(), $"order/order-list/{mainOrder.Id}", $"/user/order-list/{mainOrder.Id}", mainOrder.UID, string.Empty, string.Empty);
+                                    await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, mainOrder.Id.ToString(), $"/manager/order/order-list/{mainOrder.Id}", $"/user/order-list/{mainOrder.Id}", mainOrder.UID, string.Empty, string.Empty);
                                 }
                                 //Đơn ký gửi
                                 else
@@ -488,7 +488,7 @@ namespace NhapHangV2.Service.Services
                                         unitOfWork.Repository<TransportationOrder>().Update(transportationOrder);
                                     transportationOrderList.Add(transportationOrder);
 
-                                    await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, transportationOrder.Id.ToString(), $"/deposit/deposit-list/{transportationOrder.Id}", "/user/deposit-list", transportationOrder.UID, string.Empty, string.Empty);
+                                    await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, transportationOrder.Id.ToString(), $"/manager/deposit/deposit-list/{transportationOrder.Id}", "/user/deposit-list", transportationOrder.UID, string.Empty, string.Empty);
                                 }
 
                                 break;
@@ -587,7 +587,7 @@ namespace NhapHangV2.Service.Services
                                     mainOrderUpdated = mainOrderList.LastOrDefault();
                                     if (historyOrderChanges.Any())
                                         await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(historyOrderChanges);
-                                    await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, mainOrder.Id.ToString(), $"order/order-list/{mainOrder.Id}", $"/user/order-list/{mainOrder.Id}", mainOrder.UID, string.Empty, string.Empty);
+                                    await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, mainOrder.Id.ToString(), $"/manager/order/order-list/{mainOrder.Id}", $"/user/order-list/{mainOrder.Id}", mainOrder.UID, string.Empty, string.Empty);
                                 }
                                 else
                                 {
@@ -622,7 +622,7 @@ namespace NhapHangV2.Service.Services
                                     if (!transportationOrderList.Select(e => e.Id).Contains(transportationOrder.Id))
                                         unitOfWork.Repository<TransportationOrder>().Update(transportationOrder);
                                     transportationOrderList.Add(transportationOrder);
-                                    await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, transportationOrder.Id.ToString(), $"/deposit/deposit-list/{transportationOrder.Id}", $"/user/deposit-list", transportationOrder.UID, string.Empty, string.Empty);
+                                    await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, transportationOrder.Id.ToString(), $"/manager/deposit/deposit-list/{transportationOrder.Id}", $"/user/deposit-list", transportationOrder.UID, string.Empty, string.Empty);
                                 }
                                 break;
                             default:

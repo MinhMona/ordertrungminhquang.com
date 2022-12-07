@@ -147,7 +147,7 @@ namespace NhapHangV2.Service.Services
                         var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHM");
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/deposit/deposit-list/{item.Id}", "", item.Id, subject, emailContent);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/manager/deposit/deposit-list/{item.Id}", "", item.Id, subject, emailContent);
 
                         var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
                         if (smallPackage == null)
@@ -603,7 +603,7 @@ namespace NhapHangV2.Service.Services
                         var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDTT");
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
-                        await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/deposit/deposit-list/{item.Id}", "", null, subject, emailContent);
+                        await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/manager/deposit/deposit-list/{item.Id}", "", null, subject, emailContent);
 
                     }
 
@@ -628,13 +628,13 @@ namespace NhapHangV2.Service.Services
             };
         }
 
-        public async Task<TransportationsInfor> GetTransportationsInforAsync(int? UID)
+        public async Task<TransportationsInfor> GetTransportationsInforAsync(TransportationOrderSearch transportationOrderSearch)
         {
-            var transportations = new List<TransportationOrder>();
-            if (UID != null)
-                transportations = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(x => x.UID == UID && !x.Deleted).ToListAsync();
-            else
-                transportations = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(x => !x.Deleted).ToListAsync();
+            var transportations = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(x => !x.Deleted).ToListAsync();
+            if (transportationOrderSearch.RoleID == null)
+                transportations = transportations.Where(x => x.UID == transportationOrderSearch.UID).ToList();
+            else if (transportationOrderSearch.RoleID == (int)PermissionTypes.Saler)
+                transportations = transportations.Where(x => x.SalerID == transportationOrderSearch.UID).ToList();
 
             int totalOrders = transportations.Count();
             int totalNews = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.ChoDuyet).ToList().Count;
