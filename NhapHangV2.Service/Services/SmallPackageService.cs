@@ -707,11 +707,13 @@ namespace NhapHangV2.Service.Services
                     string orderTransactionCode = catalogueMapper.OrderTransactionCode;
 
                     var smallPackage = await Queryable.Where(e => !e.Deleted && e.OrderTransactionCode.Equals(orderTransactionCode)).FirstOrDefaultAsync();
-                    smallPackage.Weight = catalogueMapper.Weight;
-                    smallPackage.BigPackageId = bigPackageId;
-                    smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
-                    smallPackage.DateInTQWarehouse = currentDate;
-
+                    if (smallPackage != null)
+                    {
+                        smallPackage.Weight = catalogueMapper.Weight;
+                        smallPackage.BigPackageId = bigPackageId;
+                        smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
+                        smallPackage.DateInTQWarehouse = currentDate;
+                    }
                     //Tạo mã vận đơn mới
                     if (smallPackage == null)
                     {
