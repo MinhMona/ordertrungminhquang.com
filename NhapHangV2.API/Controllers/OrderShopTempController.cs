@@ -557,12 +557,12 @@ namespace NhapHangV2.API.Controllers
                 //var item = mapper.Map<OrderShopTemp>(itemModel);
 
                 //old
-                var orderTerm = mapper.Map<OrderTemp>(itemModel);
+                var orderTemp = mapper.Map<OrderTemp>(itemModel);
                 var item = new OrderShopTemp();
                 item.ShopId = itemModel.shop_id;
                 item.ShopName = itemModel.shop_name;
                 item.Site = itemModel.site;
-                item.OrderTemps.Add(orderTerm);
+                item.OrderTemps.Add(orderTemp);
 
                 if (item != null)
                 {
