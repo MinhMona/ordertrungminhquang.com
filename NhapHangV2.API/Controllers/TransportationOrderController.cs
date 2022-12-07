@@ -57,9 +57,9 @@ namespace NhapHangV2.API.Controllers
         /// </summary>
         [HttpGet("get-transportations-infor")]
         [AppAuthorize(new int[] { CoreContants.View })]
-        public async Task<AppDomainResult> GetTransportationsInfor(int? UID)
+        public async Task<AppDomainResult> GetTransportationsInfor([FromQuery] TransportationOrderSearch transportationOrderSearch)
         {
-            var transportationsInfor = await transportationOrderService.GetTransportationsInforAsync(UID);
+            var transportationsInfor = await transportationOrderService.GetTransportationsInforAsync(transportationOrderSearch);
             return new AppDomainResult
             {
                 Data = transportationsInfor,
@@ -101,9 +101,9 @@ namespace NhapHangV2.API.Controllers
 
             if (ModelState.IsValid)
             {
-                var userRole = await userInGroupService.GetByIdAsync(LoginContext.Instance.CurrentUser.UserId);
-                if (userRole != null && userRole.UserGroupId == 2)
-                    baseSearch.UID = LoginContext.Instance.CurrentUser.UserId;
+                //var userRole = await userInGroupService.GetByIdAsync(LoginContext.Instance.CurrentUser.UserId);
+                //if (userRole != null && userRole.UserGroupId == 2)
+                //    baseSearch.UID = LoginContext.Instance.CurrentUser.UserId;
                 PagedList<TransportationOrder> pagedData = await this.domainService.GetPagedListData(baseSearch);
                 PagedList<TransportationOrderModel> pagedDataModel = mapper.Map<PagedList<TransportationOrderModel>>(pagedData);
 
@@ -132,8 +132,11 @@ namespace NhapHangV2.API.Controllers
             AppDomainResult appDomainResult = new AppDomainResult();
             var user = new Users();
             if (itemModel.UID != null)
+            { //admin tạo dùm
                 user = await userService.GetByIdAsync(itemModel.UID ?? 0);
-            else
+                itemModel.SalerID = LoginContext.Instance.CurrentUser.UserId;
+            }
+            else //user đang login tạo
                 user = await userService.GetByIdAsync(LoginContext.Instance.CurrentUser.UserId);
             bool success = false;
             if (ModelState.IsValid)
@@ -168,6 +171,7 @@ namespace NhapHangV2.API.Controllers
                     data.CODFeeTQ = list.FeeShip;
                     data.TotalPriceCNY = list.FeeShip;
                     data.TotalPriceVND = list.FeeShip * currency;
+                    data.SalerID = itemModel.SalerID;
 
                     // Kiểm tra item có tồn tại chưa?
                     var messageUserCheck = await this.domainService.GetExistItemMessage(data);

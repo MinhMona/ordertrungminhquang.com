@@ -421,7 +421,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
 
                     if (notiTemplate != null && notificationSetting.Active)
                     {
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, user.UserName, string.Empty, "", null, subject, emailContent);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, user.UserName, $"/manager/client/client-list/{userModel.Id}", "", null, subject, emailContent);
                     }
 
                     appDomainResult = new AppDomainResult()

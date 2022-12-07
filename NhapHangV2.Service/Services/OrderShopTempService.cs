@@ -115,7 +115,9 @@ namespace NhapHangV2.Service.Services
                     if (orderTemps.Count >= link)
                         throw new AppException("Đã vượt quá số lượng đặt hàng");
 
-                    var orderShopTemp = await this.GetSingleAsync(x => !x.Deleted && x.UID == UID && x.ShopId == item.ShopId);
+                    var orderShopTemp = await this.GetSingleAsync(x => !x.Deleted && x.UID == UID
+                        && x.ShopId.Equals(item.ShopId.Trim())
+                        && x.ShopName.Equals(item.ShopName.Trim()));
                     if (orderShopTemp == null) //Chưa có shop chưa đặt
                     {
                         item.UID = UID;
@@ -158,6 +160,12 @@ namespace NhapHangV2.Service.Services
                     }
 
                     //Cập nhật tiền
+                    if (orderShopTemp != null) //Chưa có shop chưa đặt
+                    {
+                        var existOrderTemp = unitOfWork.Repository<OrderTemp>().GetQueryable().Where(x => !x.Deleted && x.UID == UID && x.OrderShopTempId == orderShopTemp.Id).ToList();
+                        existOrderTemp.Add(item.OrderTemps.FirstOrDefault());
+                        item.OrderTemps = existOrderTemp;
+                    }
                     item = await UpdatePrice(item);
 
                     unitOfWork.Repository<OrderShopTemp>().Update(item);
@@ -287,7 +295,7 @@ namespace NhapHangV2.Service.Services
             item.PriceCNY = 0;
             foreach (var jtem in orderTemps)
             {
-                item.PriceCNY = (jtem.Quantity * jtem.PricePromotion) ?? 0;
+                item.PriceCNY += (jtem.Quantity * jtem.PricePromotion) ?? 0;
 
                 //Này dành cho phí kiểm hàng
                 if (item.IsCheckProduct == true)

@@ -193,7 +193,7 @@ namespace NhapHangV2.Service.Services
                                 var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDC");
                                 string subject = emailTemplate.Subject;
                                 string emailContent = string.Format(emailTemplate.Body);
-                                await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), $"/order/order-list/{item.Id}", "", null, subject, emailContent);
+                                await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
                             }
                             break;
 
@@ -284,7 +284,7 @@ namespace NhapHangV2.Service.Services
                                 var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDTT");
                                 string subject = emailTemplate.Subject;
                                 string emailContent = string.Format(emailTemplate.Body);
-                                await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/order/order-list/{item.Id}", "", null, subject, emailContent);
+                                await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
                             }
 
                             break;
@@ -341,7 +341,7 @@ namespace NhapHangV2.Service.Services
                         var notiTemplate = await notificationTemplateService.GetByIdAsync(notiTemplateId);
                         var notificationSetting = await notificationSettingService.GetByIdAsync(5);
 
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), $"/order/order-list/{data.Id}", "", null, string.Empty, string.Empty);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), $"/manager/order/order-list/{data.Id}", "", null, string.Empty, string.Empty);
                     }
 
                     await dbContextTransaction.CommitAsync();
@@ -862,7 +862,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplateTQ = await sMSEmailTemplateService.GetByCodeAsync("UDDVTQ");
                     string subjectTQ = emailTemplateTQ.Subject;
                     string emailContentTQ = string.Format(emailTemplateTQ.Body);
-                    await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), $"/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectTQ, emailContentTQ);
+                    await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectTQ, emailContentTQ);
                     break;
                 case (int)StatusOrderContants.DaVeKhoVN:
                     item.DateVN = currentDate;
@@ -873,7 +873,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplateVN = await sMSEmailTemplateService.GetByCodeAsync("UDDVVN");
                     string subjectVN = emailTemplateVN.Subject;
                     string emailContentVN = string.Format(emailTemplateVN.Body);
-                    await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), $"/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectVN, emailContentVN);
+                    await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectVN, emailContentVN);
                     break;
                 case (int)StatusOrderContants.DaHoanThanh:
                     item.CompleteDate = currentDate;
@@ -1116,7 +1116,7 @@ namespace NhapHangV2.Service.Services
             }
         }
 
-        public async Task<NumberOfOrders> GetNumberOfOrders(int orderType, int? UID)
+        public async Task<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch)
         {
             var result = new NumberOfOrders();
             List<int> statusValue = new List<int>();
@@ -1130,19 +1130,44 @@ namespace NhapHangV2.Service.Services
             foreach (var item in result.GetType().GetProperties())
             {
                 var listMainOrder = new List<MainOrder>();
-                if (statusValue[i] >= 0)
+                listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.OrderType == mainOrderSearch.OrderType && !x.Deleted).ToListAsync();
+                if (statusValue[i] >= 0) //Theo trạng thái
                 {
-                    if (UID == null)
-                        listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.Status == statusValue[i] && x.OrderType == orderType && !x.Deleted).ToListAsync();
+                    if (mainOrderSearch.RoleID == null)
+                        listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.UID == mainOrderSearch.UID).ToList();
                     else
-                        listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.Status == statusValue[i] && x.OrderType == orderType && !x.Deleted && x.UID == UID).ToListAsync();
+                    {
+                        switch (mainOrderSearch.RoleID)
+                        {
+                            case 4:
+                                listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.DatHangId == mainOrderSearch.UID).ToList();
+                                break;
+                            case 7:
+                                listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.SalerId == mainOrderSearch.UID).ToList();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
-                else
+                else //Tất cả
                 {
-                    if (UID == null)
-                        listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => !x.Deleted && x.OrderType == orderType).ToListAsync();
+                    if (mainOrderSearch.RoleID == null)
+                        listMainOrder = listMainOrder.Where(x => x.UID == mainOrderSearch.UID).ToList();
                     else
-                        listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => !x.Deleted && x.OrderType == orderType && x.UID == UID).ToListAsync();
+                    {
+                        switch (mainOrderSearch.RoleID)
+                        {
+                            case 4:
+                                listMainOrder = listMainOrder.Where(x => x.DatHangId == mainOrderSearch.UID).ToList();
+                                break;
+                            case 7:
+                                listMainOrder = listMainOrder.Where(x => x.SalerId == mainOrderSearch.UID).ToList();
+                                break;
+                            default:
+                                break;
+                        }
+                    }
                 }
                 decimal sum = listMainOrder != null ? listMainOrder.Count : 0;
 
