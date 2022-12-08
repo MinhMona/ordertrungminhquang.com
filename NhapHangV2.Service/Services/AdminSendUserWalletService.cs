@@ -110,7 +110,7 @@ namespace NhapHangV2.Service.Services
                     notificationSetting.IsNotifyAdmin = notificationSetting.IsEmailAdmin = false;
                     var notiTemplate = await notificationTemplateService.GetByIdAsync(23);
 
-                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Amount.ToString(), string.Empty, "/user/history-transaction-vnd", user.Id, string.Empty, string.Empty);
+                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Format("{0:N0}", item.Amount.ToString()), string.Empty, "/user/history-transaction-vnd", user.Id, string.Empty, string.Empty);
 
                     break;
                 case (int)WalletStatus.Huy: //Hủy
