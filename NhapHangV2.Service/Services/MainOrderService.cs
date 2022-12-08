@@ -1146,6 +1146,7 @@ namespace NhapHangV2.Service.Services
                                 listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.SalerId == mainOrderSearch.UID).ToList();
                                 break;
                             default:
+                                listMainOrder = listMainOrder.Where(x=>x.Status == statusValue[i]).ToList();
                                 break;
                         }
                     }
