@@ -1202,7 +1202,7 @@ namespace NhapHangV2.API.Controllers
         [AppAuthorize(new int[] { CoreContants.View })]
         public async Task<AppDomainResult> NumberOfOrder([FromQuery] MainOrderSearch mainOrderSearch)
         {
-            var numberOfOrders = await mainOrderService.GetNumberOfOrders(mainOrderSearch);
+            var numberOfOrders = mainOrderService.GetNumberOfOrders(mainOrderSearch);
             return new AppDomainResult
             {
                 Data = numberOfOrders,

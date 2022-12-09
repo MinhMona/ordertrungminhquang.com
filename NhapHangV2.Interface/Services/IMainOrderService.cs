@@ -27,6 +27,6 @@ namespace NhapHangV2.Interface.Services
         Task<bool> UpdateStatus(int ID, int status);
         Task<bool> UpdateIsCheckNotiPrice(MainOrder mainOrder);
         void UpdateMainOrderFromSql(string commandText);
-        Task<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch);
+        NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch);
     }
 }

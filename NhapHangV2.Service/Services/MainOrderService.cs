@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,7 @@ using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
 using SqlCommand = Microsoft.Data.SqlClient.SqlCommand;
 using SqlConnection = Microsoft.Data.SqlClient.SqlConnection;
+using SqlDataAdapter = Microsoft.Data.SqlClient.SqlDataAdapter;
 
 namespace NhapHangV2.Service.Services
 {
@@ -1116,66 +1118,96 @@ namespace NhapHangV2.Service.Services
             }
         }
 
-        public async Task<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch)
+        public NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch)
         {
-            var result = new NumberOfOrders();
-            List<int> statusValue = new List<int>();
-            statusValue.Add(-1);
-            foreach (var item in Enum.GetValues(typeof(StatusOrderContants)))
+            SqlConnection connection = null;
+            SqlCommand command = null;
+            DataTable dataTable = new DataTable();
+            try
             {
-                statusValue.Add((int)item);
+                connection = (SqlConnection)Context.Database.GetDbConnection();
+                command = connection.CreateCommand();
+                connection.Open();
+
+                command.CommandText = "GetNumberOfOrder";
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@UID", SqlDbType.Int).Value = mainOrderSearch.UID;
+                command.Parameters.Add("@RoleID", SqlDbType.Int).Value = mainOrderSearch.RoleID;
+                command.Parameters.Add("@OrderType", SqlDbType.Int).Value = mainOrderSearch.OrderType;
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
+                sqlDataAdapter.Fill(dataTable);
+                var result = MappingDataTable.ConvertToList<NumberOfOrders>(dataTable);
+
+                return result.FirstOrDefault();
+
+            }
+            finally
+            {
+                if (connection != null && connection.State == System.Data.ConnectionState.Open)
+                    connection.Close();
+
+                if (command != null)
+                    command.Dispose();
             }
 
-            int i = 0;
-            foreach (var item in result.GetType().GetProperties())
-            {
-                var listMainOrder = new List<MainOrder>();
-                listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.OrderType == mainOrderSearch.OrderType && !x.Deleted).ToListAsync();
-                if (statusValue[i] >= 0) //Theo trạng thái
-                {
-                    if (mainOrderSearch.RoleID == null)
-                        listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.UID == mainOrderSearch.UID).ToList();
-                    else
-                    {
-                        switch (mainOrderSearch.RoleID)
-                        {
-                            case 4:
-                                listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.DatHangId == mainOrderSearch.UID).ToList();
-                                break;
-                            case 7:
-                                listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.SalerId == mainOrderSearch.UID).ToList();
-                                break;
-                            default:
-                                listMainOrder = listMainOrder.Where(x=>x.Status == statusValue[i]).ToList();
-                                break;
-                        }
-                    }
-                }
-                else //Tất cả
-                {
-                    if (mainOrderSearch.RoleID == null)
-                        listMainOrder = listMainOrder.Where(x => x.UID == mainOrderSearch.UID).ToList();
-                    else
-                    {
-                        switch (mainOrderSearch.RoleID)
-                        {
-                            case 4:
-                                listMainOrder = listMainOrder.Where(x => x.DatHangId == mainOrderSearch.UID).ToList();
-                                break;
-                            case 7:
-                                listMainOrder = listMainOrder.Where(x => x.SalerId == mainOrderSearch.UID).ToList();
-                                break;
-                            default:
-                                break;
-                        }
-                    }
-                }
-                decimal sum = listMainOrder != null ? listMainOrder.Count : 0;
+            //var result = new NumberOfOrders();
+            //List<int> statusValue = new List<int>();
+            //statusValue.Add(-1);
+            //foreach (var item in Enum.GetValues(typeof(StatusOrderContants)))
+            //{
+            //    statusValue.Add((int)item);
+            //}
 
-                item.SetValue(result, sum);
-                i++;
-            }
-            return result;
+            //int i = 0;
+            //foreach (var item in result.GetType().GetProperties())
+            //{
+            //    var listMainOrder = new List<MainOrder>();
+            //    listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.OrderType == mainOrderSearch.OrderType && !x.Deleted).ToListAsync();
+            //    if (statusValue[i] >= 0) //Theo trạng thái
+            //    {
+            //        if (mainOrderSearch.RoleID == null)
+            //            listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.UID == mainOrderSearch.UID).ToList();
+            //        else
+            //        {
+            //            switch (mainOrderSearch.RoleID)
+            //            {
+            //                case 4:
+            //                    listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.DatHangId == mainOrderSearch.UID).ToList();
+            //                    break;
+            //                case 7:
+            //                    listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.SalerId == mainOrderSearch.UID).ToList();
+            //                    break;
+            //                default:
+            //                    listMainOrder = listMainOrder.Where(x=>x.Status == statusValue[i]).ToList();
+            //                    break;
+            //            }
+            //        }
+            //    }
+            //    else //Tất cả
+            //    {
+            //        if (mainOrderSearch.RoleID == null)
+            //            listMainOrder = listMainOrder.Where(x => x.UID == mainOrderSearch.UID).ToList();
+            //        else
+            //        {
+            //            switch (mainOrderSearch.RoleID)
+            //            {
+            //                case 4:
+            //                    listMainOrder = listMainOrder.Where(x => x.DatHangId == mainOrderSearch.UID).ToList();
+            //                    break;
+            //                case 7:
+            //                    listMainOrder = listMainOrder.Where(x => x.SalerId == mainOrderSearch.UID).ToList();
+            //                    break;
+            //                default:
+            //                    break;
+            //            }
+            //        }
+            //    }
+            //    decimal sum = listMainOrder != null ? listMainOrder.Count : 0;
+
+            //    item.SetValue(result, sum);
+            //    i++;
+            //}
+            //return result;
         }
     }
 }
