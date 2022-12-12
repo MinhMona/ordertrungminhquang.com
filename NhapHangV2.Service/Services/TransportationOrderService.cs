@@ -42,10 +42,12 @@ namespace NhapHangV2.Service.Services
         private readonly ISendNotificationService sendNotificationService;
         protected readonly IUserInGroupService userInGroupService;
         private readonly ISMSEmailTemplateService sMSEmailTemplateService;
+        private readonly IServiceProvider serviceProvider;
 
         public TransportationOrderService(IServiceProvider serviceProvider, IAppUnitOfWork unitOfWork, IMapper mapper, IAppDbContext Context) : base(unitOfWork, mapper)
         {
             this.Context = Context;
+            this.serviceProvider = serviceProvider;
             userService = serviceProvider.GetRequiredService<IUserService>();
             configurationsService = serviceProvider.GetRequiredService<IConfigurationsService>();
             warehouseFeeService = serviceProvider.GetRequiredService<IWarehouseFeeService>();
@@ -628,56 +630,26 @@ namespace NhapHangV2.Service.Services
             };
         }
 
-        public async Task<TransportationsInfor> GetTransportationsInforAsync(TransportationOrderSearch transportationOrderSearch)
+        public TransportationsInfor GetTransportationsInfor(TransportationOrderSearch transportationOrderSearch)
         {
-            var transportations = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(x => !x.Deleted).ToListAsync();
-            if (transportationOrderSearch.RoleID == null)
-                transportations = transportations.Where(x => x.UID == transportationOrderSearch.UID).ToList();
-            else if (transportationOrderSearch.RoleID == (int)PermissionTypes.Saler)
-                transportations = transportations.Where(x => x.SalerID == transportationOrderSearch.UID).ToList();
-
-            int totalOrders = transportations.Count();
-            int totalNews = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.ChoDuyet).ToList().Count;
-            int totalConfimed = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.DaDuyet).ToList().Count;
-            int totalInChina = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.VeKhoTQ).ToList().Count;
-            int totalInVietnam = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.VeKhoVN).ToList().Count;
-            int totalPaid = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.DaThanhToan).ToList().Count;
-            int totalCompleted = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.DaHoanThanh).ToList().Count;
-            int totalCaccled = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.Huy).ToList().Count;
-
-            return new TransportationsInfor
-            {
-                TotalOrders = totalOrders,
-                TotalNewOrders = totalNews,
-                ToTalConfimed = totalConfimed,
-                TotalInChina = totalInChina,
-                TotalInVietnam = totalInVietnam,
-                TotalPaid = totalPaid,
-                TotalCompleted = totalCompleted,
-                TotalCancled = totalCaccled
-            };
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<TransportationsInfor>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", transportationOrderSearch.UID));
+            sqlParameters.Add(new SqlParameter("@RoleID", transportationOrderSearch.RoleID));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetTransportationsInfor");
+            return data.FirstOrDefault();
         }
 
-        public async Task<TransportationsAmount> GetTransportationsAmountAsync(int UID)
+        public TransportationsAmount GetTransportationsAmount(int UID)
         {
-            var transportations = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(x => x.UID == UID).ToListAsync();
-            decimal? amountNotDelivery = transportations.Where(x => x.Status > (int)StatusGeneralTransportationOrder.ChoDuyet
-                && x.Status < (int)StatusGeneralTransportationOrder.DaThanhToan)
-                .ToList().Sum(x => x.TotalPriceVND);
-            decimal? amountwattingToChina = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.DaDuyet)
-                .ToList()
-                .Sum(x => x.TotalPriceVND);
-            decimal? amountInChina = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.VeKhoTQ).ToList().Sum(x => x.TotalPriceVND);
-            decimal? amountInVietnam = transportations.Where(x => x.Status == (int)StatusGeneralTransportationOrder.VeKhoVN).ToList().Sum(x => x.TotalPriceVND);
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<TransportationsAmount>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", UID));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetTransportationsAmount");
+            return data.FirstOrDefault();
 
-            return new TransportationsAmount
-            {
-                AmountNotDelivery = amountNotDelivery ?? 0,
-                AmoutWattingToChina = amountwattingToChina ?? 0,
-                AmountInChina = amountInChina ?? 0,
-                AmountInVietnam = amountInVietnam ?? 0,
-                AmountPay = amountInVietnam ?? 0
-            };
         }
 
         public class CheckWarehouse

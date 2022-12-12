@@ -22,11 +22,11 @@ namespace NhapHangV2.Interface.Services
 
         Task<MainOrder> PriceAdjustment(MainOrder item);
         Task<AmountStatistic> GetTotalOrderPriceByUID(int UID);
-        Task<MainOrdersInfor> GetMainOrdersInforAsync(int UID, int orderType);
-        Task<MainOrdersAmount> GetMainOrdersAmountAsync(int UID, int orderType);
+        MainOrdersInfor GetMainOrdersInfor(int UID, int orderType);
+        MainOrdersAmount GetMainOrdersAmount(int UID, int orderType);
         Task<bool> UpdateStatus(int ID, int status);
         Task<bool> UpdateIsCheckNotiPrice(MainOrder mainOrder);
         void UpdateMainOrderFromSql(string commandText);
-        Task<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch);
+        NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch);
     }
 }
