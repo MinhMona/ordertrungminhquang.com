@@ -5,7 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NhapHangV2.Entities;
 using NhapHangV2.Entities.Catalogue;
+using NhapHangV2.Entities.DomainEntities;
 using NhapHangV2.Entities.Search;
+using NhapHangV2.Entities.SQLModels;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.DbContext;
 using NhapHangV2.Interface.Services;
@@ -25,7 +27,7 @@ using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
 using SqlCommand = Microsoft.Data.SqlClient.SqlCommand;
 using SqlConnection = Microsoft.Data.SqlClient.SqlConnection;
-using SqlDataAdapter = Microsoft.Data.SqlClient.SqlDataAdapter;
+using SqlParameter = Microsoft.Data.SqlClient.SqlParameter;
 
 namespace NhapHangV2.Service.Services
 {
@@ -40,10 +42,12 @@ namespace NhapHangV2.Service.Services
         private readonly INotificationTemplateService notificationTemplateService;
         private readonly ISendNotificationService sendNotificationService;
         private readonly ISMSEmailTemplateService sMSEmailTemplateService;
+        private readonly IServiceProvider serviceProvider;
 
         public MainOrderService(IServiceProvider serviceProvider, IAppUnitOfWork unitOfWork, IMapper mapper, IAppDbContext Context) : base(unitOfWork, mapper)
         {
             this.Context = Context;
+            this.serviceProvider = serviceProvider;
             orderShopTempService = serviceProvider.GetRequiredService<IOrderShopTempService>();
             userService = serviceProvider.GetRequiredService<IUserService>();
             configurationsService = serviceProvider.GetRequiredService<IConfigurationsService>();
@@ -52,7 +56,6 @@ namespace NhapHangV2.Service.Services
             notificationTemplateService = serviceProvider.GetRequiredService<INotificationTemplateService>();
             sendNotificationService = serviceProvider.GetRequiredService<ISendNotificationService>();
             sMSEmailTemplateService = serviceProvider.GetRequiredService<ISMSEmailTemplateService>();
-
         }
 
         protected override string GetStoreProcName()
@@ -997,58 +1000,6 @@ namespace NhapHangV2.Service.Services
             };
         }
 
-        public async Task<MainOrdersInfor> GetMainOrdersInforAsync(int UID, int orderType)
-        {
-            var mainOrders = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.UID == UID && x.OrderType == orderType).ToListAsync();
-            int totalOrders = mainOrders.Count();
-            int unpaidOrders = mainOrders.Where(x => x.Status == (int)StatusOrderContants.ChuaDatCoc).ToList().Count;
-            int paidOrders = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaDatCoc).ToList().Count;
-            int placedOrders = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaMuaHang).ToList().Count;
-            int inChinaOrders = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaVeKhoTQ).ToList().Count;
-            int inVietnamOrders = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaVeKhoVN).ToList().Count;
-            int recievedOrders = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaHoanThanh).ToList().Count;
-
-            return new MainOrdersInfor
-            {
-                TotalOrders = totalOrders,
-                TotalUnpaidOrders = unpaidOrders,
-                ToTalPaidOrders = paidOrders,
-                ToTalPlacedOrders = placedOrders,
-                TotalInChinaOrders = inChinaOrders,
-                TotalInVietnamOrders = inVietnamOrders,
-                TotalReceivedOrders = recievedOrders
-            };
-        }
-
-        public async Task<MainOrdersAmount> GetMainOrdersAmountAsync(int UID, int orderType)
-        {
-            var mainOrders = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.UID == UID && x.OrderType == orderType).ToListAsync();
-
-            decimal? amountNotDelivery = mainOrders.Where(x => x.Status > (int)StatusOrderContants.Huy
-                && x.Status < (int)StatusOrderContants.KhachDaThanhToan)
-                .ToList().Sum(x => x.TotalPriceVND);
-            decimal? amountMustDeposit = mainOrders.Where(x => x.Status == (int)StatusOrderContants.ChuaDatCoc).ToList().Sum(x => x.AmountDeposit);
-            decimal? amountOrderRequireDeposit = mainOrders.Where(x => x.Status == (int)StatusOrderContants.ChuaDatCoc).ToList().Sum(x => x.TotalPriceVND);
-            decimal? amoutWattingToChina = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaMuaHang
-                || x.Status == (int)StatusOrderContants.DaDuyetDon)
-                .ToList()
-                .Sum(x => x.TotalPriceVND);
-            decimal? amountInChina = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaVeKhoTQ).ToList().Sum(x => x.TotalPriceVND);
-            decimal? amountInVietnam = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaVeKhoVN).ToList().Sum(x => x.TotalPriceVND);
-            decimal? amountPay = mainOrders.Where(x => x.Status == (int)StatusOrderContants.DaVeKhoVN).ToList().Sum(x => x.TotalPriceVND + x.FeeInWareHouse - x.Deposit);
-
-            return new MainOrdersAmount
-            {
-                AmountNotDelivery = amountNotDelivery ?? 0,
-                AmountMustDeposit = amountMustDeposit ?? 0,
-                AmountOrderRequireDeposit = amountOrderRequireDeposit ?? 0,
-                AmoutWattingToChina = amoutWattingToChina ?? 0,
-                AmountInChina = amountInChina ?? 0,
-                AmountInVietnam = amountInVietnam ?? 0,
-                AmountPay = amountPay ?? 0
-            };
-        }
-
         public async Task<bool> UpdateStatus(int ID, int status)
         {
             var mainOrder = await this.GetByIdAsync(ID);
@@ -1120,94 +1071,39 @@ namespace NhapHangV2.Service.Services
 
         public NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch)
         {
-            SqlConnection connection = null;
-            SqlCommand command = null;
-            DataTable dataTable = new DataTable();
-            try
-            {
-                connection = (SqlConnection)Context.Database.GetDbConnection();
-                command = connection.CreateCommand();
-                connection.Open();
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<NumberOfOrders>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", mainOrderSearch.UID));
+            sqlParameters.Add(new SqlParameter("@RoleID", mainOrderSearch.RoleID));
+            sqlParameters.Add(new SqlParameter("@OrderType", mainOrderSearch.OrderType));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetNumberOfOrder");
 
-                command.CommandText = "GetNumberOfOrder";
-                command.CommandType = CommandType.StoredProcedure;
-                command.Parameters.Add("@UID", SqlDbType.Int).Value = mainOrderSearch.UID;
-                command.Parameters.Add("@RoleID", SqlDbType.Int).Value = mainOrderSearch.RoleID;
-                command.Parameters.Add("@OrderType", SqlDbType.Int).Value = mainOrderSearch.OrderType;
-                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
-                sqlDataAdapter.Fill(dataTable);
-                var result = MappingDataTable.ConvertToList<NumberOfOrders>(dataTable);
+            return data.FirstOrDefault();
+        }
 
-                return result.FirstOrDefault();
+        public MainOrdersInfor GetMainOrdersInfor(int UID, int orderType)
+        {
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<MainOrdersInfor>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", UID));
+            sqlParameters.Add(new SqlParameter("@OrderType", orderType));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetMainOrdersInfor");
 
-            }
-            finally
-            {
-                if (connection != null && connection.State == System.Data.ConnectionState.Open)
-                    connection.Close();
+            return data.FirstOrDefault();
+        }
 
-                if (command != null)
-                    command.Dispose();
-            }
+        public MainOrdersAmount GetMainOrdersAmount(int UID, int orderType)
+        {
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<MainOrdersAmount>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", UID));
+            sqlParameters.Add(new SqlParameter("@OrderType", orderType));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetMainOrdersAmount");
 
-            //var result = new NumberOfOrders();
-            //List<int> statusValue = new List<int>();
-            //statusValue.Add(-1);
-            //foreach (var item in Enum.GetValues(typeof(StatusOrderContants)))
-            //{
-            //    statusValue.Add((int)item);
-            //}
-
-            //int i = 0;
-            //foreach (var item in result.GetType().GetProperties())
-            //{
-            //    var listMainOrder = new List<MainOrder>();
-            //    listMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.OrderType == mainOrderSearch.OrderType && !x.Deleted).ToListAsync();
-            //    if (statusValue[i] >= 0) //Theo trạng thái
-            //    {
-            //        if (mainOrderSearch.RoleID == null)
-            //            listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.UID == mainOrderSearch.UID).ToList();
-            //        else
-            //        {
-            //            switch (mainOrderSearch.RoleID)
-            //            {
-            //                case 4:
-            //                    listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.DatHangId == mainOrderSearch.UID).ToList();
-            //                    break;
-            //                case 7:
-            //                    listMainOrder = listMainOrder.Where(x => x.Status == statusValue[i] && x.SalerId == mainOrderSearch.UID).ToList();
-            //                    break;
-            //                default:
-            //                    listMainOrder = listMainOrder.Where(x=>x.Status == statusValue[i]).ToList();
-            //                    break;
-            //            }
-            //        }
-            //    }
-            //    else //Tất cả
-            //    {
-            //        if (mainOrderSearch.RoleID == null)
-            //            listMainOrder = listMainOrder.Where(x => x.UID == mainOrderSearch.UID).ToList();
-            //        else
-            //        {
-            //            switch (mainOrderSearch.RoleID)
-            //            {
-            //                case 4:
-            //                    listMainOrder = listMainOrder.Where(x => x.DatHangId == mainOrderSearch.UID).ToList();
-            //                    break;
-            //                case 7:
-            //                    listMainOrder = listMainOrder.Where(x => x.SalerId == mainOrderSearch.UID).ToList();
-            //                    break;
-            //                default:
-            //                    break;
-            //            }
-            //        }
-            //    }
-            //    decimal sum = listMainOrder != null ? listMainOrder.Count : 0;
-
-            //    item.SetValue(result, sum);
-            //    i++;
-            //}
-            //return result;
+            return data.FirstOrDefault();
         }
     }
 }

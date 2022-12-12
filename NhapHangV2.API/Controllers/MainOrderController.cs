@@ -79,7 +79,7 @@ namespace NhapHangV2.API.Controllers
             var users = await userService.GetSingleAsync(x => x.Id == UID);
             if (users == null)
                 throw new AppException("Người dùng không tồn tại");
-            var mainOrdersInfor = await mainOrderService.GetMainOrdersInforAsync(UID, orderType);
+            var mainOrdersInfor = mainOrderService.GetMainOrdersInfor(UID, orderType);
             return new AppDomainResult
             {
                 Data = mainOrdersInfor,
@@ -99,7 +99,7 @@ namespace NhapHangV2.API.Controllers
             var users = await userService.GetSingleAsync(x => x.Id == UID);
             if (users == null)
                 throw new AppException("Người dùng không tồn tại");
-            var mainOrderAmount = await mainOrderService.GetMainOrdersAmountAsync(UID, orderType);
+            var mainOrderAmount = mainOrderService.GetMainOrdersAmount(UID, orderType);
             return new AppDomainResult
             {
                 ResultCode = (int)HttpStatusCode.OK,

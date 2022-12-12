@@ -81,7 +81,7 @@ namespace NhapHangV2.Models
                     case (int)TypeOrder.DonKyGui:
                         return "Đơn hàng vận chuyển hộ";
                     case (int)TypeOrder.KhongXacDinh:
-                        return "Chưa xác định";
+                        return "Đơn mua hộ khác";
                     default:
                         return string.Empty;
                 }

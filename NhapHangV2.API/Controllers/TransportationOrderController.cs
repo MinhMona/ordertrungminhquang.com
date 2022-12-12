@@ -57,9 +57,9 @@ namespace NhapHangV2.API.Controllers
         /// </summary>
         [HttpGet("get-transportations-infor")]
         [AppAuthorize(new int[] { CoreContants.View })]
-        public async Task<AppDomainResult> GetTransportationsInfor([FromQuery] TransportationOrderSearch transportationOrderSearch)
+        public AppDomainResult GetTransportationsInfor([FromQuery] TransportationOrderSearch transportationOrderSearch)
         {
-            var transportationsInfor = await transportationOrderService.GetTransportationsInforAsync(transportationOrderSearch);
+            var transportationsInfor = transportationOrderService.GetTransportationsInfor(transportationOrderSearch);
             return new AppDomainResult
             {
                 Data = transportationsInfor,
@@ -79,7 +79,7 @@ namespace NhapHangV2.API.Controllers
             var users = await userService.GetSingleAsync(x => x.Id == UID);
             if (users == null)
                 throw new AppException("Người dùng không tồn tại");
-            var transportationsAmount = await transportationOrderService.GetTransportationsAmountAsync(UID);
+            var transportationsAmount = transportationOrderService.GetTransportationsAmount(UID);
             return new AppDomainResult
             {
                 ResultCode = (int)HttpStatusCode.OK,

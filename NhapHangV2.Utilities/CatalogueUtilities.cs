@@ -119,59 +119,64 @@ namespace NhapHangV2.Utilities
     public class NumberOfOrders
     {
         /// <summary>
-        /// Tất cả
-        /// </summary>
-        public int? AllOrders { get; set; }
-        /// <summary>
         /// Chưa đặt cọc
         /// </summary>
-        public int? UnDeposit { get; set; }
+        public int? UnDeposit { get; set; } = 0;
         /// <summary>
         /// Hủy
         /// </summary>
-        public int? Cancel { get; set; }
+        public int? Cancel { get; set; } = 0;
         /// <summary>
         /// Đã đặt cọc
         /// </summary>
-        public int? Deposit { get; set; }
+        public int? Deposit { get; set; } = 0;
         /// <summary>
         /// Chờ duyệt đơn
         /// </summary>
-        public int? WaitConfirm { get; set; }
+        public int? WaitConfirm { get; set; } = 0;
         /// <summary>
         /// Đã duyệt đơn
         /// </summary>
-        public int? Comfirmed { get; set; }
+        public int? Comfirmed { get; set; } = 0;
         /// <summary>
         /// Đã mua hàng
         /// </summary>
-        public int? PurchaseOrder { get; set; }
+        public int? PurchaseOrder { get; set; } = 0;
         /// <summary>
         /// Đã về kho TQ
         /// </summary>
-        public int? InChinaWarehoue { get; set; }
+        public int? InChinaWarehoue { get; set; } = 0;
         /// <summary>
         /// Đã về kho VN
         /// </summary>
-        public int? InVietnamWarehoue { get; set; }
+        public int? InVietnamWarehoue { get; set; } = 0;
         /// <summary>
         /// Chờ thanh toán
         /// </summary>
-        public int? WaitPayment { get; set; }
+        public int? WaitPayment { get; set; } = 0;
         /// <summary>
         /// Khách đã thanh toán
         /// </summary>
-        public int? Paid { get; set; }
+        public int? Paid { get; set; } = 0;
         /// <summary>
         /// Đã hoàn thành
         /// </summary>
-        public int? Completed { get; set; }
+        public int? Completed { get; set; } = 0;
         /// <summary>
         /// Đã khiếu nại
         /// </summary>
-        public int? Complained { get; set; }
+        public int? Complained { get; set; } = 0;
 
-
+        /// <summary>
+        /// Tất cả
+        /// </summary>
+        public int? AllOrders
+        {
+            get
+            {
+                return (UnDeposit + Cancel + Deposit + WaitConfirm + Comfirmed + PurchaseOrder + InChinaWarehoue + InVietnamWarehoue + WaitPayment + Paid + Completed);
+            }
+        }
     }
 
     public class TransportationsInfor
