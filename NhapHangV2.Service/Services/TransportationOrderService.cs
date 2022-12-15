@@ -121,15 +121,65 @@ namespace NhapHangV2.Service.Services
 
         public override async Task<bool> UpdateAsync(TransportationOrder item)
         {
-            unitOfWork.Repository<TransportationOrder>().Update(item);
-            foreach (var smallPackage in item.SmallPackages)
+            if (item.Status == (int)StatusGeneralTransportationOrder.DaDuyet)
             {
-                smallPackage.DonGia = item.FeeWeightPerKg;
-                smallPackage.OrderTransactionCode = smallPackage.OrderTransactionCode.Replace(" ", "");
-                unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                using (var dbContextTransaction = Context.Database.BeginTransaction())
+                {
+                    try
+                    {
+                        var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
+                        if (smallPackage == null)
+                        {
+                            smallPackage = new SmallPackage();
+                            smallPackage.UID = item.UID;
+                            smallPackage.TransportationOrderId = item.Id;
+                            smallPackage.OrderTransactionCode = item.OrderTransactionCode;
+                            smallPackage.ProductType = item.Category;
+                            smallPackage.BigPackageId = 0;
+                            smallPackage.FeeShip = smallPackage.Weight = 0;
+                            smallPackage.Status = (int)StatusSmallPackage.MoiDat;
+
+                            smallPackage.Deleted = false;
+                            smallPackage.Active = true;
+                            smallPackage.Created = item.Created;
+                            smallPackage.CreatedBy = item.CreatedBy;
+
+                            smallPackage.IsInsurance = item.IsInsurance;
+                            smallPackage.IsCheckProduct = item.IsCheckProduct;
+                            smallPackage.IsPackged = item.IsPacked;
+                            smallPackage.TotalOrderQuantity = (int)item.Amount;
+                            await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
+                            await unitOfWork.SaveAsync();
+
+                            item.SmallPackageId = smallPackage.Id;
+
+                            unitOfWork.Repository<TransportationOrder>().Update(item);
+                        }
+                        else
+                            throw new AppException("Mã vận đơn đã tồn tại ở đơn ký gửi khác");
+                        await unitOfWork.SaveAsync();
+                        await dbContextTransaction.CommitAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        await dbContextTransaction.RollbackAsync();
+                        throw new Exception(ex.Message);
+                    }
+                }
             }
-            await unitOfWork.SaveAsync();
+            else
+            {
+                unitOfWork.Repository<TransportationOrder>().Update(item);
+                foreach (var smallPackage in item.SmallPackages)
+                {
+                    smallPackage.DonGia = item.FeeWeightPerKg;
+                    smallPackage.OrderTransactionCode = smallPackage.OrderTransactionCode.Replace(" ", "");
+                    unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                }
+                await unitOfWork.SaveAsync();
+            }
             return true;
+
         }
 
         public override async Task<bool> CreateAsync(IList<TransportationOrder> items)
@@ -151,34 +201,34 @@ namespace NhapHangV2.Service.Services
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
                         await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/manager/deposit/deposit-list/{item.Id}", "", item.Id, subject, emailContent);
 
-                        var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
-                        if (smallPackage == null)
-                        {
-                            smallPackage = new SmallPackage();
-                            smallPackage.UID = item.UID;
-                            smallPackage.TransportationOrderId = item.Id;
-                            smallPackage.OrderTransactionCode = item.OrderTransactionCode;
-                            smallPackage.ProductType = item.Category;
-                            smallPackage.BigPackageId = 0;
-                            smallPackage.FeeShip = smallPackage.Weight = 0;
-                            smallPackage.Status = (int)StatusGeneralTransportationOrder.ChoDuyet;
+                        //var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
+                        //if (smallPackage == null)
+                        //{
+                        //    smallPackage = new SmallPackage();
+                        //    smallPackage.UID = item.UID;
+                        //    smallPackage.TransportationOrderId = item.Id;
+                        //    smallPackage.OrderTransactionCode = item.OrderTransactionCode;
+                        //    smallPackage.ProductType = item.Category;
+                        //    smallPackage.BigPackageId = 0;
+                        //    smallPackage.FeeShip = smallPackage.Weight = 0;
+                        //    smallPackage.Status = (int)StatusGeneralTransportationOrder.ChoDuyet;
 
-                            smallPackage.Deleted = false;
-                            smallPackage.Active = true;
-                            smallPackage.Created = item.Created;
-                            smallPackage.CreatedBy = item.CreatedBy;
+                        //    smallPackage.Deleted = false;
+                        //    smallPackage.Active = true;
+                        //    smallPackage.Created = item.Created;
+                        //    smallPackage.CreatedBy = item.CreatedBy;
 
-                            smallPackage.IsInsurance = item.IsInsurance;
-                            smallPackage.IsCheckProduct = item.IsCheckProduct;
-                            smallPackage.IsPackged = item.IsPacked;
-                            smallPackage.TotalOrderQuantity = (int)item.Amount;
-                            await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
-                            await unitOfWork.SaveAsync();
+                        //    smallPackage.IsInsurance = item.IsInsurance;
+                        //    smallPackage.IsCheckProduct = item.IsCheckProduct;
+                        //    smallPackage.IsPackged = item.IsPacked;
+                        //    smallPackage.TotalOrderQuantity = (int)item.Amount;
+                        //    await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
+                        //    await unitOfWork.SaveAsync();
 
-                            item.SmallPackageId = smallPackage.Id;
+                        //    item.SmallPackageId = smallPackage.Id;
 
-                            unitOfWork.Repository<TransportationOrder>().Update(item);
-                        }
+                        //    unitOfWork.Repository<TransportationOrder>().Update(item);
+                        //}
                     }
                     await unitOfWork.SaveAsync();
                     await dbContextTransaction.CommitAsync();

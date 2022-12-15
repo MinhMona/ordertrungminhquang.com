@@ -158,7 +158,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Số lượng sản phẩm tối thiểu
         /// </summary>
-        public int MinimumQuantity { get; set; } = 0;
+        public int MinimumQuantity { get; set; }
 
         /// <summary>
         /// Tỉ giá

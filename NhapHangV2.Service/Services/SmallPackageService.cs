@@ -318,9 +318,25 @@ namespace NhapHangV2.Service.Services
                                         transportationOrder.WareHouseFromId = item.WareHouseFromId;
                                         transportationOrder.WareHouseId = item.WareHouseId;
                                         transportationOrder.ShippingTypeId = item.ShippingTypeId;
+                                        transportationOrder.OrderTransactionCode = item.OrderTransactionCode;
+                                        switch (item.Status)
+                                        {
+                                            case (int)StatusSmallPackage.DaVeKhoTQ:
+                                                transportationOrder.Status = (int)StatusGeneralTransportationOrder.VeKhoTQ;
+                                                break;
+                                            case (int)StatusSmallPackage.DaVeKhoVN:
+                                                transportationOrder.Status = (int)StatusGeneralTransportationOrder.VeKhoVN;
+                                                break;
+                                            case (int)StatusSmallPackage.DaThanhToan:
+                                                transportationOrder.Status = (int)StatusGeneralTransportationOrder.DaThanhToan;
+                                                break;
+                                            case (int)StatusSmallPackage.DaHuy:
+                                                transportationOrder.Status = (int)StatusGeneralTransportationOrder.Huy;
+                                                break;
+                                            default:
+                                                break;
+                                        }
 
-                                        //Mặc định về kho VN luôn (vì gán đơn chỉ ở Kiểm kho VN)
-                                        transportationOrder.Status = (int)StatusGeneralTransportationOrder.VeKhoVN;
                                         transportationOrder.Note = item.AssignNote;
 
                                         await unitOfWork.Repository<TransportationOrder>().CreateAsync(transportationOrder);

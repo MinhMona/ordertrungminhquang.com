@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
@@ -15,13 +16,18 @@ using NhapHangV2.Interface.Services.Auth;
 using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Interface.Services.Configuration;
 using NhapHangV2.Interface.UnitOfWork;
+using NhapHangV2.Models;
+using NhapHangV2.Models.ExcelModels;
 using NhapHangV2.Service.Services.DomainServices;
 using NhapHangV2.Utilities;
 using NPOI.SS.Formula.Functions;
+using NPOI.SS.UserModel;
+using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
@@ -31,8 +37,15 @@ using SqlParameter = Microsoft.Data.SqlClient.SqlParameter;
 
 namespace NhapHangV2.Service.Services
 {
+
     public class MainOrderService : DomainService<MainOrder, MainOrderSearch>, IMainOrderService
     {
+        private readonly string[] MainOrderExcelColumns = new string[] { "OrderID", "Username", "Tổng tiền", "Tiền đã trả",
+            "Tiền còn lại", "Tiền hàng trên Web", "Phí dịch vụ", "Phí ship TQ", "TPhí kiểm hàng", "Phí đóng gỗ",
+            "Phí bảo hiểm", "Phụ phí", "Phí vận chuyển", "Cân nặng","Trạng thái", "NV kinh doanh", "NV đặt hàng",
+            "Ngày tạo","Ngày đặt cọc", "Ngày mua hàng", "Ngày về kho TQ", "Ngày về kho VN","Ngày hoàn thành"
+        };
+
         protected readonly IAppDbContext Context;
         protected readonly IOrderShopTempService orderShopTempService;
         protected readonly IUserService userService;
@@ -1104,6 +1117,77 @@ namespace NhapHangV2.Service.Services
             var data = storeService.GetDataFromStore(parameters, "GetMainOrdersAmount");
 
             return data.FirstOrDefault();
+        }
+
+        //Code ngu cần sửa lại, dùng cho xuất tất cả
+        public byte[] GetMainOrdersExcel(MainOrderSearch mainOrderSearch)
+        {
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<MainOrderExcelModel>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", mainOrderSearch.UID));
+            sqlParameters.Add(new SqlParameter("@RoleID", mainOrderSearch.RoleID));
+            sqlParameters.Add(new SqlParameter("@Status", mainOrderSearch.Status));
+            sqlParameters.Add(new SqlParameter("@OrderType", mainOrderSearch.OrderType));
+            sqlParameters.Add(new SqlParameter("@FromDate", mainOrderSearch.FromDate));
+            sqlParameters.Add(new SqlParameter("@ToDate", mainOrderSearch.ToDate));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataTableFromStore(parameters, "ExcelMainOrder");
+            using (var workBook = new XLWorkbook())
+            {
+                var worksheet = workBook.Worksheets.Add();
+                worksheet.ColumnWidth = 20;
+                var currentRow = 1;
+                for (int i = 0; i < MainOrderExcelColumns.Length; i++)
+                {
+                    worksheet.Cell(currentRow, i + 1).Style.Font.Bold = true;
+                    worksheet.Cell(currentRow, i + 1).Style.Font.FontSize = 14;
+                    worksheet.Cell(currentRow, i + 1).Value = MainOrderExcelColumns[i];
+                }
+                foreach (DataRow item in data.Rows)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = item["Id"].ToString();
+                    worksheet.Cell(currentRow, 2).Value = item["UserName"].ToString();
+                    worksheet.Cell(currentRow, 3).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 3).Value = item["TotalPriceVND"];
+                    worksheet.Cell(currentRow, 4).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 4).Value = item["Deposit"];
+                    worksheet.Cell(currentRow, 5).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 5).Value = item["RemainingAmount"];
+                    worksheet.Cell(currentRow, 6).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 6).Value = item["PriceVND"];
+                    worksheet.Cell(currentRow, 7).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 7).Value = item["FeeBuyProPT"];
+                    worksheet.Cell(currentRow, 8).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 8).Value = item["FeeShipCN"];
+                    worksheet.Cell(currentRow, 9).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 9).Value = item["IsCheckProductPrice"];
+                    worksheet.Cell(currentRow, 10).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 10).Value = item["IsPackedPrice"];
+                    worksheet.Cell(currentRow, 11).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 11).Value = item["InsuranceMoney"];
+                    worksheet.Cell(currentRow, 12).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 12).Value = item["Surcharge"];
+                    worksheet.Cell(currentRow, 13).Style.NumberFormat.Format = "#,##0";
+                    worksheet.Cell(currentRow, 13).Value = item["FeeWeight"];
+                    worksheet.Cell(currentRow, 14).Value = item["OrderWeight"].ToString();
+                    worksheet.Cell(currentRow, 15).Value = item["StatusName"].ToString();
+                    worksheet.Cell(currentRow, 16).Value = item["SalerUserName"].ToString();
+                    worksheet.Cell(currentRow, 17).Value = item["OrdererUserName"].ToString();
+                    worksheet.Cell(currentRow, 18).Value = item["Created"].ToString();
+                    worksheet.Cell(currentRow, 19).Value = item["DepositDate"].ToString();
+                    worksheet.Cell(currentRow, 20).Value = item["DateBuy"].ToString();
+                    worksheet.Cell(currentRow, 21).Value = item["DateTQ"].ToString();
+                    worksheet.Cell(currentRow, 22).Value = item["DateVN"].ToString();
+                    worksheet.Cell(currentRow, 23).Value = item["CompleteDate"].ToString();
+                }
+                using (var stream = new MemoryStream())
+                {
+                    workBook.SaveAs(stream);
+                    var content = stream.ToArray();
+                    return content;
+                }
+            }
         }
     }
 }

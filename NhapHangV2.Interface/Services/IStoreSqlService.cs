@@ -12,5 +12,6 @@ namespace NhapHangV2.Interface.Services
     public interface IStoreSqlService<T>
     {
         List<T> GetDataFromStore(SqlParameter[] sqlParameter, string commnadText);
+        DataTable GetDataTableFromStore(SqlParameter[] sqlParameter, string commnadText);
     }
 }
