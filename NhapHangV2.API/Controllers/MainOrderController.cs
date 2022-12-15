@@ -12,6 +12,7 @@ using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services;
 using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Models;
+using NhapHangV2.Models.ExcelModels;
 using NhapHangV2.Request;
 using NhapHangV2.Service.Services;
 using NhapHangV2.Utilities;
@@ -493,34 +494,7 @@ namespace NhapHangV2.API.Controllers
                     order.Created = DateTime.Now;
                     order.CreatedBy = users.UserName;
                     order.ImageOrigin = item.ImageProduct;
-                    #region Old Iamge
-                    //    //Chuyển hình ảnh từ folder Temp --> folder Chính
-                    //    filePaths = new List<string>();
-                    //    folderUploadPaths = new List<string>();
 
-                    //    if (!string.IsNullOrEmpty(item.ImageProduct))
-                    //    {
-                    //        string filePath = Path.Combine(env.ContentRootPath, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.TEMP_FOLDER_NAME, item.ImageProduct);
-                    //        // ------- START GET URL FOR FILE
-                    //        string folderUploadPath = string.Empty;
-                    //        var folderUpload = configuration.GetValue<string>("MySettings:FolderUpload");
-                    //        folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
-                    //        string fileUploadPath = Path.Combine(folderUploadPath, Path.GetFileName(filePath));
-                    //        // Kiểm tra có tồn tại file trong temp chưa?
-                    //        if (System.IO.File.Exists(filePath) && !System.IO.File.Exists(fileUploadPath))
-                    //        {
-                    //            FileUtilities.CreateDirectory(folderUploadPath);
-                    //            FileUtilities.SaveToPath(fileUploadPath, System.IO.File.ReadAllBytes(filePath));
-                    //            folderUploadPaths.Add(fileUploadPath);
-                    //            var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.UPLOAD_FOLDER_NAME}/";
-                    //            string fileUrl = Path.Combine(currentLinkSite, Path.GetFileName(filePath)); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
-                    //                                                                                        // ------- END GET URL FOR FILE
-                    //            filePaths.Add(filePath);
-
-                    //            order.ImageOrigin = fileUrl;
-                    //        }
-                    //    }
-                    #endregion
                     listOrder.Add(order);
                 }
 
@@ -1200,7 +1174,7 @@ namespace NhapHangV2.API.Controllers
         /// <returns></returns>
         [HttpGet("number-of-orders")]
         [AppAuthorize(new int[] { CoreContants.View })]
-        public async Task<AppDomainResult> NumberOfOrder([FromQuery] MainOrderSearch mainOrderSearch)
+        public AppDomainResult NumberOfOrder([FromQuery] MainOrderSearch mainOrderSearch)
         {
             var numberOfOrders = mainOrderService.GetNumberOfOrders(mainOrderSearch);
             return new AppDomainResult
@@ -1233,8 +1207,7 @@ namespace NhapHangV2.API.Controllers
 
             // 2. LẤY THÔNG TIN FILE TEMPLATE ĐỂ EXPORT
             string getTemplateFilePath = GetTemplateFilePath("MainOrderTemplate.xlsx"); //Danh sách đơn hàng mua hộ
-            if (baseSearch.UID > 0) //Danh sách đơn hàng mua hộ của khách hàng
-                getTemplateFilePath = GetTemplateFilePath("MainOrderForCusTemplate.xlsx");
+
             excelUtility.TemplateFileData = System.IO.File.ReadAllBytes(getTemplateFilePath);
 
             // 3. LẤY THÔNG TIN THAM SỐ TRUYỀN VÀO
@@ -1242,22 +1215,21 @@ namespace NhapHangV2.API.Controllers
             if (pagedListModel.Items == null || !pagedListModel.Items.Any())
                 pagedListModel.Items.Add(new MainOrderModel());
             byte[] fileByteReport = excelUtility.Export(pagedListModel.Items);
-            // Xuất biểu đồ nếu có
-            fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
 
+            //byte[] fileByteReport = mainOrderService.GetMainOrdersExcel(baseSearch);
             // 4. LƯU THÔNG TIN FILE BÁO CÁO XUỐNG FOLDER BÁO CÁO
             string fileName = string.Format("{0}-{1}.xlsx", Guid.NewGuid().ToString(), "MainOrder");
-            string filePath = Path.Combine(env.ContentRootPath, CoreContants.UPLOAD_FOLDER_NAME, fileName);
+            string filePath = Path.Combine(env.ContentRootPath, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.EXCEL_FOLDER_NAME, fileName);
 
             string folderUploadPath = string.Empty;
             var folderUpload = configuration.GetValue<string>("MySettings:FolderUpload");
-            folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME);
+            folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.EXCEL_FOLDER_NAME);
             string fileUploadPath = Path.Combine(folderUploadPath, Path.GetFileName(filePath));
 
             FileUtilities.CreateDirectory(folderUploadPath);
             FileUtilities.SaveToPath(fileUploadPath, fileByteReport);
 
-            var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.UPLOAD_FOLDER_NAME}/";
+            var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.EXCEL_FOLDER_NAME}/";
             fileResultPath = Path.Combine(currentLinkSite, Path.GetFileName(filePath));
 
             // 5. TRẢ ĐƯỜNG DẪN FILE CHO CLIENT DOWN VỀ

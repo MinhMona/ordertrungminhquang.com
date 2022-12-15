@@ -656,7 +656,6 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                 {
                     var Permissions = await this.userService.GetPermission(userLoginModel.UserId, controller.Id);
                     if (Permissions.Length == 0) continue;
-                    //string[] Permissions = { "511" };
                     roles.Add(new Role()
                     {
                         RoleName = controller.Id,
@@ -673,6 +672,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
                 Expires = DateTime.UtcNow.AddDays(1),
+                //Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -759,6 +759,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
                 Expires = DateTime.UtcNow.AddDays(1),
+                //Expires = DateTime.UtcNow.AddMinutes(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

@@ -51,5 +51,32 @@ namespace NhapHangV2.Service.Services
                     command.Dispose();
             }
         }
+        public DataTable GetDataTableFromStore(SqlParameter[] sqlParameter, string commnadText)
+        {
+            SqlConnection connection = null;
+            SqlCommand command = null;
+            DataTable dataTable = new DataTable();
+            try
+            {
+                connection = (SqlConnection)Context.Database.GetDbConnection();
+                command = connection.CreateCommand();
+                connection.Open();
+                command.CommandText = commnadText;
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddRange(sqlParameter);
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
+                sqlDataAdapter.Fill(dataTable);
+                return dataTable;
+
+            }
+            finally
+            {
+                if (connection != null && connection.State == System.Data.ConnectionState.Open)
+                    connection.Close();
+
+                if (command != null)
+                    command.Dispose();
+            }
+        }
     }
 }

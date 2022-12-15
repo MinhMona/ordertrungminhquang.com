@@ -162,7 +162,6 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Mã vận đơn
         /// </summary>
-        [NotMapped]
         public string OrderTransactionCode { get; set; } = string.Empty;
 
         [NotMapped]

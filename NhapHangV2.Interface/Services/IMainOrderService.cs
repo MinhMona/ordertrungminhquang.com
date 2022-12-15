@@ -1,6 +1,8 @@
 ﻿using NhapHangV2.Entities;
 using NhapHangV2.Entities.Search;
 using NhapHangV2.Interface.Services.DomainServices;
+using NhapHangV2.Models;
+using NhapHangV2.Models.ExcelModels;
 using NhapHangV2.Utilities;
 using System;
 using System.Collections.Generic;
@@ -28,5 +30,6 @@ namespace NhapHangV2.Interface.Services
         Task<bool> UpdateIsCheckNotiPrice(MainOrder mainOrder);
         void UpdateMainOrderFromSql(string commandText);
         NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch);
+        byte[] GetMainOrdersExcel(MainOrderSearch mainOrderSearch);
     }
 }

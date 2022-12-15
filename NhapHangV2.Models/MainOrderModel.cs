@@ -56,6 +56,8 @@ namespace NhapHangV2.Models
                         return "Khách đã thanh toán";
                     case (int)StatusOrderContants.DaHoanThanh:
                         return "Đã hoàn thành";
+                    case (int)StatusOrderContants.DaKhieuNai:
+                        return "Đã khiếu nại";
                     default:
                         return string.Empty;
                 }
