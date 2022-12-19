@@ -202,6 +202,7 @@ namespace NhapHangV2.Utilities
         {
             DatCoc2 = 2,
             DatCoc3 = 3,
+            HuyHoanTien = 4,
             ThanhToan = 9,
             SanPhamHetHang = 12
         }

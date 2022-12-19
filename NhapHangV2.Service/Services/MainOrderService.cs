@@ -811,7 +811,7 @@ namespace NhapHangV2.Service.Services
                     {
                         MainOrderId = item.Id,
                         UID = userMainOrder.Id,
-                        Status = 4, //Chưa hiểu
+                        Status = (int?)StatusPayOrderHistoryContants.HuyHoanTien,
                         Amount = item.Deposit,
                         Type = (int?)TypePayOrderHistoryContants.ViDienTu,
                     });
@@ -834,19 +834,6 @@ namespace NhapHangV2.Service.Services
 
             item.TQVNWeight = item.OrderWeight = totalWeight;
             item.FeeWeight = feeWeight;
-
-            //Tính tổng tiền VNĐ
-            //decimal? totalPriceVNDFn = 0;
-            //if (item.FeeWeight != null) totalPriceVNDFn += item.FeeWeight;
-            //if (item.FeeShipCN != null) totalPriceVNDFn += item.FeeShipCN;
-            //if (item.FeeBuyPro != null) totalPriceVNDFn += item.FeeBuyPro;
-            //if (item.IsCheckProductPrice != null) totalPriceVNDFn += item.IsCheckProductPrice;
-            //if (item.IsPackedPrice != null) totalPriceVNDFn += item.IsPackedPrice;
-            //if (item.IsFastDeliveryPrice != null) totalPriceVNDFn += item.IsFastDeliveryPrice;
-            //if (item.PriceVND != null) totalPriceVNDFn += item.PriceVND;
-            //if (item.Surcharge != null) totalPriceVNDFn += item.Surcharge;
-            //if (item.InsuranceMoney != null) totalPriceVNDFn += item.InsuranceMoney;
-            //item.TotalPriceVND = totalPriceVNDFn;
 
             item.TotalPriceVND = (item.FeeWeight ?? 0) + (item.FeeShipCN ?? 0)
                 + (item.FeeBuyPro ?? 0) + (item.IsCheckProductPrice ?? 0)
@@ -921,8 +908,9 @@ namespace NhapHangV2.Service.Services
             var smallPackages = item.SmallPackages;
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(e => !e.Deleted && e.Id == item.UID).FirstOrDefaultAsync();
             var userLevel = await unitOfWork.Repository<UserLevel>().GetQueryable().Where(e => !e.Deleted && e.Id == user.LevelId).FirstOrDefaultAsync();
-            decimal? ckFeeWeight = userLevel == null ? 1 : userLevel.FeeWeight;
-
+            decimal? ckFeeWeight = userLevel == null ? 0 : userLevel.FeeWeight;
+            //decimal? ckFeeWeight = userLevel == null ? 1 : userLevel.FeeWeight;
+            item.FeeWeightCK = ckFeeWeight;
             decimal? totalWeight = smallPackages.Sum(e => e.PayableWeight);
 
             //Fix lấy warehouseFee 

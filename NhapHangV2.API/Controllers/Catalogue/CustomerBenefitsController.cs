@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using NhapHangV2.BaseAPI.Controllers;
 using NhapHangV2.Entities.Catalogue;
 using NhapHangV2.Entities.DomainEntities;
+using NhapHangV2.Entities.Search;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Models.Catalogue;
@@ -89,36 +90,7 @@ namespace NhapHangV2.API.Controllers.Catalogue
                 item.Created = DateTime.UtcNow.AddHours(7);
                 item.CreatedBy = LoginContext.Instance.CurrentUser.UserName;
                 item.Active = true;
-                #region Upload ảnh code cũ
-                //Hình ảnh (1 hình ảnh)
-                //List<string> filePaths = new List<string>();
-                //List<string> folderUploadPaths = new List<string>();
-                //string file = itemModel.IMG;
-                //if (!string.IsNullOrEmpty(file))
-                //{
-                //    string filePath = Path.Combine(env.ContentRootPath, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.TEMP_FOLDER_NAME, file);
-                //    // ------- START GET URL FOR FILE
-                //    string folderUploadPath = string.Empty;
-                //    var folderUpload = configuration.GetValue<string>("MySettings:FolderUpload");
-                //    folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
-                //    string fileUploadPath = Path.Combine(folderUploadPath, Path.GetFileName(filePath));
-                //    // Kiểm tra có tồn tại file trong temp chưa?
-                //    if (System.IO.File.Exists(filePath) && !System.IO.File.Exists(fileUploadPath))
-                //    {
-                //        FileUtilities.CreateDirectory(folderUploadPath);
-                //        FileUtilities.SaveToPath(fileUploadPath, System.IO.File.ReadAllBytes(filePath));
-                //        folderUploadPaths.Add(fileUploadPath);
-                //        var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.UPLOAD_FOLDER_NAME}/";
-                //        string fileUrl = Path.Combine(currentLinkSite, Path.GetFileName(filePath)); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
-                //                                                                                    // ------- END GET URL FOR FILE
-                //        filePaths.Add(filePath);
-
-                //        //Gán lại cho itemModel để mapper
-                //        item.IMG = fileUrl;
-                //    }
-                //}
-                #endregion
-
+                
                 if (item != null)
                 {
                     //// Kiểm tra item có tồn tại chưa?
@@ -130,33 +102,7 @@ namespace NhapHangV2.API.Controllers.Catalogue
                     {
                         appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                     }
-                    #region Response cũ
-                    //if (success)
-                    //{
-                    //    appDomainResult.ResultCode = (int)HttpStatusCode.OK;
-
-                    //    //// Remove file trong thư mục temp
-                    //    if (filePaths.Any())
-                    //    {
-                    //        foreach (var filePath in filePaths)
-                    //        {
-                    //            System.IO.File.Delete(filePath);
-                    //        }
-                    //    }
-                    //}
-
-                    //else
-                    //{
-                    //    if (folderUploadPaths.Any())
-                    //    {
-                    //        foreach (var folderUploadPath in folderUploadPaths)
-                    //        {
-                    //            System.IO.File.Delete(folderUploadPath);
-                    //        }
-                    //    }
-                    //    throw new Exception("Lỗi trong quá trình xử lý");
-                    //}
-                    #endregion
+                    
 
                     appDomainResult.Success = success;
                 }
@@ -296,7 +242,7 @@ namespace NhapHangV2.API.Controllers.Catalogue
         /// <param name="baseSearch"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<AppDomainResult> Get([FromQuery] CatalogueSearch baseSearch)
+        public async Task<AppDomainResult> Get([FromQuery] CustomerBenefitSearch baseSearch)
         {
             AppDomainResult appDomainResult = new AppDomainResult();
 

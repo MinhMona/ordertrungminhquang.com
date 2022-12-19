@@ -1,14 +1,11 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using NhapHangV2.BaseAPI.Controllers;
 using NhapHangV2.Entities;
 using NhapHangV2.Entities.Search;
 using NhapHangV2.Extensions;
@@ -17,8 +14,6 @@ using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Models;
 using NhapHangV2.Request;
 using NhapHangV2.Utilities;
-using NPOI.HPSF;
-using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -98,7 +93,7 @@ namespace NhapHangV2.API.Controllers
                 {
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                 }
-                
+
                 appDomainResult.Success = success;
             }
             else
@@ -256,26 +251,47 @@ namespace NhapHangV2.API.Controllers
 
                         // Kiểm tra item có tồn tại chưa?
                         var smallPackageCheck = await smallPackageService.GetSingleAsync(e => e.OrderTransactionCode == item.OrderTransactionCode);
-                        if (smallPackageCheck != null) //Tồn tại
-                        {
-                            item.UID = smallPackageCheck.UID;
-                            item.MainOrderId = smallPackageCheck.MainOrderId;
-                            item.TransportationOrderId = smallPackageCheck.TransportationOrderId;
-                            item.OrderTransactionCode = smallPackageCheck.OrderTransactionCode + "-" + currentDate.Second.ToString();
-                        }
+                        if (smallPackageCheck != null)
+                            throw new AppException("Mã vận đã tồn tại");
                         else
                         {
-                            if (string.IsNullOrEmpty(item.OrderTransactionCode))
-                            {
-                                item.OrderTransactionCode = currentDate.Year.ToString() +
-                                    currentDate.Month.ToString() +
-                                    currentDate.Day.ToString() +
-                                    currentDate.Hour.ToString() +
-                                    currentDate.Minute.ToString() +
-                                    currentDate.Second.ToString() +
-                                    currentDate.Millisecond.ToString();
-                            }
+                            if (string.IsNullOrEmpty(item.OrderTransactionCode) || string.IsNullOrWhiteSpace(item.OrderTransactionCode))
+                                throw new AppException("Mã vận đơn không hợp lệ");
                         }
+                        #region Tách mã vận đơn (chưa dùng tới)
+                        //if (smallPackageCheck != null) //Tồn tại
+                        //{
+                        //    item.UID = smallPackageCheck.UID;
+                        //    item.MainOrderId = smallPackageCheck.MainOrderId;
+                        //    item.TransportationOrderId = smallPackageCheck.TransportationOrderId;
+                        //    string newOrderTransactionCode = smallPackageCheck.OrderTransactionCode + "-" + currentDate.Second.ToString();
+                        //    item.OrderTransactionCode = newOrderTransactionCode;
+                        //    if (item.TransportationOrderId > 0)
+                        //    {
+                        //        var orderTrans = await transportationOrderService.GetByIdAsync(item.TransportationOrderId ?? 0);
+                        //        orderTrans.OrderTransactionCode = newOrderTransactionCode;
+                        //        bool updateResult = await transportationOrderService.UpdateFieldAsync(orderTrans, new Expression<Func<TransportationOrder, object>>[]
+                        //        {
+                        //            t => t.OrderTransactionCode
+                        //        });
+                        //        if (!updateResult)
+                        //            throw new AppException("Không thể cập nhật mã vận đơn cho đơn ký gửi");
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    if (string.IsNullOrEmpty(item.OrderTransactionCode))
+                        //    {
+                        //        item.OrderTransactionCode = currentDate.Year.ToString() +
+                        //            currentDate.Month.ToString() +
+                        //            currentDate.Day.ToString() +
+                        //            currentDate.Hour.ToString() +
+                        //            currentDate.Minute.ToString() +
+                        //            currentDate.Second.ToString() +
+                        //            currentDate.Millisecond.ToString();
+                        //    }
+                        //}
+                        #endregion
                     }
 
                     //Kiểm hàng VN
@@ -288,13 +304,14 @@ namespace NhapHangV2.API.Controllers
                         var smallPackageCheck = await smallPackageService.GetSingleAsync(e => e.OrderTransactionCode == item.OrderTransactionCode);
                         if (smallPackageCheck != null) //Tồn tại
                         {
-                            item.UID = smallPackageCheck.UID;
-                            item.MainOrderId = smallPackageCheck.MainOrderId;
-                            item.TransportationOrderId = smallPackageCheck.TransportationOrderId;
-                            item.OrderTransactionCode = smallPackageCheck.OrderTransactionCode + "-" + currentDate.Second.ToString();
+                            //item.UID = smallPackageCheck.UID;
+                            //item.MainOrderId = smallPackageCheck.MainOrderId;
+                            //item.TransportationOrderId = smallPackageCheck.TransportationOrderId;
+                            //item.OrderTransactionCode = smallPackageCheck.OrderTransactionCode + "-" + currentDate.Second.ToString();
+                            throw new AppException("Mã vận đã tồn tại");
                         }
                         else
-                            throw new KeyNotFoundException("Item không tồn tại");
+                            throw new KeyNotFoundException("Mã vận đơn không tồn tại");
                     }
 
 
@@ -306,10 +323,10 @@ namespace NhapHangV2.API.Controllers
 
                         appDomainResult.Data = mapper.Map<List<SmallPackageModel>>(items);
                         appDomainResult.ResultCode = (int)HttpStatusCode.OK;
-                        
+
 
                     }
-                    
+
                     appDomainResult.Success = success;
                 }
                 else
