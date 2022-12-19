@@ -242,13 +242,15 @@ namespace NhapHangV2.API.Controllers.Catalogue
         /// <param name="baseSearch"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<AppDomainResult> Get([FromQuery] CustomerBenefitSearch baseSearch)
+        public async Task<AppDomainResult> Get([FromQuery] CatalogueSearch baseSearch)
         {
             AppDomainResult appDomainResult = new AppDomainResult();
 
             if (ModelState.IsValid)
             {
                 PagedList<CustomerBenefits> pagedData = await customerBenefitsService.GetPagedListData(baseSearch);
+                pagedData.Items = pagedData.Items.AsQueryable().Where(x => x.ItemType == baseSearch.Type).ToList();
+                pagedData.TotalItem = pagedData.Items.Count;
                 PagedList<CustomerBenefitsModel> pagedDataModel = mapper.Map<PagedList<CustomerBenefitsModel>>(pagedData);
                 appDomainResult = new AppDomainResult
                 {
