@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NhapHangV2.Interface.Services.Catalogue
 {
-    public interface ICustomerBenefitsService : ICatalogueService<CustomerBenefits, CustomerBenefitSearch>
+    public interface ICustomerBenefitsService : ICatalogueService<CustomerBenefits, CatalogueSearch>
     {
     }
 }

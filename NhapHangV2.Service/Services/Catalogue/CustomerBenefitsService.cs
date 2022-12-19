@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace NhapHangV2.Service.Services.Catalogue
 {
-    public class CustomerBenefitsService : CatalogueService<CustomerBenefits, CustomerBenefitSearch>, ICustomerBenefitsService
+    public class CustomerBenefitsService : CatalogueService<CustomerBenefits, CatalogueSearch>, ICustomerBenefitsService
     {
         public CustomerBenefitsService(IAppUnitOfWork unitOfWork, IMapper mapper) : base(unitOfWork, mapper)
         {
