@@ -144,7 +144,7 @@ namespace NhapHangV2.API.Controllers
                 List<TransportationOrder> transportationOrders = new List<TransportationOrder>();
 
                 var configurations = await configurationsService.GetSingleAsync();
-                decimal currency = Convert.ToDecimal(configurations.Currency);
+                decimal currency = Convert.ToDecimal(configurations.AgentCurrency);
 
                 if (user.Currency > 0)
                     currency = user.Currency ?? 0;
@@ -231,7 +231,7 @@ namespace NhapHangV2.API.Controllers
                 var item = await this.domainService.GetByIdAsync(itemModel.Id);
                 if (item != null)
                 {
-                    if (itemModel.Status == (int)StatusGeneralTransportationOrder.DaDuyet)
+                    if (itemModel.Status == (int)StatusGeneralTransportationOrder.DaDuyet && itemModel.SmallPackages.Count == 0)
                     {
                         item.Status = (int)StatusGeneralTransportationOrder.DaDuyet;
                     }

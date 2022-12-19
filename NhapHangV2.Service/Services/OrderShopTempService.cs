@@ -381,5 +381,47 @@ namespace NhapHangV2.Service.Services
 
             return item;
         }
+
+        public async Task<PagedList<OrderShopTemp>> DeleteOrderShopTempAfter30days(PagedList<OrderShopTemp> orderShopTemps)
+        {
+
+            using (var dbContextTransaction = Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    List<OrderTemp> orderTempsMustDelete = new List<OrderTemp>();
+                    foreach (var item in orderShopTemps.Items.ToList())
+                    {
+                        //Check item created after 30 days 
+                        TimeSpan period = (DateTime.Now).Subtract(item.Created ?? DateTime.Now);
+                        if (period.Days > 30)
+                        {
+                            //Add ordertemp to orderTempsMustDelete
+                            orderTempsMustDelete.AddRange(await unitOfWork.Repository<OrderTemp>().GetQueryable().Where(x => x.OrderShopTempId == item.Id).ToListAsync());
+
+                            //Delte ordershoptemp
+                            unitOfWork.Repository<OrderShopTemp>().Delete(item);
+                            orderShopTemps.Items.Remove(item);
+                            orderShopTemps.TotalItem--;
+                        }
+                    }
+                    //Delete Ordertemps
+                    foreach (var orderTemp in orderTempsMustDelete)
+                    {
+                        unitOfWork.Repository<OrderTemp>().Delete(orderTemp);
+                    }
+
+                    await unitOfWork.SaveAsync();
+                    await dbContextTransaction.CommitAsync();
+
+                    return orderShopTemps;
+                }
+                catch (Exception ex)
+                {
+                    await dbContextTransaction.RollbackAsync();
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
     }
 }

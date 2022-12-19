@@ -76,6 +76,14 @@ namespace NhapHangV2.Utilities
         /// Tổng tiền cần thanh toán để lấy hàng trong kho
         /// </summary>
         public decimal AmountPay { get; set; }
+        /// <summary>
+        /// Tổng tiền của những đơn đã cọc
+        /// </summary>
+        public decimal AmountOfDeposit { get; set; }
+        /// <summary>
+        /// Tổng tiền đơn đã hoàn thành
+        /// </summary>
+        public decimal AmountCompleted { get; set; }
     }
 
     public class BillInfor
@@ -217,6 +225,10 @@ namespace NhapHangV2.Utilities
     public class TransportationsAmount
     {
         /// <summary>
+        /// Tổng tiền hàng tất cả
+        /// </summary>
+        public decimal AmountAll { get; set; }
+        /// <summary>
         /// Tổng tiền hàng chưa giao
         /// </summary>
         public decimal AmountNotDelivery { get; set; }
@@ -236,5 +248,13 @@ namespace NhapHangV2.Utilities
         /// Tổng tiền cần thanh toán để lấy hàng trong kho
         /// </summary>
         public decimal AmountPay { get; set; }
+        /// <summary>
+        /// Tổng tiền hàng đã thanh toán
+        /// </summary>
+        public decimal AmountPaid { get; set; }
+        /// <summary>
+        /// Tổng tiền hàng đã hoàn thành
+        /// </summary>
+        public decimal AmountCompleted { get; set; }
     }
 }

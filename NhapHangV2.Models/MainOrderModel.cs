@@ -419,6 +419,11 @@ namespace NhapHangV2.Models
         public decimal? FeeWeightCK { get; set; }
 
         /// <summary>
+        /// Phần trăm chiết khẩu phí mua hàng
+        /// </summary>
+        public decimal? FeeBuyProCK { get; set; } = 0;
+
+        /// <summary>
         /// Phí vận chuyển TQ - VN - Cân nặng
         /// </summary>
         public decimal? TQVNWeight { get; set; }

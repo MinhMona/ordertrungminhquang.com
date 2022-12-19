@@ -618,28 +618,7 @@ namespace NhapHangV2.API.Controllers
                 {
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                 }
-                #region old image
-                //    //// Remove file trong thư mục temp
-                //    if (filePaths.Any())
-                //    {
-                //        foreach (var filePath in filePaths)
-                //        {
-                //            System.IO.File.Delete(filePath);
-                //        }
-                //    }
-                //}
-                //else
-                //{
-                //    if (folderUploadPaths.Any())
-                //    {
-                //        foreach (var folderUploadPath in folderUploadPaths)
-                //        {
-                //            System.IO.File.Delete(folderUploadPath);
-                //        }
-                //    }
-                //    throw new Exception("Lỗi trong quá trình xử lý");
-                //}
-                #endregion
+                
                 appDomainResult.Success = success;
             }
             else

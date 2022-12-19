@@ -127,7 +127,7 @@ namespace NhapHangV2.Service.Services
                 {
                     try
                     {
-                        var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
+                        var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.OrderTransactionCode.Equals(item.OrderTransactionCode)).FirstOrDefault();
                         if (smallPackage == null)
                         {
                             smallPackage = new SmallPackage();
@@ -156,7 +156,16 @@ namespace NhapHangV2.Service.Services
                             unitOfWork.Repository<TransportationOrder>().Update(item);
                         }
                         else
-                            throw new AppException("Mã vận đơn đã tồn tại ở đơn ký gửi khác");
+                        {
+                            if (item.SmallPackages.Count > 0)
+                            {
+                                unitOfWork.Repository<TransportationOrder>().Update(item);
+                            }
+                            else
+                            {
+                                throw new AppException("Mã vận đơn đã tồn tại ở đơn ký gửi khác");
+                            }
+                        }
                         await unitOfWork.SaveAsync();
                         await dbContextTransaction.CommitAsync();
                     }
