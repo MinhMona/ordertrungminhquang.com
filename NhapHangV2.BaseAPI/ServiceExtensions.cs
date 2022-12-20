@@ -154,6 +154,7 @@ namespace NhapHangV2.BaseAPI
             services.AddScoped<IToolConfigService, ToolConfigService>();
             #endregion
             services.AddScoped(typeof(IStoreSqlService<>), typeof(StoreSqlService<>));
+            services.AddScoped<ISearchService, SearchService>();
 
         }
 

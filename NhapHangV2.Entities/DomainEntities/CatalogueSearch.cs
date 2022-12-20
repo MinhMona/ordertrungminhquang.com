@@ -13,10 +13,5 @@ namespace NhapHangV2.Entities.DomainEntities
         /// Active
         /// </summary>
         public bool? Active { set; get; }
-
-        /// <summary>
-        /// ItemType 1: Cam kết của chúng tôi, 2: Quyền lợi của khách hàng
-        /// </summary>
-        public int? Type { get; set; }
     }
 }

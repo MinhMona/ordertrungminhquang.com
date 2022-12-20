@@ -315,7 +315,7 @@ namespace NhapHangV2.Service.Services
         /// <param name="userName"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        public async Task<Users> Verify(string userName, string password)
+        public async Task<bool> Verify(string userName, string password)
         {
             var user = await Queryable
                 .Where(e => !e.Deleted
@@ -341,14 +341,14 @@ namespace NhapHangV2.Service.Services
                 }
                 if (user.Password == SecurityUtilities.HashSHA1(password))
                 {
-                    return user;
+                    return true;
                 }
                 else
-                    return null;
+                    return false;
 
             }
             else
-                return null;
+                return false;
         }
 
         /// <summary>

@@ -564,7 +564,7 @@ namespace NhapHangV2.Service.Services
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(e => !e.Deleted && e.Id == item.UID).FirstOrDefaultAsync();
             var userLevel = await unitOfWork.Repository<UserLevel>().GetQueryable().Where(e => !e.Deleted && e.Id == user.LevelId).FirstOrDefaultAsync();
             decimal? ckFeeWeight = userLevel == null ? 1 : userLevel.FeeWeight;
-
+            item.FeeWeightCK = ckFeeWeight;
             decimal? totalWeight = smallPackages.Sum(e => e.PayableWeight);
             var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable().Where(e => !e.Deleted
                 && e.WarehouseFromId == item.WareHouseFromId
@@ -585,14 +585,21 @@ namespace NhapHangV2.Service.Services
             decimal? feeWeightDiscount = feeWeight * ckFeeWeight / 100;
             feeWeight -= feeWeightDiscount;
 
-            if (item.DeliveryPrice != feeWeight)
+            if (item.TotalPriceVND == null)
             {
-                item.TotalPriceVND = item.TotalPriceVND - item.DeliveryPrice + feeWeight;
+                item.TotalPriceVND = feeWeight + (item.CODFee ?? 0) + (item.IsCheckProductPrice ?? 0) + (item.IsPackedPrice ?? 0) + (item.InsuranceMoney ?? 0);
+            }
+            else
+            {
+                if (item.DeliveryPrice != feeWeight)
+                {
+                    item.TotalPriceVND = item.TotalPriceVND - item.DeliveryPrice + feeWeight;
+                }
             }
             if (user.Currency != null && user.Currency > 0)
                 item.TotalPriceCNY = item.TotalPriceVND / user.Currency;
             else
-                item.TotalPriceCNY = item.TotalPriceVND / config.Currency;
+                item.TotalPriceCNY = item.TotalPriceVND / config.AgentCurrency;
             item.FeeWeightPerKg = warehouseFeePrice;
             item.DeliveryPrice = feeWeight;
             return item;

@@ -12,7 +12,7 @@ namespace NhapHangV2.Interface.Services
     {
         Task<int> CreateWithTokenAsync(Users item);
 
-        Task<Users> Verify(string userName, string password);
+        Task<bool> Verify(string userName, string password);
 
         Task<bool> HasPermission(int userId, string controller, IList<int> permissions);
         Task<string[]> GetPermission(int userId, string controller);
