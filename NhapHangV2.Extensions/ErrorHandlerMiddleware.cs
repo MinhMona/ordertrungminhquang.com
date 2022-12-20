@@ -55,7 +55,7 @@ namespace NhapHangV2.Extensions
                         context.Response.StatusCode = (int)HttpStatusCode.NotFound;
                         break;
                     case TimeoutException e: //408
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        context.Response.StatusCode = (int)HttpStatusCode.RequestTimeout;
                         break;
                     default:
                         {
