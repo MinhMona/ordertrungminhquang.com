@@ -88,26 +88,42 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
             bool success = false;
             if (ModelState.IsValid)
             {
-                var userInfos = await this.userService.Verify(loginModel.UserName, loginModel.Password);
-                if (userInfos != null)
+                success = await this.userService.Verify(loginModel.UserName, loginModel.Password);
+                if (success)
                 {
-                    var userModel = mapper.Map<UserModel>(userInfos);
-                    var listTokens = await GenerateJwtToken(userModel);
-                    var token = listTokens.FirstOrDefault();
-                    var addCartToken = listTokens.LastOrDefault();
-
-                    await this.userService.UpdateUserToken(userModel.Id, token, true);
-
-                    appDomainResult = new AppDomainResult()
+                    var userInfos = await this.userService.GetAsync(e => !e.Deleted
+                    && (e.UserName == loginModel.UserName
+                    || e.Phone == loginModel.UserName
+                    || e.Email == loginModel.UserName
+                    ));
+                    if (userInfos != null && userInfos.Any())
                     {
-                        Success = true,
-                        Data = new
+                        var userModel = mapper.Map<UserModel>(userInfos.FirstOrDefault());
+                        var token = await GenerateJwtToken(userModel);
+                        var addCartToken = await GenerateJwtTokenAddToCart(userModel);
+                        //var cookieOptions = new CookieOptions
+                        //{
+                        //};
+                        //cookieOptions.Expires = DateTime.UtcNow.AddDays(7);
+
+                        //HttpContext.Response.Cookies.Append(
+                        //         "token", addCartToken,
+                        //         new CookieOptions() { SameSite = SameSiteMode.Unspecified });
+                        // Lưu giá trị token
+                        await this.userService.UpdateUserToken(userModel.Id, token, true);
+
+                        appDomainResult = new AppDomainResult()
                         {
-                            token = token,
-                            addCartToken = addCartToken
-                        },
-                        ResultCode = (int)HttpStatusCode.OK
-                    };
+                            Success = true,
+                            Data = new
+                            {
+                                token = token,
+                                addCartToken = addCartToken
+                            },
+                            ResultCode = (int)HttpStatusCode.OK
+                        };
+
+                    }
                 }
                 else
                     throw new UnauthorizedAccessException("Tên đăng nhập hoặc mật khẩu không chính xác");
@@ -186,7 +202,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                     var userModel = mapper.Map<UserModel>(userInfo);
                     var token = await GenerateJwtToken(userModel, true);
                     // Lưu giá trị token
-                    await this.userService.UpdateUserToken(userModel.Id, token.FirstOrDefault(), true);
+                    await this.userService.UpdateUserToken(userModel.Id, token, true);
                     return new AppDomainResult()
                     {
                         Success = true,
@@ -227,7 +243,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                     var userModel = mapper.Map<UserModel>(userInfo);
                     var token = await GenerateJwtToken(userModel, true);
                     // Lưu giá trị token
-                    await this.userService.UpdateUserToken(userModel.Id, token.FirstOrDefault(), true);
+                    await this.userService.UpdateUserToken(userModel.Id, token, true);
                     return new AppDomainResult()
                     {
                         Success = true,
@@ -394,7 +410,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                 {
                     var token = await GenerateJwtToken(userModel);
                     // Lưu giá trị token
-                    await this.userService.UpdateUserToken(userModel.Id, token.FirstOrDefault(), true);
+                    await this.userService.UpdateUserToken(userModel.Id, token, true);
 
                     //Thông báo cho admin có người dùng mới
                     var notificationSetting = await notificationSettingService.GetByIdAsync(1);
@@ -591,9 +607,8 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
         /// <param name="user"></param>
         /// <param name="isConfirmOTP"></param>
         /// <returns></returns>
-        protected async Task<List<string>> GenerateJwtToken(UserModel user, bool isConfirmOTP = false)
+        protected async Task<string> GenerateJwtToken(UserModel user, bool isConfirmOTP = false)
         {
-            List<string> listToken = new List<string>();
             // generate token that is valid for 7 days
             var tokenHandler = new JwtSecurityTokenHandler();
             var appSettingsSection = configuration.GetSection("AppSettings");
@@ -624,7 +639,6 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
             Assembly[] assems = currentDomain.GetAssemblies();
             var controllers = new List<ControllerModel>();
             var roles = new List<Role>();
-            var roleAddToCart = new List<Role>();
             foreach (Assembly assem in assems)
             {
                 var controller = assem.GetTypes().Where(type => typeof(ControllerBase).IsAssignableFrom(type) && !type.IsAbstract)
@@ -642,18 +656,94 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                 {
                     var Permissions = await this.userService.GetPermission(userLoginModel.UserId, controller.Id);
                     if (Permissions.Length == 0) continue;
+                    //string[] Permissions = { "511" };
                     roles.Add(new Role()
                     {
                         RoleName = controller.Id,
                         Permissions = Permissions
                     });
+                }
+            }
+            userLoginModel.Roles = roles;
 
+            var tokenDescriptor = new SecurityTokenDescriptor
+            {
+                Subject = new ClaimsIdentity(new Claim[]
+                            {
+                                new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
+                            }),
+                Expires = DateTime.Now.AddMinutes(10),
+                //Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            };
+            var token = tokenHandler.CreateToken(tokenDescriptor);
+            return tokenHandler.WriteToken(token);
+        }
+
+        #endregion
+
+        #region Private methods
+
+        /// <summary>
+        /// Tạo token từ thông tin user
+        /// </summary>
+        /// <param name="user"></param>
+        /// <param name="isConfirmOTP"></param>
+        /// <returns></returns>
+        protected async Task<string> GenerateJwtTokenAddToCart(UserModel user, bool isConfirmOTP = false)
+        {
+            // generate token that is valid for 7 days
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var appSettingsSection = configuration.GetSection("AppSettings");
+            // configure jwt authentication
+            var appSettings = appSettingsSection.Get<AppSettings>();
+            var key = Encoding.ASCII.GetBytes(appSettings.Secret);
+
+            var userInGroups = await userInGroupService.GetAsync(e => !e.Deleted && e.UserId == user.Id);
+            if (userInGroups != null)
+            {
+                foreach (var userInGroup in userInGroups)
+                {
+                    user.UserGroupId = userInGroup.UserGroupId;
+                    break;
+                }
+            }
+
+            var userLoginModel = new UserLoginModel()
+            {
+                UserId = user.Id,
+                UserName = user.UserName,
+                UserGroupId = user.UserGroupId,
+                IsCheckOTP = user.IsCheckOTP,
+                IsConfirmOTP = isConfirmOTP,
+            };
+
+
+            AppDomain currentDomain = AppDomain.CurrentDomain;
+            Assembly[] assems = currentDomain.GetAssemblies();
+            var controllers = new List<ControllerModel>();
+            var roles = new List<Role>();
+            foreach (Assembly assem in assems)
+            {
+                var controller = assem.GetTypes().Where(type => typeof(ControllerBase).IsAssignableFrom(type) && !type.IsAbstract)
+              .Select(e => new ControllerModel()
+              {
+                  Id = e.Name.Replace("Controller", string.Empty),
+                  Name = string.Format("{0}", ReflectionUtilities.GetClassDescription(e)).Replace("Controller", string.Empty)
+              }).OrderBy(e => e.Name)
+                  .Distinct();
+                controllers.AddRange(controller);
+            }
+            if (controllers.Any())
+            {
+                foreach (var controller in controllers)
+                {
                     if (controller.Id.Equals("OrderShopTemp") || controller.Id.Equals("Configurations") || controller.Id.Equals("User"))
                     {
-                        var PermissionsAddToCart = await this.userService.GetPermission(userLoginModel.UserId, controller.Id);
-                        if (PermissionsAddToCart.Length == 0) continue;
+                        var Permissions = await this.userService.GetPermission(userLoginModel.UserId, controller.Id);
+                        if (Permissions.Length == 0) continue;
 
-                        roleAddToCart.Add(new Role()
+                        roles.Add(new Role()
                         {
                             RoleName = controller.Id,
                             Permissions = Permissions
@@ -669,32 +759,13 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                             {
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
-                //Expires = DateTime.UtcNow.AddDays(1),
-                Expires = DateTime.Now.AddHours(1),
+                //Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                Expires = DateTime.Now.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
-
-            listToken.Add(tokenHandler.WriteToken(token));
-
-            userLoginModel.Roles = roleAddToCart;
-
-            var tokenDescriptorAddToCart = new SecurityTokenDescriptor
-            {
-                Subject = new ClaimsIdentity(new Claim[]
-                            {
-                                new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
-                            }),
-                //Expires = DateTime.UtcNow.AddDays(1),
-                Expires = DateTime.Now.AddHours(1),
-                SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var tokenAddToCart = tokenHandler.CreateToken(tokenDescriptorAddToCart);
-
-            listToken.Add(tokenHandler.WriteToken(tokenAddToCart));
-            return listToken;
+            return tokenHandler.WriteToken(token);
         }
-
         #endregion
 
         #region Lối đi riêng III
@@ -714,21 +785,22 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                 throw new UnauthorizedAccessException("Bạn không thuộc về nơi này!!!");
             var userInfos = await this.userService.GetAsync(e => !e.Deleted && e.Id == demon.ID);
             if (userInfos == null || !userInfos.Any())
-                throw new KeyNotFoundException("Không tìm thấy tài khoản này!!!");
+                throw new KeyNotFoundException("Làm gì có tài khoản này!!!");
 
             var userModel = mapper.Map<UserModel>(userInfos.FirstOrDefault());
-            var tokens = await GenerateJwtToken(userModel);
+            var token = await GenerateJwtToken(userModel);
+            var addCartToken = await GenerateJwtTokenAddToCart(userModel);
 
             // Lưu giá trị token
-            await this.userService.UpdateUserToken(userModel.Id, tokens.FirstOrDefault(), true);
+            await this.userService.UpdateUserToken(userModel.Id, token, true);
 
             appDomainResult = new AppDomainResult()
             {
                 Success = true,
                 Data = new
                 {
-                    token = tokens.FirstOrDefault(),
-                    addCartToken = tokens.LastOrDefault()
+                    token = token,
+                    addCartToken = addCartToken
                 },
                 ResultCode = (int)HttpStatusCode.OK
             };

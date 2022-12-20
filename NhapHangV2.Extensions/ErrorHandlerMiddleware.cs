@@ -85,7 +85,7 @@ namespace NhapHangV2.Extensions
                 var result = new AppDomainResult()
                 {
                     ResultCode = context.Response.StatusCode,
-                    ResultMessage = error.Message,
+                    ResultMessage = error?.Message,
                     Success = false
                 }.ToString();
 

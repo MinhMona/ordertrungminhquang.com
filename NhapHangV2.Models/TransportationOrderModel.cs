@@ -185,6 +185,12 @@ namespace NhapHangV2.Models
         public decimal? FeeWeightPerKg { get; set; } = 0;
 
         /// <summary>
+        /// % phí cân nặng chiết khấu
+        /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? FeeWeightCK { get; set; }
+
+        /// <summary>
         /// Phí vận chuyển(VNĐ)
         /// </summary>
         [Column(TypeName = "decimal(18,0)")]

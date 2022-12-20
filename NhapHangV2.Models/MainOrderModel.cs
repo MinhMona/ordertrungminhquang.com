@@ -53,7 +53,7 @@ namespace NhapHangV2.Models
                     case (int)StatusOrderContants.ChoThanhToan:
                         return "Chờ thanh toán";
                     case (int)StatusOrderContants.KhachDaThanhToan:
-                        return "Khách đã thanh toán";
+                        return "Đã thanh toán";
                     case (int)StatusOrderContants.DaHoanThanh:
                         return "Đã hoàn thành";
                     case (int)StatusOrderContants.DaKhieuNai:

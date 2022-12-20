@@ -148,6 +148,12 @@ namespace NhapHangV2.Entities
         public decimal? FeeWeightPerKg { get; set; } = 0;
 
         /// <summary>
+        /// % phí cân nặng chiết khấu
+        /// </summary>
+        [Column(TypeName = "decimal(18,2)")]
+        public decimal? FeeWeightCK { get; set; }
+
+        /// <summary>
         /// Phí lưu kho
         /// </summary>
         [Column(TypeName = "decimal(18,0)")]
@@ -241,5 +247,6 @@ namespace NhapHangV2.Entities
         /// ID Saler tạo dùm
         /// </summary>
         public int? SalerID { get; set; }
+        
     }
 }

@@ -186,8 +186,6 @@ namespace NhapHangV2.API.Controllers.Catalogue
             if (ModelState.IsValid)
             {
                 PagedList<CustomerBenefits> pagedData = await customerBenefitsService.GetPagedListData(baseSearch);
-                pagedData.Items = pagedData.Items.AsQueryable().Where(x => x.ItemType == baseSearch.Type).ToList();
-                pagedData.TotalItem = pagedData.Items.Count;
                 PagedList<CustomerBenefitsModel> pagedDataModel = mapper.Map<PagedList<CustomerBenefitsModel>>(pagedData);
                 appDomainResult = new AppDomainResult
                 {
