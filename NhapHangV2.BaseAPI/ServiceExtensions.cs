@@ -78,6 +78,7 @@ namespace NhapHangV2.BaseAPI
             services.AddScoped<IStepService, StepService>();
             services.AddScoped<IWarehouseFromService, WarehouseFromService>();
             services.AddScoped<IWarehouseService, WarehouseService>();
+            services.AddScoped<ICustomerTalkService, CustomerTalkService>();
 
             #endregion
 
