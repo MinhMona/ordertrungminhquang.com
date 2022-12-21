@@ -641,16 +641,12 @@ namespace NhapHangV2.Service.Services
                                     await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, transportationOrder.Id.ToString(), $"/manager/deposit/deposit-list/{transportationOrder.Id}", $"/user/deposit-list", transportationOrder.UID, string.Empty, string.Empty);
                                 }
 
-                                //Kiêm tra nếu tất cả mã vận đơn trong bao lớn đã về VN thì đổi trạng thái đã về VN
+                                //Kiêm tra nếu 1 mã vận đơn trong bao lớn đã về VN thì đổi trạng thái đã về VN
                                 if (item.BigPackageId != null && item.BigPackageId > 0)
                                 {
                                     var bigPackage = await unitOfWork.CatalogueRepository<BigPackage>().GetQueryable().FirstOrDefaultAsync(x => x.Id == item.BigPackageId);
-                                    var smallPackagesOfBigpackage = await unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.BigPackageId == bigPackage.Id).ToListAsync();
-                                    if (!smallPackagesOfBigpackage.Any(x => x.Status > 0 && x.Status < 3))
-                                    {
-                                        bigPackage.Status = (int)StatusBigPackage.DaNhanHang;
-                                        unitOfWork.Repository<BigPackage>().Update(bigPackage);
-                                    }
+                                    bigPackage.Status = (int)StatusBigPackage.DaNhanHang;
+                                    unitOfWork.Repository<BigPackage>().Update(bigPackage);
                                 }
                                 break;
                             default:
