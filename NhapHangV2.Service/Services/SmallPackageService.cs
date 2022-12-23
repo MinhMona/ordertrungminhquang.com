@@ -736,6 +736,9 @@ namespace NhapHangV2.Service.Services
                 var catalogueMappers = new ExcelMapper(stream) { HeaderRow = false, MinRowNumber = 1 }.Fetch<SmallPackageMapper>().ToList();
                 if (catalogueMappers == null || !catalogueMappers.Any()) throw new Exception("Sheet không có dữ liệu");
 
+                int duplicateCount = 0;
+                HashSet<string> checkSet = new HashSet<string>();
+                int updateCount = 0;
                 foreach (var catalogueMapper in catalogueMappers)
                 {
                     string orderTransactionCode = catalogueMapper.OrderTransactionCode;
@@ -747,10 +750,22 @@ namespace NhapHangV2.Service.Services
                         smallPackage.BigPackageId = bigPackageId;
                         smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
                         smallPackage.DateInTQWarehouse = currentDate;
+                        if (!checkSet.Add(catalogueMapper.OrderTransactionCode))
+                        {
+                            duplicateCount++;
+                        }
+                        else
+                        {
+                            updateCount++;
+                        }
                     }
                     //Tạo mã vận đơn mới
                     if (smallPackage == null)
                     {
+                        if (!checkSet.Add(catalogueMapper.OrderTransactionCode))
+                        {
+                            duplicateCount++;
+                        }
                         smallPackage = new SmallPackage();
                         smallPackage.OrderTransactionCode = orderTransactionCode;
                         smallPackage.IsTemp = true;
@@ -807,7 +822,9 @@ namespace NhapHangV2.Service.Services
                 {
                     TotalSuccess = totalSuccess,
                     TotalFailed = failedResult.Count,
-                    FailedResult = failedResult
+                    FailedResult = failedResult,
+                    TotalUpdate = updateCount,
+                    TotalDuplicate = duplicateCount
                 };
                 appDomainImportResult.Success = true;
                 return appDomainImportResult;

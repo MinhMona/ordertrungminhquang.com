@@ -40,12 +40,13 @@ namespace NhapHangV2.API.Controllers
         public override async Task<AppDomainResult> DeleteItem(int id)
         {
             AppDomainResult appDomainResult = new AppDomainResult();
-
+            var item = await this.domainService.GetByIdAsync(id);
             bool success = await this.domainService.DeleteAsync(id);
             if (success)
             {
                 appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                 appDomainResult.Success = success;
+                appDomainResult.Data = mapper.Map<OrderShopTempModel>(await orderShopTempService.GetByIdAsync(item.OrderShopTempId ?? 0));
             }
             else
                 throw new Exception("Lỗi trong quá trình xử lý");
