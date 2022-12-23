@@ -788,6 +788,7 @@ namespace NhapHangV2.Service.Services
             //Cập nhật thông tin của đơn hàng
             if (item.Status == (int)StatusOrderContants.Huy)
             {
+                item.CancelDate = currentDate;
                 if (item.Deposit > 0)
                 {
                     //Cập nhật số tiền trong account
@@ -913,34 +914,69 @@ namespace NhapHangV2.Service.Services
             item.FeeWeightCK = ckFeeWeight;
             decimal? totalWeight = smallPackages.Sum(e => e.PayableWeight);
 
-            //Fix lấy warehouseFee 
-            var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable()
-                .Where(e => !e.Deleted &&
-                e.WarehouseFromId == item.FromPlace &&
-                e.WarehouseId == item.ReceivePlace &&
-                e.ShippingTypeToWareHouseId == item.ShippingType &&
-                e.IsHelpMoving == false &&
-                (e.WeightFrom < totalWeight && e.WeightTo >= totalWeight)).FirstOrDefaultAsync();
+            #region Tính phí vận chuyển của tổng cân nặng
+            ////Fix lấy warehouseFee 
+            //var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable()
+            //    .Where(e => !e.Deleted &&
+            //    e.WarehouseFromId == item.FromPlace &&
+            //    e.WarehouseId == item.ReceivePlace &&
+            //    e.ShippingTypeToWareHouseId == item.ShippingType &&
+            //    e.IsHelpMoving == false &&
+            //    (e.WeightFrom < totalWeight && e.WeightTo >= totalWeight)).FirstOrDefaultAsync();
 
-            decimal? warehouseFeePrice = warehouseFee == null ? 1 : warehouseFee.Price;
+            //decimal? warehouseFeePrice = warehouseFee == null ? 1 : warehouseFee.Price;
 
-            decimal? feeWeight = 0;
-            if (user.FeeTQVNPerWeight > 0)
+            //decimal? feeWeight = 0;
+            //if (user.FeeTQVNPerWeight > 0)
+            //{
+            //    feeWeight = totalWeight * user.FeeTQVNPerWeight;
+            //    smallPackages.ForEach(e => { e.PriceWeight = user.FeeTQVNPerWeight; e.DonGia = user.FeeTQVNPerWeight; e.TotalPrice = totalWeight * warehouseFeePrice; });
+            //}
+            //else
+            //{
+            //    feeWeight = totalWeight * warehouseFeePrice;
+            //    smallPackages.ForEach(e => { e.PriceWeight = warehouseFeePrice; e.DonGia = warehouseFeePrice; e.TotalPrice = totalWeight * warehouseFeePrice; });
+            //}
+            #endregion
+            #region Tính phí vận chuyển của từng mã vận đơn rồi cộng lại
+            decimal? totalFeeWeight = 0;
+            foreach (var smallPackage in smallPackages)
             {
-                feeWeight = totalWeight * user.FeeTQVNPerWeight;
-                smallPackages.ForEach(e => { e.PriceWeight = user.FeeTQVNPerWeight; e.DonGia = user.FeeTQVNPerWeight; e.TotalPrice = totalWeight * warehouseFeePrice; });
-            }
-            else
-            {
-                feeWeight = totalWeight * warehouseFeePrice;
-                smallPackages.ForEach(e => { e.PriceWeight = warehouseFeePrice; e.DonGia = warehouseFeePrice; e.TotalPrice = totalWeight * warehouseFeePrice; });
-            }
+                decimal? payableWeight = smallPackage.PayableWeight;
+                decimal? feeWeight = 0;
 
-            decimal? feeWeightDiscount = feeWeight * ckFeeWeight / 100;
-            feeWeight -= feeWeightDiscount;
+                var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable()
+                    .Where(e => !e.Deleted &&
+                    e.WarehouseFromId == item.FromPlace &&
+                    e.WarehouseId == item.ReceivePlace &&
+                    e.ShippingTypeToWareHouseId == item.ShippingType &&
+                    e.IsHelpMoving == false &&
+                    (e.WeightFrom < payableWeight && e.WeightTo >= payableWeight)).FirstOrDefaultAsync();
+
+                decimal? warehouseFeePrice = warehouseFee == null ? 1 : warehouseFee.Price;
+
+                if (user.FeeTQVNPerWeight > 0)
+                {
+                    feeWeight = payableWeight * user.FeeTQVNPerWeight;
+                    smallPackage.PriceWeight = user.FeeTQVNPerWeight;
+                    smallPackage.DonGia = user.FeeTQVNPerWeight;
+                    smallPackage.TotalPrice = feeWeight;
+                }
+                else
+                {
+                    feeWeight = payableWeight * warehouseFeePrice;
+                    smallPackage.PriceWeight = warehouseFeePrice;
+                    smallPackage.DonGia = warehouseFeePrice;
+                    smallPackage.TotalPrice = payableWeight * warehouseFeePrice;
+                }
+                totalFeeWeight += feeWeight;
+            }
+            #endregion
+            decimal? feeWeightDiscount = totalFeeWeight * ckFeeWeight / 100;
+            totalFeeWeight -= feeWeightDiscount;
 
             item.TQVNWeight = item.OrderWeight = Math.Round(totalWeight.Value, 2);
-            item.FeeWeight = Math.Round(feeWeight.Value, 2);
+            item.FeeWeight = Math.Round(totalFeeWeight.Value, 2);
 
             decimal? totalPriceVNDFn = 0;
             if (item.FeeWeight != null) totalPriceVNDFn += item.FeeWeight;

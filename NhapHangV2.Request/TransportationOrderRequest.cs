@@ -133,6 +133,12 @@ namespace NhapHangV2.Request
         /// ID Saler tạo dùm
         /// </summary>
         public int? SalerID { get; set; }
+
+        /// <summary>
+        /// Ghi chú hủy đơn
+        /// </summary>
+        public string? CancelReason { get; set; }
+
     }
 
     //public class ShippingOrder

@@ -164,6 +164,8 @@ namespace NhapHangV2.Service.Services
                         item.IsInsurance = mainOrder.IsInsurance;
 
                         listSmallPackageNew.Add(item);
+                        unitOfWork.Repository<MainOrder>().Detach(mainOrder);
+
                     }
                     else if (trans != null) //Đơn hàng vận chuyển hộ (Ký gửi)
                     {
@@ -189,6 +191,8 @@ namespace NhapHangV2.Service.Services
                         item.OrderType = 2;
 
                         listSmallPackageNew.Add(item);
+                        unitOfWork.Repository<TransportationOrder>().Detach(trans);
+
                     }
                     else //Kiện trôi nổi
                     {
@@ -647,6 +651,8 @@ namespace NhapHangV2.Service.Services
                                     var bigPackage = await unitOfWork.CatalogueRepository<BigPackage>().GetQueryable().FirstOrDefaultAsync(x => x.Id == item.BigPackageId);
                                     bigPackage.Status = (int)StatusBigPackage.DaNhanHang;
                                     unitOfWork.Repository<BigPackage>().Update(bigPackage);
+                                    await unitOfWork.SaveAsync();
+                                    unitOfWork.Repository<BigPackage>().Detach(bigPackage);
                                 }
                                 break;
                             default:

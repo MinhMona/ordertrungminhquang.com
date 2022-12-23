@@ -271,8 +271,11 @@ namespace NhapHangV2.API.Controllers
             if (string.IsNullOrEmpty(note))
                 throw new AppException("Chưa nhập lý do hủy đơn hàng");
             var trans = await this.domainService.GetByIdAsync(id);
-            if (!(await smallPackageService.DeleteAsync(trans.SmallPackageId ?? 0)))
-                throw new AppException("Xóa mã vận đơn thất bại");
+            if (trans.SmallPackageId != null && trans.SmallPackageId > 0)
+            {
+                if (!(await smallPackageService.DeleteAsync(trans.SmallPackageId ?? 0)))
+                    throw new AppException("Xóa mã vận đơn thất bại");
+            }
             // Kiểm tra item có tồn tại chưa?
             var messageUserCheck = await this.domainService.GetExistItemMessage(trans);
             if (!string.IsNullOrEmpty(messageUserCheck))
@@ -570,8 +573,9 @@ namespace NhapHangV2.API.Controllers
                     if (priceWeight != transportationOrder.DeliveryPrice)
                     {
                         smallPackage.PriceWeight = priceWeight;
-                        totalVND += priceWeight;
                     }
+                    totalVND += priceWeight;
+
                 }
                 else
                 {

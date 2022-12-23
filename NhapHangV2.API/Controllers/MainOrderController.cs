@@ -406,7 +406,7 @@ namespace NhapHangV2.API.Controllers
                 decimal feebuypropt = 0;
                 if (users.FeeBuyPro > 0)
                 {
-                    feebpnotdc = priceVND * users.FeeBuyPro ?? 0 / 100;
+                    feebpnotdc = priceVND * (users.FeeBuyPro ?? 0) / 100;
                     feebuypropt = users.FeeBuyPro ?? 0;
                 }
                 else
@@ -907,9 +907,6 @@ namespace NhapHangV2.API.Controllers
                     //Tổng số tiền mua thật
                     if (itemModel.TotalPriceRealCNY != item.TotalPriceRealCNY)
                     {
-                        if (itemModel.TotalPriceRealCNY > itemModel.PriceCNY)
-                            throw new AppException("Số tiền mua thật lớn hơn số tiền trên web");
-
                         itemModel.TotalPriceReal = itemModel.TotalPriceRealCNY * itemModel.CurrentCNYVN;
                         if (itemModel.TotalPriceReal != item.TotalPriceReal)
                         {
@@ -933,10 +930,6 @@ namespace NhapHangV2.API.Controllers
                     }
 
                     //Phí ship TQ thật
-                    if (itemModel.FeeShipCNRealCNY != item.FeeShipCNRealCNY && itemModel.FeeShipCNRealCNY > itemModel.FeeShipCNCNY)
-                    {
-                        throw new AppException("Phí ship Trung Quốc thật lớn hơn phí ship Trung Quốc");
-                    }
                     itemModel.FeeShipCNReal = itemModel.FeeShipCNRealCNY * itemModel.CurrentCNYVN;
                     if (itemModel.FeeShipCNReal != item.FeeShipCNReal)
                     {
