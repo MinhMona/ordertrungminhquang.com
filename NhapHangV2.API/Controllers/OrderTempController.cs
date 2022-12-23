@@ -35,6 +35,24 @@ namespace NhapHangV2.API.Controllers
             orderShopTempService = serviceProvider.GetRequiredService<IOrderShopTempService>();
         }
 
+        [HttpDelete("{id}")]
+        [AppAuthorize(new int[] { CoreContants.Delete })]
+        public override async Task<AppDomainResult> DeleteItem(int id)
+        {
+            AppDomainResult appDomainResult = new AppDomainResult();
+
+            bool success = await this.domainService.DeleteAsync(id);
+            if (success)
+            {
+                appDomainResult.ResultCode = (int)HttpStatusCode.OK;
+                appDomainResult.Success = success;
+            }
+            else
+                throw new Exception("Lỗi trong quá trình xử lý");
+
+            return appDomainResult;
+        }
+
         /// <summary>
         /// Cập nhật thông tin item
         /// </summary>

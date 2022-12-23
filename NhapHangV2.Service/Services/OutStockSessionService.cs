@@ -334,6 +334,9 @@ namespace NhapHangV2.Service.Services
                                 var mainOrder = await mainOrderService.GetByIdAsync(smallPackage.MainOrderId ?? 0);
                                 if (mainOrder != null && !mainOrderIds.Contains(mainOrder.Id))
                                     mainOrderIds.Add(mainOrder.Id);
+                                if (mainOrder != null)
+                                    unitOfWork.Repository<MainOrder>().Detach(mainOrder);
+
                                 var transOrder = await transportationOrderService.GetByIdAsync(smallPackage.TransportationOrderId ?? 0);
                                 if (mainOrder == null && transOrder == null)
                                     throw new KeyNotFoundException("Không tìm thấy Đơn mua hộ và đơn ký gửi");
@@ -353,6 +356,7 @@ namespace NhapHangV2.Service.Services
                                 unitOfWork.Repository<SmallPackage>().Update(smallPackage);
                                 await unitOfWork.SaveAsync();
                             }
+
                             foreach (var moId in mainOrderIds)
                             {
                                 var mo = await mainOrderService.GetByIdAsync(moId);
@@ -361,20 +365,10 @@ namespace NhapHangV2.Service.Services
                                 await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
                                 {
                                     MainOrderId = mo.Id,
-                                    UID = user.Id,
+                                    UID = LoginContext.Instance.CurrentUser.UserId,
                                     HistoryContent = String.Format("{0} đã đổi trạng thái của đơn hàng ID là: {1} từ: Đã về kho đích, sang: Khách đã thanh toán.", userName, mo.Id),
                                     Type = (int?)TypeHistoryOrderChange.TienDatCoc
                                 });
-
-                                mo.Status = (int?)StatusOrderContants.KhachDaThanhToan;
-                                mo.Deposit = mo.TotalPriceVND;
-                                mo.PayDate = currentDate;
-
-                                //if (mo.SmallPackages.Where(e => e.Status > (int)StatusSmallPackage.DaThanhToan).Any())
-                                //{
-                                //    mainOrder.Status = (int?)StatusOrderContants.DaHoanThanh;
-                                //    mainOrder.CompleteDate = currentDate;
-                                //}
 
                                 //Lịch sử thanh toán mua hộ
                                 await unitOfWork.Repository<PayOrderHistory>().CreateAsync(new PayOrderHistory()
@@ -385,6 +379,10 @@ namespace NhapHangV2.Service.Services
                                     Amount = mo.TotalPriceVND - mo.Deposit,
                                     Type = (int?)DauCongVaTru.Tru
                                 });
+
+                                mo.Status = (int?)StatusOrderContants.KhachDaThanhToan;
+                                mo.Deposit = mo.TotalPriceVND;
+                                mo.PayDate = currentDate;
 
                                 //Detach
                                 unitOfWork.Repository<MainOrder>().Update(mo);
@@ -491,6 +489,14 @@ namespace NhapHangV2.Service.Services
                         continue;
                     else
                     {
+                        //Lịch sử đơn hàng thay đổi
+                        await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
+                        {
+                            MainOrderId = mainOrder.Id,
+                            UID = LoginContext.Instance.CurrentUser.UserId,
+                            HistoryContent = String.Format("{0} đã đổi trạng thái của đơn hàng ID là: {1} từ: Khách đã thanh toán, sang: Đã hoàn thành.", LoginContext.Instance.CurrentUser.UserName, mainOrder.Id),
+                            Type = (int?)TypeHistoryOrderChange.TienDatCoc
+                        });
                         mainOrder.Status = (int)StatusOrderContants.DaHoanThanh;
                         unitOfWork.Repository<MainOrder>().Update(mainOrder);
                     }

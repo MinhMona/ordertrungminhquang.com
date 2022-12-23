@@ -495,6 +495,11 @@ namespace NhapHangV2.Models
         public DateTime? CompleteDate { get; set; }
 
         /// <summary>
+        /// Ngày hủy
+        /// </summary>
+        public DateTime? CancelDate { get; set; }
+
+        /// <summary>
         /// Ngày dự kiến
         /// </summary>
         public DateTime? ExpectedDate { get; set; }
