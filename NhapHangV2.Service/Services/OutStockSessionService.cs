@@ -295,6 +295,8 @@ namespace NhapHangV2.Service.Services
                                 {
                                     UID = item.UID,
                                     Amount = totalMustPay,
+                                    Updated = DateTime.UtcNow.AddHours(7),
+                                    UpdatedBy = userName,
                                     Status = (int)WalletStatus.DaDuyet,
                                     BankId = 100, //Đặt đại
                                     TradeContent = string.Format("{0} đã được nạp tiền vào tài khoản", user.UserName),
