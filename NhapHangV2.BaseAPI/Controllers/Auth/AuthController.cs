@@ -673,7 +673,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
                 //Expires = DateTime.Now.AddMinutes(10),
-                Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                Expires = DateTime.UtcNow.AddHours(7).AddMinutes(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -759,7 +759,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                             {
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
-                Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                Expires = DateTime.UtcNow.AddHours(7).AddMinutes(3),
                 //Expires = DateTime.Now.AddMinutes(10),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
