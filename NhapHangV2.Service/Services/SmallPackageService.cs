@@ -1064,7 +1064,7 @@ namespace NhapHangV2.Service.Services
                     {
                         if (OrderID > 0)
                             smallPackages = await this.GetAsync(x => !x.Deleted && x.Active
-                                && (x.MainOrderId == mainOrder.Id)
+                                && (x.MainOrderId == mainOrder.Id )
                             );
                         else
                             smallPackages = await this.GetAsync(x => !x.Deleted && x.Active
@@ -1168,7 +1168,7 @@ namespace NhapHangV2.Service.Services
                     else
                     {
                         smallPackages = await this.GetAsync(x => !x.Deleted && x.Active
-                            && (x.UID == user.Id && (x.Status == 3 || x.Status == 4))
+                            && (x.UID == user.Id && x.Status == 3 )
                         );
 
                         foreach (var smallPackage in smallPackages)
