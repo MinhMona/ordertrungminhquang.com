@@ -49,7 +49,7 @@ namespace NhapHangV2.Extensions
             }
             var expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(context.HttpContext.User.Claims.ElementAt(2).Value)).DateTime;
 
-            if ((DateTime.UtcNow.AddHours(7)) > expirationTime)
+            if ((DateTime.UtcNow.AddHours(7).AddMinutes(1)) > expirationTime)
             {
                 context.Result = new JsonResult(new AppDomainResult()
                 {
