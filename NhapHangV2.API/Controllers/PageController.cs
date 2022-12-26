@@ -8,6 +8,7 @@ using NhapHangV2.Entities;
 using NhapHangV2.Entities.DomainEntities;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services;
+using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Models;
 using NhapHangV2.Request;
 using NhapHangV2.Service.Services;
@@ -30,10 +31,12 @@ namespace NhapHangV2.API.Controllers
     {
         protected readonly IConfiguration configuration;
         protected readonly IPageService pageService;
-        public PageController(IServiceProvider serviceProvider, ILogger<BaseController<Page, PageModel, PageRequest, CatalogueSearch>> logger, IWebHostEnvironment env, IConfiguration configuration) : base(serviceProvider, logger, env)
+        protected readonly IPageTypeService pageTypeService;
+        public PageController(IServiceProvider serviceProvider, ILogger<BaseController<Page, PageModel, PageRequest, CatalogueSearch>> logger, IWebHostEnvironment env, IConfiguration configuration, IPageTypeService pageTypeService) : base(serviceProvider, logger, env)
         {
             this.configuration = configuration;
             this.domainService = this.serviceProvider.GetRequiredService<IPageService>();
+            this.pageTypeService = pageTypeService;
             pageService = serviceProvider.GetRequiredService<IPageService>();
         }
 
@@ -82,6 +85,8 @@ namespace NhapHangV2.API.Controllers
             if (ModelState.IsValid)
             {
                 itemModel.Code = AppUtilities.RemoveUnicode(itemModel.Title).ToLower().Replace(" ", "-");
+                var pageType = await pageTypeService.GetByIdAsync(Convert.ToInt32(itemModel.PageTypeId));
+                itemModel.Code = pageType.Code + "/" + itemModel.Code;
                 var item = mapper.Map<Page>(itemModel);
                 if (item != null)
                 {
