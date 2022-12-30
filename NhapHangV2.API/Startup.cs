@@ -205,6 +205,8 @@ namespace NhapHangV2.API
                 RequestPath = "/Excels",
             });
 
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
             app.UseStaticHttpContext();
 
             app.UseSession();
@@ -214,9 +216,13 @@ namespace NhapHangV2.API
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            
+
             app.UseAuthorization();
 
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 
@@ -226,13 +232,16 @@ namespace NhapHangV2.API
             {
                 c.SwaggerEndpoint("../swagger/v1/swagger.json", "NhapHangV2");
                 c.InjectStylesheet("../css/swagger.min.css");
-                c.RoutePrefix = string.Empty;
+                c.RoutePrefix = "docs";
             });
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
                 endpoints.MapHub<DomainHub>("/hubs").RequireCors(SignalROrigins);
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

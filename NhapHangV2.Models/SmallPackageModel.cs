@@ -10,6 +10,12 @@ namespace NhapHangV2.Models
 {
     public class SmallPackageModel : AppDomainModel
     {
+
+        /// <summary>
+        /// Trạng thái thanh toán
+        /// </summary>
+        public bool? IsPayment { get; set; }
+
         /// <summary>
         /// UID (SmallPackage = MainOrder = TransportationOrder)
         /// </summary>

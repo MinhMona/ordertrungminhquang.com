@@ -62,7 +62,7 @@ namespace NhapHangV2.API.Controllers
             if (ModelState.IsValid)
             {
                 PagedList<OrderShopTemp> pagedData = await this.domainService.GetPagedListData(baseSearch);
-                pagedData = await orderShopTempService.DeleteOrderShopTempAfter30days(pagedData);
+                pagedData = await orderShopTempService.DeleteOrderShopTempAfterDays(pagedData);
                 PagedList<OrderShopTempModel> pagedDataModel = mapper.Map<PagedList<OrderShopTempModel>>(pagedData);
 
                 appDomainResult = new AppDomainResult
