@@ -138,6 +138,10 @@ namespace NhapHangV2.Service.Services
                         }
 
                         item.TotalPay = totalPay;
+                        if (totalPay == 0)
+                        {
+                            item.Status = 2;
+                        }
                         unitOfWork.Repository<OutStockSession>().Update(item);
                         await unitOfWork.SaveAsync();
                         await dbContextTransaction.CommitAsync();
@@ -190,8 +194,11 @@ namespace NhapHangV2.Service.Services
                         {
                             var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(e => !e.Deleted && e.Id == smallPackage.MainOrderId).FirstOrDefaultAsync();
                             decimal? totalMustPay = mainOrder.TotalPriceVND + mainOrder.FeeInWareHouse;
-                            if (smallPackage.Status == (int)StatusSmallPackage.DaThanhToan || smallPackage.Status == (int)StatusSmallPackage.DaGiao)
-                                outStockPackage.IsPayment = true;
+                            if (smallPackage.IsPayment != null)
+                            {
+                                if (smallPackage.IsPayment.Value)
+                                    outStockPackage.IsPayment = true;
+                            }
                             //if (totalMustPay <= mainOrder.Deposit)
                             //    outStockPackage.IsPayment = true;
                             //else

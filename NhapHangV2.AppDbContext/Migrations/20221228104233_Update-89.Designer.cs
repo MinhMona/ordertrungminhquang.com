@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NhapHangV2.AppDbContext;
 
 namespace NhapHangV2.AppDbContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221228104233_Update-89")]
+    partial class Update89
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1034,9 +1036,6 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
 
@@ -1091,9 +1090,6 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Code")
                         .HasColumnType("nvarchar(max)");
@@ -1614,9 +1610,6 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.Property<decimal?>("PriceSendDefaultSG")
                         .HasColumnType("decimal(18,0)");
-
-                    b.Property<int>("RemoveCartDay")
-                        .HasColumnType("int");
 
                     b.Property<string>("RestAPIKey")
                         .HasColumnType("nvarchar(max)");
@@ -3689,9 +3682,6 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsLost")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("IsPayment")
                         .HasColumnType("bit");
 
                     b.Property<bool?>("IsTemp")
