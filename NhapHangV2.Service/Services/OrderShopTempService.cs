@@ -8,6 +8,8 @@ using NhapHangV2.Entities.Search;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.DbContext;
 using NhapHangV2.Interface.Services;
+using NhapHangV2.Interface.Services.Catalogue;
+using NhapHangV2.Interface.Services.Configuration;
 using NhapHangV2.Interface.UnitOfWork;
 using NhapHangV2.Service.Services.DomainServices;
 using NhapHangV2.Utilities;
@@ -23,6 +25,7 @@ namespace NhapHangV2.Service.Services
     public class OrderShopTempService : DomainService<OrderShopTemp, OrderShopTempSearch>, IOrderShopTempService
     {
         protected readonly IAppDbContext Context;
+
         public OrderShopTempService(IServiceProvider serviceProvider, IAppUnitOfWork unitOfWork, IMapper mapper, IAppDbContext Context) : base(unitOfWork, mapper)
         {
             this.Context = Context;
