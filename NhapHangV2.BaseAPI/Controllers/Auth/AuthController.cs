@@ -681,8 +681,8 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                             {
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
-                //Expires = DateTime.UtcNow.AddDays(1),
-                Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.UtcNow.AddDays(1),
+                //Expires = DateTime.Now.AddHours(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenAddToCart = tokenHandler.CreateToken(tokenDescriptorAddToCart);
