@@ -22,5 +22,7 @@ namespace NhapHangV2.Interface.Services
         
         Task<bool> IsInUserGroup(int userId, string userGroupCode);
         Task<Users> GetUserByIdAndGroupId(int UID, int groupId);
+
+        Task<Users> GetUserByFireBaseIdToken(string idToken);
     }
 }
