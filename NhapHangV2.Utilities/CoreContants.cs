@@ -30,25 +30,6 @@ namespace NhapHangV2.Utilities
 
         public const string GET_TOTAL_NOTIFICATION = "get-total-notification";
 
-        //Url thông báo user
-        public const string Add_Product_Success = "/user/cart";
-        public const string Complain_List = "/user/report";
-        public const string Detail_MainOrder = "/user/order-list/detail?id={0}";
-        public const string Detail_Payhelp = "/user/request-list/detail?id={0}";
-        public const string Detail_Transportorder = "/user/deposit-list";
-        public const string Transaction_History = "/user/history-transaction-vnd";
-        public const string Widthdraw_History = "/user/withdrawal-vnd";
-        public const string Recharge_History = "/user/recharge-vnd";
-        //Url thông báo manager
-        public const string New_Contact_Admin = "/manager/contact";
-        public const string New_User_Admin = "/manager/client/client-list/detail?id={0}";
-        public const string Complain_Admin = "/manager/order/complain-list";
-        public const string Detail_MainOrder_Admin = "/manager/order/order-list/detail?id={0}";
-        public const string Detail_Payhelp_Admin = "/manager/order/request-payment/detail?id={0}";
-        public const string Detail_Transportorder_Admin = "/manager/deposit/deposit-list/detail?id={0}";
-        public const string Add_Money_Admin = "/manager/money/recharge-history";
-        public const string Sub_Money_Admin = "/manager/money/withdrawal-history";
-
         /// <summary>
         /// Trạng thái của hoa hồng
         /// </summary>

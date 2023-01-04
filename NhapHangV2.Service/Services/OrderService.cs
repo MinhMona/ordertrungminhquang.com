@@ -231,8 +231,7 @@ namespace NhapHangV2.Service.Services
                             var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("UCNMDH");
                             string subject = emailTemplate.Subject;
                             string emailContent = string.Format(emailTemplate.Body);
-                            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", String.Format(Detail_MainOrder,item.Id), item.UID, subject, emailContent);
-                            //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
+                            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
 
                             mainOrder.Deposit = mainOrder.AmountDeposit;
                         }

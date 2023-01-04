@@ -169,8 +169,7 @@ namespace NhapHangV2.Service.Services
                         var emailTemplateTQ = await sMSEmailTemplateService.GetByCodeAsync("UTTHBH");
                         string subjectTQ = emailTemplateTQ.Subject;
                         string emailContentTQ = string.Format(emailTemplateTQ.Body);
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), String.Format(Detail_MainOrder_Admin,model.Id), String.Format(Detail_MainOrder,model.Id), userRequest.Id, string.Empty, string.Empty);
-                        //await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), $"/manager/order/order-list/{model.Id}", $"/user/order-list/{model.Id}", userRequest.Id, string.Empty, string.Empty);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), $"/manager/order/order-list/{model.Id}", $"/user/order-list/{model.Id}", userRequest.Id, string.Empty, string.Empty);
                     }
                     break;
                 case (int)StatusPayHelp.ChuaThanhToan:
@@ -242,15 +241,12 @@ namespace NhapHangV2.Service.Services
                         var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADTTTTH");
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body);
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, model.Id.ToString(),
-                            String.Format(Detail_Payhelp_Admin, model.Id), String.Format(Detail_Payhelp, model.Id), userRequest.Id, subject, emailContent);
-                        //await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, model.Id.ToString(), $"/manager/order/request-payment/{model.Id}", $"/user/request-list/{model.Id}", userRequest.Id, subject, emailContent);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, model.Id.ToString(), $"/manager/order/request-payment/{model.Id}", $"/user/request-list/{model.Id}", userRequest.Id, subject, emailContent);
 
                         //Thông báo cho Admin và manager
                         var notiTemplateAdmin = await notificationTemplateService.GetByIdAsync(21);
                         notiTemplateAdmin.Content = user.UserName + "đã trả tiền thanh toán hộ cho đơn: {0}";
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateAdmin, model.Id.ToString(),
-                            String.Format(Detail_Payhelp_Admin, model.Id), String.Format(Detail_Payhelp, model.Id), null, subject, emailContent);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateAdmin, model.Id.ToString(), $"/manager/order/request-payment/{model.Id}", $"/order/request-payment/{model.Id}", null, subject, emailContent);
                     }
                     break;
                 case (int)StatusPayHelp.DaHoanThanh:
@@ -347,8 +343,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ACDTTHM");
                     string subject = emailTemplate.Subject;
                     string emailContent = string.Format(emailTemplate.Body);
-                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), String.Format(Detail_Payhelp_Admin,item.Id), "", null, string.Empty, string.Empty);
-                    //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/manager/order/request-payment/{item.Id}", "", null, string.Empty, string.Empty);
+                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/manager/order/request-payment/{item.Id}", "", null, string.Empty, string.Empty);
 
                     await unitOfWork.SaveAsync();
                     await dbContextTransaction.CommitAsync();

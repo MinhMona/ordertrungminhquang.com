@@ -211,8 +211,7 @@ namespace NhapHangV2.Service.Services
                                 var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDC");
                                 string subject = emailTemplate.Subject;
                                 string emailContent = string.Format(emailTemplate.Body);
-                                await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), "", null, subject, emailContent);
-                                //await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
+                                await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
                             }
                             break;
 
@@ -303,8 +302,7 @@ namespace NhapHangV2.Service.Services
                                 var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDTT");
                                 string subject = emailTemplate.Subject;
                                 string emailContent = string.Format(emailTemplate.Body);
-                                await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), "", null, subject, emailContent);
-                                //await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
+                                await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
                             }
 
                             break;
@@ -360,8 +358,8 @@ namespace NhapHangV2.Service.Services
                         string emailContent = string.Format(emailTemplate.Body);
                         var notiTemplate = await notificationTemplateService.GetByIdAsync(notiTemplateId);
                         var notificationSetting = await notificationSettingService.GetByIdAsync(5);
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), string.Format(Detail_MainOrder_Admin,data.Id), "", null, string.Empty, string.Empty);
-                        //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), $"/manager/order/order-list/{data.Id}", "", null, string.Empty, string.Empty);
+
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), $"/manager/order/order-list/{data.Id}", "", null, string.Empty, string.Empty);
                     }
 
                     await dbContextTransaction.CommitAsync();
@@ -859,8 +857,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDMH");
                     string subject = emailTemplate.Subject;
                     string emailContent = string.Format(emailTemplate.Body);
-                    await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", string.Format(Detail_MainOrder,item.Id), item.UID, subject, emailContent);
-                    //await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
+                    await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
                     break;
                 case (int)StatusOrderContants.DaVeKhoTQ:
                     item.DateTQ = currentDate;
@@ -871,8 +868,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplateTQ = await sMSEmailTemplateService.GetByCodeAsync("UDDVTQ");
                     string subjectTQ = emailTemplateTQ.Subject;
                     string emailContentTQ = string.Format(emailTemplateTQ.Body);
-                    await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectTQ, emailContentTQ);
-                    //await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectTQ, emailContentTQ);
+                    await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectTQ, emailContentTQ);
                     break;
                 case (int)StatusOrderContants.DaVeKhoVN:
                     item.DateVN = currentDate;
@@ -883,8 +879,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplateVN = await sMSEmailTemplateService.GetByCodeAsync("UDDVVN");
                     string subjectVN = emailTemplateVN.Subject;
                     string emailContentVN = string.Format(emailTemplateVN.Body);
-                    await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectVN, emailContentVN);
-                    //await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectVN, emailContentVN);
+                    await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectVN, emailContentVN);
                     break;
                 case (int)StatusOrderContants.DaHoanThanh:
                     item.CompleteDate = currentDate;

@@ -1,16 +1,26 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using NhapHangV2.API.Controllers.Catalogue;
 using NhapHangV2.Entities;
+using NhapHangV2.Entities.Catalogue;
+using NhapHangV2.Entities.DomainEntities;
 using NhapHangV2.Entities.Search;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services;
 using NhapHangV2.Interface.Services.Catalogue;
-using NhapHangV2.Interface.Services.Configuration;
 using NhapHangV2.Models;
+using NhapHangV2.Models.Catalogue;
 using NhapHangV2.Request;
+using NhapHangV2.Request.Catalogue;
+using NhapHangV2.Service.Services.Catalogue;
 using NhapHangV2.Utilities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
@@ -24,14 +34,8 @@ namespace NhapHangV2.API.Controllers
     {
         protected IMapper mapper;
         protected readonly IContactUsService contactUsService;
-        protected readonly INotificationSettingService notificationSettingService;
-        protected readonly INotificationTemplateService notificationTemplateService;
-        protected readonly ISendNotificationService sendNotificationService;
         public ContactUsController(IServiceProvider serviceProvider, IMapper mapper)
         {
-            notificationSettingService = serviceProvider.GetRequiredService<INotificationSettingService>();
-            notificationTemplateService = serviceProvider.GetRequiredService<INotificationTemplateService>();
-            sendNotificationService = serviceProvider.GetRequiredService<ISendNotificationService>();
             contactUsService = serviceProvider.GetRequiredService<IContactUsService>();
             this.mapper = mapper;
         }
@@ -51,11 +55,6 @@ namespace NhapHangV2.API.Controllers
                 success = await contactUsService.CreateAsync(item);
                 if (success)
                 {
-                    //Thông báo thêm vào giỏ hàng thành công
-                    var notificationSetting = await notificationSettingService.GetByIdAsync(21);
-                    var notiTemplateUser = await notificationTemplateService.GetByIdAsync(30);
-                    await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, null, string.Format(CoreContants.New_Contact_Admin), String.Empty,
-                        null, string.Empty, string.Empty);
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                     appDomainResult.Data = item;
                 }

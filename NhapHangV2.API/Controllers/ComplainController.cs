@@ -103,8 +103,7 @@ namespace NhapHangV2.API.Controllers
                             var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("AKNM");
                             string subject = emailTemplate.Subject;
                             string emailContent = string.Format(emailTemplate.Body);
-                            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), string.Format(Complain_Admin), "", null, subject, emailContent); //Thông báo Email
-                            //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "/manager/order/complain-list", "", null, subject, emailContent); //Thông báo Email
+                            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "/manager/order/complain-list", "", null, subject, emailContent); //Thông báo Email
                         }
                         #endregion
                         appDomainResult.ResultCode = (int)HttpStatusCode.OK;
