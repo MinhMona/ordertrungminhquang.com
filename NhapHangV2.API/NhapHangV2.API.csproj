@@ -6,7 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <NoWarn>1701;1702;1591</NoWarn>
-    <DocumentationFile>C:\Users\t590\source\repos\nhaphangv2.monamedia.net\NhapHangV2.API\NhapHangV2.API.xml</DocumentationFile>
+    <DocumentationFile>D:\Mona Media\NhapHang\NhapHangV2\NhapHangV2.API\NhapHangV2.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
