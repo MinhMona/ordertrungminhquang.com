@@ -109,8 +109,8 @@ namespace NhapHangV2.Service.Services
                     var notificationSetting = await notificationSettingService.GetByIdAsync(3);
                     notificationSetting.IsNotifyAdmin = notificationSetting.IsEmailAdmin = false;
                     var notiTemplate = await notificationTemplateService.GetByIdAsync(23);
-
-                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Format("{0:N0}", item.Amount.ToString()), string.Empty, "/user/history-transaction-vnd", user.Id, string.Empty, string.Empty);
+                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Format("{0:N0}", item.Amount.ToString()), string.Empty, string.Format(Transaction_History), user.Id, string.Empty, string.Empty);
+                    //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Format("{0:N0}", item.Amount.ToString()), string.Empty, "/user/history-transaction-vnd", user.Id, string.Empty, string.Empty);
 
                     break;
                 case (int)WalletStatus.Huy: //Hủy
@@ -120,14 +120,15 @@ namespace NhapHangV2.Service.Services
                     var notiTemplateHuy = await notificationTemplateService.GetByIdAsync(27);
                     if (currentUser.UserGroupId == 2)
                     {
-                        await sendNotificationService.SendNotification(notificationSettingHuy, notiTemplateHuy, item.Id.ToString(), "/manager/money/recharge-history", string.Empty, null, string.Empty, string.Empty);
+                        await sendNotificationService.SendNotification(notificationSettingHuy, notiTemplateHuy, item.Id.ToString(), string.Format(Add_Money_Admin), string.Empty, null, string.Empty, string.Empty);
+                        //await sendNotificationService.SendNotification(notificationSettingHuy, notiTemplateHuy, item.Id.ToString(), "/manager/money/recharge-history", string.Empty, null, string.Empty, string.Empty);
                     }
                     else
                     {
                         notificationSettingHuy.IsNotifyAdmin = notificationSettingHuy.IsEmailAdmin = false;
                         notiTemplateHuy.Content = $"Yêu cầu nạp {item.Id} của bạn đã bị {currentUser.UserName} hủy";
-                        await sendNotificationService.SendNotification(notificationSettingHuy, notiTemplateHuy, string.Empty, string.Empty, "/user/recharge-vnd", item.UID, string.Empty, string.Empty);
-
+                        await sendNotificationService.SendNotification(notificationSettingHuy, notiTemplateHuy, string.Empty, string.Empty, string.Format(Recharge_History), item.UID, string.Empty, string.Empty);
+                        //await sendNotificationService.SendNotification(notificationSettingHuy, notiTemplateHuy, string.Empty, string.Empty, "/user/recharge-vnd", item.UID, string.Empty, string.Empty);
                     }
                     break;
                 default:
@@ -185,7 +186,8 @@ namespace NhapHangV2.Service.Services
             var notiTemplate = await notificationTemplateService.GetByIdAsync(8);
             string subject = emailTemplate.Subject;
             string emailContent = string.Format(emailTemplate.Body);
-            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Empty, "/manager/money/recharge-history", "", item.UID, subject, emailContent);
+            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Empty, string.Format(Add_Money_Admin), "", item.UID, subject, emailContent);
+            //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, string.Empty, "/manager/money/recharge-history", "", item.UID, subject, emailContent);
             return true;
         }
 
