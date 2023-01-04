@@ -93,8 +93,7 @@ namespace NhapHangV2.Service.Services
 
                                 //Thông báo đã duyệt yêu cầu rút cho user
                                 var notiTemplateRutTien = await notificationTemplateService.GetByIdAsync(6);
-                                await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "", String.Format(Transaction_History), item.UID, string.Empty, string.Empty);
-                                //await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "", "/user/history-transaction-vnd", item.UID, string.Empty, string.Empty);
+                                await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "", "/user/history-transaction-vnd", item.UID, string.Empty, string.Empty);
                             }
                             else
                             {
@@ -134,8 +133,7 @@ namespace NhapHangV2.Service.Services
                             if (loginUser.UserGroupId != (int)PermissionTypes.User)
                             {
                                 var notiTemplateRutTien = await notificationTemplateService.GetByIdAsync(7);
-                                await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "", String.Format(Transaction_History), user.Id, string.Empty, string.Empty);
-                                //await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "", "/user/history-transaction-vnd", user.Id, string.Empty, string.Empty);
+                                await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "", "/user/history-transaction-vnd", user.Id, string.Empty, string.Empty);
                             }
                             break;
                         default:
@@ -195,8 +193,7 @@ namespace NhapHangV2.Service.Services
                     //Thông báo tới admin và manager có yêu cầu rút tiền
                     var notificationSettingRutTien = await notificationSettingService.GetByIdAsync(4);
                     var notiTemplateRutTien = await notificationTemplateService.GetByIdAsync(5);
-                    await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, String.Format(Sub_Money_Admin), "", null, string.Empty, string.Empty);
-                    //await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "/manager/money/withdrawal-history", "", null, string.Empty, string.Empty);
+                    await sendNotificationService.SendNotification(notificationSettingRutTien, notiTemplateRutTien, string.Empty, "/manager/money/withdrawal-history", "", null, string.Empty, string.Empty);
                     break;
                 default:
                     break;

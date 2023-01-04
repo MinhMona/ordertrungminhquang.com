@@ -617,7 +617,7 @@ namespace NhapHangV2.API.Controllers
                         var notificationSetting = await notificationSettingService.GetByIdAsync(20);
                         var notiTemplateUser = await notificationTemplateService.GetByIdAsync(29);
                         notiTemplateUser.Content = $"Đã thêm {itemModel.quantity} sản phẩm {itemModel.title_origin} vào giỏ hàng";
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, itemModel.title_origin, String.Empty, String.Format(Add_Product_Success),
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser,itemModel.title_origin , String.Empty, $"/user/cart", 
                             LoginContext.Instance.CurrentUser.UserId, string.Empty, string.Empty);
                         appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                     }

@@ -8,9 +8,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NhapHangV2.AppDbContext", "NhapHangV2.AppDbContext\NhapHangV2.AppDbContext.csproj", "{37CF8038-7FF1-482E-B8B7-71A62431986B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NhapHangV2.BaseAPI", "NhapHangV2.BaseAPI\NhapHangV2.BaseAPI.csproj", "{08DBC517-2AAD-4620-B861-BEA960FA4E2D}"
-	ProjectSection(ProjectDependencies) = postProject
-		{941414CB-BECA-4D65-9413-7A38949D682C} = {941414CB-BECA-4D65-9413-7A38949D682C}
-	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NhapHangV2.Entities", "NhapHangV2.Entities\NhapHangV2.Entities.csproj", "{624CCC6B-B1C8-4FE6-8093-71E22B087849}"
 EndProject

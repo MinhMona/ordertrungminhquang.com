@@ -278,16 +278,16 @@ namespace NhapHangV2.API.Controllers
             {
                 foreach (var item in smallPackageUpdates)
                 {
-                    //if (item.Status == (int?)StatusSmallPackage.DaVeKhoVN)
-                    //{
-                    item.IsPayment = true;
-                    //}
+                    if (item.Status == (int?)StatusSmallPackage.DaVeKhoVN)
+                    {
+                        item.IsPayment = true;
+                    }
                     success = await smallPackageService.UpdateFieldAsync(item, new Expression<Func<SmallPackage, object>>[]
                     {
                         s => s.IsPayment
                     });
-                    //if (!success)
-                    //    break;
+                    if (!success)
+                        break;
                 }
             }
 
@@ -775,17 +775,19 @@ namespace NhapHangV2.API.Controllers
                     List<SmallPackage> smallPackageUpdates = await smallPackageService.GetAllByMainOrderId(id);
                     success = false;
 
-                    if (smallPackageUpdates.Count > 0)
+                    foreach (var item in smallPackageUpdates)
                     {
-                        foreach (var item in smallPackageUpdates)
+                        if (item.Status == (int?)StatusSmallPackage.DaVeKhoVN)
                         {
-                            item.IsPayment = true;
-                            success = await smallPackageService.UpdateFieldAsync(item, new Expression<Func<SmallPackage, object>>[]
-                            {
-                                s => s.IsPayment
-                            });
+                            item.Status = (int?)StatusSmallPackage.DaThanhToan;
                         }
+                        success = await smallPackageService.UpdateFieldAsync(item, new Expression<Func<SmallPackage, object>>[]
+                        {
+                        s => s.Status
+                        });
                     }
+                    if (!success)
+                        throw new Exception("Lỗi cập nhật mã vận đơn");
                 }
                 appDomainResult.ResultCode = (int)HttpStatusCode.OK;
             }
