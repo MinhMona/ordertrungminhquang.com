@@ -601,5 +601,10 @@ namespace NhapHangV2.Service.Services
             }
             return null;
         }
+        public async Task<Users> GetUserByFireBaseIdToken(string idToken)
+        {
+            var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.FireBaseID.Equals(idToken)).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }
