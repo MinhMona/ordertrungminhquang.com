@@ -364,4 +364,4 @@ FodyWeavers.xsd
 
 */*.csproj
 *.csproj
-NhapHangV2.API/NhapHangV2.API.csproj
+/NhapHangV2.API.csproj
