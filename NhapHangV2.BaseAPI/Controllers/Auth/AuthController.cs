@@ -1,7 +1,5 @@
 ﻿using AutoMapper;
 using DocumentFormat.OpenXml.Spreadsheet;
-using FirebaseAdmin.Auth;
-using FirebaseAdmin;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +32,6 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Users = NhapHangV2.Entities.Users;
-using FirebaseAdmin.Messaging;
 using Microsoft.Win32;
 
 namespace NhapHangV2.BaseAPI.Controllers.Auth
@@ -57,11 +54,11 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
         private readonly INotificationTemplateService notificationTemplateService;
         private readonly ISendNotificationService sendNotificationService;
         protected readonly IHubContext<DomainHub, IDomainHub> hubContext;
-        private readonly FirebaseApp _firebaseApp;
-        private readonly FirebaseAuth _firebaseAuth;
+        //private readonly FirebaseApp _firebaseApp;
+        //private readonly FirebaseAuth _firebaseAuth;
         public AuthController(IServiceProvider serviceProvider
             , IConfiguration configuration
-            , IMapper mapper, ILogger<AuthController> logger, FirebaseApp firebaseApp
+            , IMapper mapper, ILogger<AuthController> logger
             )
         {
             this.logger = logger;
@@ -80,8 +77,8 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
             notificationTemplateService = serviceProvider.GetRequiredService<INotificationTemplateService>();
             sendNotificationService = serviceProvider.GetRequiredService<ISendNotificationService>();
             hubContext = serviceProvider.GetRequiredService<IHubContext<DomainHub, IDomainHub>>();
-            _firebaseApp = firebaseApp;
-            _firebaseAuth = FirebaseAuth.GetAuth(_firebaseApp);
+            //_firebaseApp = firebaseApp;
+            //_firebaseAuth = FirebaseAuth.GetAuth(_firebaseApp);
         }
 
         /// <summary>
@@ -779,7 +776,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
         #endregion
 
         #region Login Google
-
+/*
         [AllowAnonymous]
         [HttpPost("login-google")]
         public virtual async Task<AppDomainResult> LoginGoogleAsync([FromForm] string  idToken)
@@ -885,7 +882,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                     };
                 }
             }
-        }
+        }*/
 
         #endregion
     }
