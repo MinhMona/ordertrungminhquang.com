@@ -68,5 +68,46 @@ namespace NhapHangV2.Entities
         /// </summary>
         [StringLength(50)]
         public string Beneficiary { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Số đơn 
+        /// </summary>
+        [NotMapped]
+        public int? TotalStatus { get; set; }
+        /// <summary>
+        /// Số đơn chờ duyệt
+        /// </summary>
+        [NotMapped]
+        public int? TotalStatus1 { get; set; }
+
+        /// <summary>
+        /// Số đơn đã duyệt
+        /// </summary>
+        [NotMapped]
+        public int? TotalStatus2 { get; set; }
+
+        /// <summary>
+        /// Số đơn đã hủy
+        /// </summary>
+        [NotMapped]
+        public int? TotalStatus3 { get; set; }
+
+        /// <summary>
+        /// Tổng số tiền
+        /// </summary>
+        [NotMapped]
+        public decimal? TotalAmount { get; set; }
+
+        /// <summary>
+        /// Tổng số tiền đã duyệt
+        /// </summary>
+        [NotMapped]
+        public decimal? TotalAmount2 { get; set; }
+
+        /// <summary>
+        /// Tổng số tiền chờ duyệt
+        /// </summary>
+        [NotMapped]
+        public decimal? TotalAmount1 { get; set; }
     }
 }

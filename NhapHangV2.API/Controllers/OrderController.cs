@@ -90,7 +90,8 @@ namespace NhapHangV2.API.Controllers
                         var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("UCSPBX");
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
-                        await sendNotificationService.SendNotification(notiSetting, notiTemplate, item.Id.ToString(),"", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
+                        await sendNotificationService.SendNotification(notiSetting, notiTemplate, item.Id.ToString(),"", String.Format(Detail_MainOrder, item.Id), item.UID, subject, emailContent);
+                        //await sendNotificationService.SendNotification(notiSetting, notiTemplate, item.Id.ToString(),"", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
                     }
 
                     decimal price = item.PriceOrigin ?? 0;

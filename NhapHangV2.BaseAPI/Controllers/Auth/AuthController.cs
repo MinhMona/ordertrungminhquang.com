@@ -9,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using NhapHangV2.Entities;
+using NhapHangV2.Utilities;
 using NhapHangV2.Entities.Configuration;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services;
@@ -408,7 +408,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
 
                     if (notiTemplate != null && notificationSetting.Active)
                     {
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, user.UserName, $"/manager/client/client-list/{userModel.Id}", "", null, subject, emailContent);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, user.UserName, $"/manager/client/client-list/detail?id={userModel.Id}", "", null, subject, emailContent);
                     }
 
                     appDomainResult = new AppDomainResult()
