@@ -827,9 +827,10 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                 var userFBInfos = await _firebaseAuth.GetUserAsync(uid);
                 var user = new Users()
                 {
+                    UserName = userFBInfos.Email,
                     FullName = userFBInfos.DisplayName,
                     Created = DateTime.UtcNow.AddHours(7),
-                    CreatedBy = "Firebase",
+                    CreatedBy = userFBInfos.ProviderId,
                     Active = true,
                     Phone = userFBInfos.PhoneNumber,
                     Email = userFBInfos.Email,
