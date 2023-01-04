@@ -30,5 +30,6 @@ namespace NhapHangV2.Service.Services
                 type = 2;
             return await Queryable.Where(x => x.Type == type && (amount >= x.AmountFrom.Value && amount <= x.AmountTo.Value)).FirstOrDefaultAsync();
         }
+
     }
 }

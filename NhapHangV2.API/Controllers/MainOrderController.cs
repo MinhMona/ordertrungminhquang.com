@@ -14,6 +14,7 @@ using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Models;
 using NhapHangV2.Models.ExcelModels;
 using NhapHangV2.Request;
+using NhapHangV2.Service;
 using NhapHangV2.Service.Services;
 using NhapHangV2.Utilities;
 using OfficeOpenXml.FormulaParsing.ExpressionGraph;
@@ -390,18 +391,15 @@ namespace NhapHangV2.API.Controllers
                 decimal priceVND = priceCNY * currency;
 
                 //Tính phí mua hàng
-                decimal servicefee = 1;
-
+                decimal servicefee = 0;
                 var feeBuyPro = await feeBuyProService.GetSingleAsync(x => !x.Deleted && x.Active
                     && (priceVND >= x.PriceFrom && priceVND < x.PriceTo)
                 );
-
                 if (feeBuyPro != null)
                 {
-                    decimal feePercent = feeBuyPro.FeePercent > 0 ? feeBuyPro.FeePercent ?? 0 : 0;
+                    decimal feePercent = feeBuyPro.FeePercent > 0 ? (feeBuyPro.FeePercent ?? 0) : 0;
                     servicefee = feePercent / 100;
                 }
-
                 decimal feebpnotdc = 0;
                 decimal feebuypropt = 0;
                 if (users.FeeBuyPro > 0)
@@ -411,11 +409,38 @@ namespace NhapHangV2.API.Controllers
                 }
                 else
                     feebpnotdc = priceVND * servicefee;
-
-                decimal subfeebp = cKFeeBuyPro > 0 ? feebpnotdc * cKFeeBuyPro / 100 : 0;
+                decimal subfeebp = cKFeeBuyPro > 0 ? (feebpnotdc * cKFeeBuyPro / 100) : 0;
                 decimal feebp = feebpnotdc - subfeebp;
 
-                decimal totalPriceVND = (priceCNY * currency) + feebp;
+
+                //Tính phí kiểm đếm
+                decimal? feeCheckProductPrice = 0;
+                if (model.IsCheckProduct == true)
+                {
+                    //Tính số lượng sản phẩm trên 10 tệ, dưới 10 tệ
+                    int counprosMore10 = 0;
+                    int counprosLes10 = 0;
+                    foreach (var item in model.Products)
+                    {
+                        if (item.PriceProduct >= 10)
+                            counprosMore10 += item.QuantityProduct;
+                        else
+                            counprosLes10 += item.QuantityProduct;
+                    }
+                    var feeCheckProducts = new List<FeeCheckProduct>();
+                    foreach (var item in model.Products)
+                    {
+                        var feeCheckProduct = await feeCheckProductService.GetFeeCheckByPriceAndAmount((item.PriceProduct ?? 0), item.QuantityProduct);
+                        feeCheckProductPrice += feeCheckProduct.Fee * item.QuantityProduct;
+                    }
+                }
+                else
+                    feeCheckProductPrice = 0;
+                //Tính phí bảo hiểm
+                decimal? feeInsurance = 0;
+                feeInsurance = (model.IsInsurance == true) ? ((priceVND * configurations.InsurancePercent) / 100) : 0;
+                //Tính tổng tiền đơn hàng
+                decimal totalPriceVND = (priceCNY * currency) + feebp + (feeCheckProductPrice ?? 0) + (feeInsurance ?? 0);
                 decimal amountDeposit = lessDeposit > 0 ? (totalPriceVND * lessDeposit / 100) : totalPriceVND;
 
                 //Dành cho phần Image
@@ -463,13 +488,13 @@ namespace NhapHangV2.API.Controllers
                     order.Version = "";
                     order.IsTranslate = false;
 
-                    order.IsFastDelivery = false;
+                    order.IsFastDelivery = model.IsFastDelivery;
                     order.IsFastDeliveryPrice = 0;
 
-                    order.IsCheckProduct = false;
-                    order.IsCheckProductPrice = 0;
+                    order.IsCheckProduct = model.IsCheckProduct;
+                    order.IsCheckProductPrice = feeCheckProductPrice;
 
-                    order.IsPacked = false;
+                    order.IsPacked = model.IsPacked;
                     order.IsPackedPrice = 0;
 
                     order.IsFast = false;
@@ -556,14 +581,17 @@ namespace NhapHangV2.API.Controllers
                     ShopName = "",
                     Site = "",
 
-                    IsFastDelivery = false,
+                    IsFastDelivery = model.IsFastDelivery,
                     IsFastDeliveryPrice = 0,
 
-                    IsCheckProduct = false,
-                    IsCheckProductPrice = 0,
-                    IsCheckProductPriceCNY = 0,
+                    IsCheckProduct = model.IsCheckProduct,
+                    IsCheckProductPrice = feeCheckProductPrice,
+                    IsCheckProductPriceCNY = (feeCheckProductPrice ?? 0) / currency,
 
-                    IsPacked = false,
+                    IsInsurance = model.IsInsurance,
+                    InsuranceMoney = feeInsurance,
+
+                    IsPacked = model.IsPacked,
                     IsPackedPrice = 0,
                     IsPackedPriceCNY = 0,
 

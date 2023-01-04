@@ -38,20 +38,25 @@ namespace NhapHangV2.Request
         /// </summary>
         public List<Product> Products { get; set; }
 
-        ///// <summary>
-        ///// Giao tận nhà
-        ///// </summary>
-        //public bool? IsFastDelivery { get; set; }
+        /// <summary>
+        /// Giao tận nhà
+        /// </summary>
+        public bool? IsFastDelivery { get; set; }
 
-        ///// <summary>
-        ///// Kiểm đếm
-        ///// </summary>
-        //public bool? IsCheckProduct { get; set; }
+        /// <summary>
+        /// Kiểm đếm
+        /// </summary>
+        public bool? IsCheckProduct { get; set; }
 
-        ///// <summary>
-        ///// Đóng gói
-        ///// </summary>
-        //public bool? IsPacked { get; set; }
+        /// <summary>
+        /// Đóng gói
+        /// </summary>
+        public bool? IsPacked { get; set; }
+
+        /// <summary>
+        /// Bảo hiểm
+        /// </summary>
+        public bool? IsInsurance { get; set; }
 
     }
 
