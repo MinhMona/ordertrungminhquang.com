@@ -1,6 +1,4 @@
-﻿using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -153,10 +151,10 @@ namespace NhapHangV2.API
             });
 
             // Firebase
-            services.AddSingleton(FirebaseApp.Create(new AppOptions()
-            {
-                Credential = GoogleCredential.FromFile(Configuration["Firebase:Admin"]),
-            }));
+            //services.AddSingleton(FirebaseApp.Create(new AppOptions()
+            //{
+            //    Credential = GoogleCredential.FromFile(Configuration["Firebase:Admin"]),
+            //}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
