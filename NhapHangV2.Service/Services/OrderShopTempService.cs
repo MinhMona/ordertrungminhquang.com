@@ -319,7 +319,7 @@ namespace NhapHangV2.Service.Services
             var feeBuyPro = await unitOfWork.Repository<FeeBuyPro>().GetQueryable().Where(x => x.PriceFrom < item.PriceVND && item.PriceVND <= x.PriceTo).FirstOrDefaultAsync();
             if (feeBuyPro != null)
             {
-                decimal feePercent = feeBuyPro.FeePercent > 0 ? feeBuyPro.FeePercent ?? 0 : 0;
+                decimal feePercent = feeBuyPro.FeePercent > 0 ? (feeBuyPro.FeePercent ?? 0) : 0;
                 serviceFee = feePercent / 100;
             }
 
