@@ -359,7 +359,7 @@ namespace NhapHangV2.Service.Services
                                     unitOfWork.Repository<TransportationOrder>().Detach(transOrder);
 
                                 }
-                                smallPackage.Status = (int)StatusSmallPackage.DaThanhToan;
+                                //smallPackage.Status = (int)StatusSmallPackage.DaThanhToan;
                                 smallPackage.DateOutWarehouse = currentDate;
                                 smallPackage.StaffVNOutWarehouse = userName;
                                 unitOfWork.Repository<SmallPackage>().Update(smallPackage);
@@ -389,7 +389,7 @@ namespace NhapHangV2.Service.Services
                                     Type = (int?)DauCongVaTru.Tru
                                 });
 
-                                mo.Status = (int?)StatusOrderContants.KhachDaThanhToan;
+                                //mo.Status = (int?)StatusOrderContants.KhachDaThanhToan;
                                 mo.Deposit = mo.TotalPriceVND;
                                 mo.PayDate = currentDate;
 

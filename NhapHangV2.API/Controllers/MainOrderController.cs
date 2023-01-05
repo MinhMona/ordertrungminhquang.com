@@ -590,6 +590,7 @@ namespace NhapHangV2.API.Controllers
 
                     IsInsurance = model.IsInsurance,
                     InsuranceMoney = feeInsurance,
+                    InsurancePercent = configurations.InsurancePercent,
 
                     IsPacked = model.IsPacked,
                     IsPackedPrice = 0,
