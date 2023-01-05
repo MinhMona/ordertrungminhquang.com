@@ -164,7 +164,8 @@ namespace NhapHangV2.Service.Services
             {
                 string subject = emailTemplate.Subject;
                 string emailContent = string.Format(emailTemplate.Body);
-                await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "", "/user/report", users.Id, subject, emailContent);
+                await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "", string.Format(Complain_List), users.Id, subject, emailContent);
+                //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "", "/user/report", users.Id, subject, emailContent);
             }
             await unitOfWork.SaveAsync();
             return true;

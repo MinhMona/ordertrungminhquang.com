@@ -62,5 +62,38 @@ namespace NhapHangV2.API.Controllers
             appDomainResult.Success = success;
             return appDomainResult;
         }
+
+        /// <summary>
+        /// Thêm mới item
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [AppAuthorize(new int[] { CoreContants.Update })]
+        public override async Task<AppDomainResult> UpdateItem([FromBody] ShippingTypeToWareHouseRequest request)
+        {
+            AppDomainResult appDomainResult = new AppDomainResult();
+            bool success = false;
+            if (!ModelState.IsValid)
+                throw new AppException(ModelState.GetErrorMessage());
+            Regex trimmer = new Regex(@"\s\s+");
+            request.Name = trimmer.Replace(request.Name, " ");
+            request.Description = trimmer.Replace(ConvertToUnSign.convertToUnSign(request.Name), " ");
+            string code = request.Description.ToUpper().Trim();
+            request.Code = code.Replace(" ", "-");
+            var shippingTypeToWareHouse = mapper.Map<ShippingTypeToWareHouse>(request);
+            if (await domainService.GetExistItemMessage(shippingTypeToWareHouse) != string.Empty)
+                throw new Exception("Phương thức vận chuyển đã tồn tại");
+            success = await domainService.UpdateAsync(shippingTypeToWareHouse);
+            if (success)
+            {
+                appDomainResult.ResultCode = (int)HttpStatusCode.OK;
+                appDomainResult.Data = request;
+            }
+            else
+                throw new Exception("Lỗi trong quá trình xử lý");
+            appDomainResult.Success = success;
+            return appDomainResult;
+        }
     }
 }
