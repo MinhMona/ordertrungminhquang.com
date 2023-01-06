@@ -673,6 +673,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
                 Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                //Expires = DateTime.UtcNow.AddHours(7).AddMinutes(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);
@@ -685,8 +686,8 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                             {
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
-                Expires = DateTime.UtcNow.AddDays(1),
-                //Expires = DateTime.Now.AddHours(1),
+                Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                //Expires = DateTime.UtcNow.AddHours(7).AddMinutes(3),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenAddToCart = tokenHandler.CreateToken(tokenDescriptorAddToCart);
@@ -776,113 +777,113 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
         #endregion
 
         #region Login Google
-/*
-        [AllowAnonymous]
-        [HttpPost("login-google")]
-        public virtual async Task<AppDomainResult> LoginGoogleAsync([FromForm] string  idToken)
-        {
-            string uid = null;
-            try
-            {
-                var decodedToken = await _firebaseAuth
-                    .VerifyIdTokenAsync(idToken);
-                uid = decodedToken.Uid;
-            }
-            catch
-            {
-                return new AppDomainResult()
+        /*
+                [AllowAnonymous]
+                [HttpPost("login-google")]
+                public virtual async Task<AppDomainResult> LoginGoogleAsync([FromForm] string  idToken)
                 {
-                    ResultCode = (int)HttpStatusCode.BadRequest,
-                    ResultMessage =  "Đăng nhập thất bại, không tìm thấy tài khoản"
-                };
-            }
-            var userInfos = await userService.GetUserByFireBaseIdToken(uid);
-            if (userInfos != null)
-            {
-                var userModel = mapper.Map<UserModel>(userInfos);
-                var listTokens = await GenerateJwtToken(userModel);
-                var token = listTokens.FirstOrDefault();
-                var addCartToken = listTokens.LastOrDefault();
-
-                // Lưu giá trị token
-                await this.userService.UpdateUserToken(userModel.Id, token, true);
-
-                return new()
-                {
-                    Success = true,
-                    Data = new
+                    string uid = null;
+                    try
                     {
-                        token = token,
-                        addCartToken = addCartToken
-                    },
-                    ResultCode = (int)HttpStatusCode.OK
-                };
-
-            }
-            else
-            {
-                var userFBInfos = await _firebaseAuth.GetUserAsync(uid);
-                var user = new Users()
-                {
-                    UserName = userFBInfos.Email,
-                    FullName = userFBInfos.DisplayName,
-                    Created = DateTime.UtcNow.AddHours(7),
-                    CreatedBy = userFBInfos.ProviderId,
-                    Active = true,
-                    Phone = userFBInfos.PhoneNumber,
-                    Email = userFBInfos.Email,
-                    IsCheckOTP = true,
-                    UserGroupId = 2,
-                    Wallet = 0,
-                    WalletCNY = 0,
-                    LevelId = 1,
-                    FireBaseID = idToken,
-                    AvatarIMG = userFBInfos.PhotoUrl,
-                    IsLoginGoogle = true
-                };
-
-                var userModel = mapper.Map<UserModel>(user);
-
-                userModel.Id = await userService.CreateWithTokenAsync(user);
-                if (userModel.Id > 0)
-                {
-                    var token = await GenerateJwtToken(userModel);
-                    // Lưu giá trị token
-                    await this.userService.UpdateUserToken(userModel.Id, token.FirstOrDefault(), true);
-
-                    //Thông báo cho admin có người dùng mới
-                    var notificationSetting = await notificationSettingService.GetByIdAsync(1);
-                    var notiTemplate = await notificationTemplateService.GetByIdAsync(1);
-                    var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ACNDM");
-                    string subject = emailTemplate.Subject;
-                    string emailContent = string.Format(emailTemplate.Body, userModel.UserName, userModel.Email, userModel.Phone);
-
-                    if (notiTemplate != null && notificationSetting.Active)
-                    {
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, user.UserName, $"/manager/client/client-list/{userModel.Id}", "", null, subject, emailContent);
+                        var decodedToken = await _firebaseAuth
+                            .VerifyIdTokenAsync(idToken);
+                        uid = decodedToken.Uid;
                     }
-
-                    return new()
+                    catch
                     {
-                        Success = true,
-                        Data = new
+                        return new AppDomainResult()
                         {
-                            token = token.FirstOrDefault(),
-                            addCartToken = token.LastOrDefault()
-                        },
-                        ResultCode = (int)HttpStatusCode.OK
-                    };
-                }
-                else
-                {
-                    return new AppDomainResult()
+                            ResultCode = (int)HttpStatusCode.BadRequest,
+                            ResultMessage =  "Đăng nhập thất bại, không tìm thấy tài khoản"
+                        };
+                    }
+                    var userInfos = await userService.GetUserByFireBaseIdToken(uid);
+                    if (userInfos != null)
                     {
-                        ResultCode = (int)HttpStatusCode.BadRequest,
-                        ResultMessage = "Đăng nhập thất bại, không tìm thấy tài khoản"
-                    };
-                }
-            }
-        }*/
+                        var userModel = mapper.Map<UserModel>(userInfos);
+                        var listTokens = await GenerateJwtToken(userModel);
+                        var token = listTokens.FirstOrDefault();
+                        var addCartToken = listTokens.LastOrDefault();
+
+                        // Lưu giá trị token
+                        await this.userService.UpdateUserToken(userModel.Id, token, true);
+
+                        return new()
+                        {
+                            Success = true,
+                            Data = new
+                            {
+                                token = token,
+                                addCartToken = addCartToken
+                            },
+                            ResultCode = (int)HttpStatusCode.OK
+                        };
+
+                    }
+                    else
+                    {
+                        var userFBInfos = await _firebaseAuth.GetUserAsync(uid);
+                        var user = new Users()
+                        {
+                            UserName = userFBInfos.Email,
+                            FullName = userFBInfos.DisplayName,
+                            Created = DateTime.UtcNow.AddHours(7),
+                            CreatedBy = userFBInfos.ProviderId,
+                            Active = true,
+                            Phone = userFBInfos.PhoneNumber,
+                            Email = userFBInfos.Email,
+                            IsCheckOTP = true,
+                            UserGroupId = 2,
+                            Wallet = 0,
+                            WalletCNY = 0,
+                            LevelId = 1,
+                            FireBaseID = idToken,
+                            AvatarIMG = userFBInfos.PhotoUrl,
+                            IsLoginGoogle = true
+                        };
+
+                        var userModel = mapper.Map<UserModel>(user);
+
+                        userModel.Id = await userService.CreateWithTokenAsync(user);
+                        if (userModel.Id > 0)
+                        {
+                            var token = await GenerateJwtToken(userModel);
+                            // Lưu giá trị token
+                            await this.userService.UpdateUserToken(userModel.Id, token.FirstOrDefault(), true);
+
+                            //Thông báo cho admin có người dùng mới
+                            var notificationSetting = await notificationSettingService.GetByIdAsync(1);
+                            var notiTemplate = await notificationTemplateService.GetByIdAsync(1);
+                            var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ACNDM");
+                            string subject = emailTemplate.Subject;
+                            string emailContent = string.Format(emailTemplate.Body, userModel.UserName, userModel.Email, userModel.Phone);
+
+                            if (notiTemplate != null && notificationSetting.Active)
+                            {
+                                await sendNotificationService.SendNotification(notificationSetting, notiTemplate, user.UserName, $"/manager/client/client-list/{userModel.Id}", "", null, subject, emailContent);
+                            }
+
+                            return new()
+                            {
+                                Success = true,
+                                Data = new
+                                {
+                                    token = token.FirstOrDefault(),
+                                    addCartToken = token.LastOrDefault()
+                                },
+                                ResultCode = (int)HttpStatusCode.OK
+                            };
+                        }
+                        else
+                        {
+                            return new AppDomainResult()
+                            {
+                                ResultCode = (int)HttpStatusCode.BadRequest,
+                                ResultMessage = "Đăng nhập thất bại, không tìm thấy tài khoản"
+                            };
+                        }
+                    }
+                }*/
 
         #endregion
     }

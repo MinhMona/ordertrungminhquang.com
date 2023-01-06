@@ -231,15 +231,15 @@ namespace NhapHangV2.API.Controllers
                 var item = await this.domainService.GetByIdAsync(itemModel.Id);
                 if (item != null)
                 {
-                    if (itemModel.Status == (int)StatusGeneralTransportationOrder.DaDuyet && itemModel.SmallPackages.Count == 0)
-                    {
-                        item.Status = (int)StatusGeneralTransportationOrder.DaDuyet;
-                    }
-                    else
-                    {
-                        item = await CalculatePrice(itemModel, item);
-                        mapper.Map(itemModel, item);
-                    }
+                    //if (itemModel.Status == (int)StatusGeneralTransportationOrder.DaDuyet && itemModel.SmallPackages.Count == 0)
+                    //{
+                    //    item.Status = (int)StatusGeneralTransportationOrder.DaDuyet;
+                    //}
+                    //else
+                    //{
+                    item = await CalculatePrice(itemModel, item);
+                    mapper.Map(itemModel, item);
+                    //}
                     success = await this.domainService.UpdateAsync(item);
                     if (success)
                         appDomainResult.ResultCode = (int)HttpStatusCode.OK;
@@ -539,34 +539,6 @@ namespace NhapHangV2.API.Controllers
             var smallPackage = transportationOrder.SmallPackages.FirstOrDefault();
             if (smallPackage != null)
             {
-                //Cộng phí kiểm đếm, phí đóng gỗ, phí bảo hiểm, phí giao hàng
-                if (itemModel.IsCheckProduct == null || itemModel.IsCheckProduct.Value == false)
-                    itemModel.IsCheckProductPrice = 0;
-                else
-                {
-                    transportationOrder.IsCheckProductPrice = itemModel.IsCheckProductPrice;
-                    transportationOrder.IsCheckProduct = itemModel.IsCheckProduct;
-                    totalVND += itemModel.IsCheckProductPrice ?? 0;
-                }
-
-                if (itemModel.IsPacked == null || itemModel.IsPacked.Value == false)
-                    itemModel.IsPackedPrice = 0;
-                else
-                {
-                    transportationOrder.IsPackedPrice = itemModel.IsPackedPrice;
-                    transportationOrder.IsPacked = itemModel.IsPacked;
-                    totalVND += itemModel.IsPackedPrice ?? 0;
-                }
-
-                if (itemModel.IsInsurance == null || itemModel.IsInsurance.Value == false)
-                    itemModel.InsuranceMoney = 0;
-                else
-                {
-                    transportationOrder.InsuranceMoney = itemModel.InsuranceMoney;
-                    transportationOrder.IsInsurance = itemModel.IsInsurance;
-                    totalVND += itemModel.InsuranceMoney ?? 0;
-                }
-
                 if (itemModel.FeeWeightPerKg != null && itemModel.FeeWeightPerKg > 0)
                 {
                     decimal? priceWeight = itemModel.FeeWeightPerKg * smallPackage.PayableWeight;
@@ -590,7 +562,33 @@ namespace NhapHangV2.API.Controllers
                 smallPackage.SensorFeeCNY = itemModel.SensorFeeCNY;
                 smallPackage.SensorFeeVND = itemModel.SensorFeeVND;
             }
+            //Cộng phí kiểm đếm, phí đóng gỗ, phí bảo hiểm, phí giao hàng
+            if (itemModel.IsCheckProduct == null || itemModel.IsCheckProduct.Value == false)
+                itemModel.IsCheckProductPrice = 0;
+            else
+            {
+                transportationOrder.IsCheckProductPrice = itemModel.IsCheckProductPrice;
+                transportationOrder.IsCheckProduct = itemModel.IsCheckProduct;
+                totalVND += itemModel.IsCheckProductPrice ?? 0;
+            }
 
+            if (itemModel.IsPacked == null || itemModel.IsPacked.Value == false)
+                itemModel.IsPackedPrice = 0;
+            else
+            {
+                transportationOrder.IsPackedPrice = itemModel.IsPackedPrice;
+                transportationOrder.IsPacked = itemModel.IsPacked;
+                totalVND += itemModel.IsPackedPrice ?? 0;
+            }
+
+            if (itemModel.IsInsurance == null || itemModel.IsInsurance.Value == false)
+                itemModel.InsuranceMoney = 0;
+            else
+            {
+                transportationOrder.InsuranceMoney = itemModel.InsuranceMoney;
+                transportationOrder.IsInsurance = itemModel.IsInsurance;
+                totalVND += itemModel.InsuranceMoney ?? 0;
+            }
             if (itemModel.DeliveryPrice != null)
             {
                 transportationOrder.DeliveryPrice = itemModel.DeliveryPrice;

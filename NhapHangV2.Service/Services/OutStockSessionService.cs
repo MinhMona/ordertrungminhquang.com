@@ -360,6 +360,7 @@ namespace NhapHangV2.Service.Services
 
                                 }
                                 //smallPackage.Status = (int)StatusSmallPackage.DaThanhToan;
+                                smallPackage.IsPayment = true;
                                 smallPackage.DateOutWarehouse = currentDate;
                                 smallPackage.StaffVNOutWarehouse = userName;
                                 unitOfWork.Repository<SmallPackage>().Update(smallPackage);
@@ -389,7 +390,7 @@ namespace NhapHangV2.Service.Services
                                     Type = (int?)DauCongVaTru.Tru
                                 });
 
-                                //mo.Status = (int?)StatusOrderContants.KhachDaThanhToan;
+                                mo.Status = (int?)StatusOrderContants.KhachDaThanhToan;
                                 mo.Deposit = mo.TotalPriceVND;
                                 mo.PayDate = currentDate;
 
