@@ -426,5 +426,20 @@ namespace NhapHangV2.Service.Services
                 }
             }
         }
+
+        public async Task<OrderShopTemp> CreateWithMainOrderId(int mainOrderId)
+        {
+            var orderShopTemp = new OrderShopTemp();
+            var orders = await unitOfWork.Repository<Order>().GetQueryable().Where(x=>x.MainOrderId == mainOrderId).ToListAsync();
+            orderShopTemp.ShopId = orders.FirstOrDefault().ShopId;
+            orderShopTemp.ShopName = orders.FirstOrDefault().ShopName;
+            orderShopTemp.Site = orders.FirstOrDefault().Site;
+            foreach (var item in orders)
+            {
+                var orderTemp = mapper.Map<OrderTemp>(item);
+                orderShopTemp.OrderTemps.Add(orderTemp);
+            }
+            return orderShopTemp;
+        }
     }
 }

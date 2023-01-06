@@ -535,12 +535,6 @@ namespace NhapHangV2.Entities
         public List<Order> Orders { get; set; } = new List<Order>();
 
         /// <summary>
-        /// Danh sách sản phẩm JSON
-        /// </summary>
-        [NotMapped]
-        public string OrdersJson { get; set; }
-
-        /// <summary>
         /// Lịch sử thay đổi
         /// </summary>
         [NotMapped]
