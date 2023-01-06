@@ -78,7 +78,7 @@ namespace NhapHangV2.Extensions
             }
             catch(Exception ex)
             {
-                throw new TimeoutException(ex.Message);
+                throw new UnauthorizedAccessException(ex.Message);
             }
         }
     }

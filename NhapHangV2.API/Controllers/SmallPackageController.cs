@@ -241,7 +241,7 @@ namespace NhapHangV2.API.Controllers
                 {
                     DateTime currentDate = DateTime.Now;
 
-                    item.UID = LoginContext.Instance.CurrentUser.UserId;
+                    //item.UID = LoginContext.Instance.CurrentUser.UserId;
                     //Kiểm hàng Trung quốc
                     if (itemModel.IsWarehouseTQ)
                     {
