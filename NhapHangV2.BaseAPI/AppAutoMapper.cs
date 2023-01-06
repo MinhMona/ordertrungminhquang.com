@@ -350,6 +350,10 @@ namespace NhapHangV2.Models.AutoMapper
             //    .ForMember(dst => dst.Site, src => src.MapFrom(i => i.site))
             //    .ReverseMap();
             #endregion
+
+            #region Add same OrderShopTemp from MainOrder
+            CreateMap<Order, OrderTemp>().ForMember(x => x.Id, opt => opt.Ignore()).ReverseMap();
+            #endregion
         }
     }
 }

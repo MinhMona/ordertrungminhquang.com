@@ -333,7 +333,6 @@ namespace NhapHangV2.Models
 
         #region Danh sách sản phẩm
         public List<OrderModel> Orders { get; set; }
-        public string OrdersJson { get; set; }
         #endregion
 
         #region Lịch sử thanh toán
