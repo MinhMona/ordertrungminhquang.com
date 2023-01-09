@@ -81,8 +81,7 @@ namespace NhapHangV2.API
                    .AllowAnyMethod()
                    .AllowAnyHeader()
                    .AllowCredentials()
-                   .SetIsOriginAllowed(hostName => true)
-                   ;
+                   .SetIsOriginAllowed(hostName => true);
                 });
             });
 

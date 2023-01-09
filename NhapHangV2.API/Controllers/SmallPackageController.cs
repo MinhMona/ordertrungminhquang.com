@@ -29,7 +29,6 @@ namespace NhapHangV2.API.Controllers
     [Route("api/small-package")]
     [ApiController]
     [Description("Kiện trôi nổi")]
-    [Authorize]
     public class SmallPackageController : ControllerBase
     {
         protected IMapper mapper;
@@ -65,6 +64,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="itemModel"></param>
         /// <returns></returns>
         [HttpPut("confirm")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.Update })]
         public async Task<AppDomainResult> Confirm([FromBody] ConfirmSmallPackageRequest itemModel)
         {
@@ -109,7 +109,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="isAssign">Gán kiện ký gửi cho khách</param>
         /// <returns></returns>
         [HttpGet("get-by-transaction-code")]
-        [AppAuthorize(new int[] { CoreContants.View })]
+        //[AppAuthorize(new int[] { CoreContants.View })]
         public async Task<AppDomainResult> Tracking(string transactionCode, bool isAssign)
         {
             AppDomainResult appDomainResult = new AppDomainResult();
@@ -166,6 +166,7 @@ namespace NhapHangV2.API.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("get-export-for-barcode")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.View })]
         public async Task<AppDomainResult> ExportForBarCode(int uid, string barcode, int statusType)
         {
@@ -203,6 +204,7 @@ namespace NhapHangV2.API.Controllers
         /// </param>
         /// <returns></returns>
         [HttpGet("get-export-for-username")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.View })]
         public async Task<AppDomainResult> ExportForUserName(int UID, int OrderId, int StatusType, int OrderType)
         {
@@ -229,6 +231,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="itemModel"></param>
         /// <returns></returns>
         [HttpPost]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.AddNew })]
         public async Task<AppDomainResult> AddItem([FromBody] SmallPackageRequest itemModel)
         {
@@ -345,6 +348,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="itemModels"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.Update })]
         public async Task<AppDomainResult> UpdateItem([FromBody] List<SmallPackageRequest> itemModels)
         {
@@ -391,26 +395,6 @@ namespace NhapHangV2.API.Controllers
                 if (success)
                 {
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;
-
-                    //List<MainOrderModel> mainOrderModels = new List<MainOrderModel>();
-                    //List<TransportationOrderModel> transportationOrderModels = new List<TransportationOrderModel>();
-
-                    //List<int> mainOrderId = new List<int>(); //Tạo để check không lấy 1 MainOrder nhiều lần
-                    //foreach (var item in items)
-                    //{
-                    //    if (item.MainOrderId != null && !mainOrderId.Contains(item.MainOrderId.Value))
-                    //    {
-                    //        mainOrderId.Add(item.MainOrderId.Value);
-                    //        var mainOrder = await mainOrderService.GetByIdAsync(item.MainOrderId.Value);
-                    //        if (mainOrder != null)
-                    //            mainOrderModels.Add(mapper.Map<MainOrderModel>(mainOrder));
-                    //    }
-
-                    //    var transportationOrder = await transportationOrderService.GetByIdAsync(item.TransportationOrderId ?? 0);
-                    //    if (transportationOrder != null)
-                    //        transportationOrderModels.Add(mapper.Map<TransportationOrderModel>(transportationOrder));
-                    //}
-                    //await hubContext.Clients.All.Change(mainOrderModels, transportationOrderModels);
                 }
 
 
@@ -428,6 +412,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpPut("update-is-lost")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.Update })]
         public async Task<AppDomainResult> UpdateIsLost(int id)
         {
@@ -461,6 +446,7 @@ namespace NhapHangV2.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("download-template-import")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.Download })]
         public virtual AppDomainResult DownloadTemplateImport()
         {
@@ -484,6 +470,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost("import-template-file")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.Import })]
         public virtual async Task<AppDomainImportResult> ImportTemplateFile(ImportSmallPackageRequest request)
         {
@@ -513,6 +500,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="baseSearch"></param>
         /// <returns></returns>
         [HttpPost("export-excel")]
+        [Authorize]
         public virtual async Task<AppDomainResult> ExportExcel([FromQuery] SmallPackageSearch baseSearch)
         {
             string fileResultPath = string.Empty;
@@ -604,6 +592,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.View })]
         public async Task<AppDomainResult> GetById(int id)
         {
@@ -636,6 +625,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.Delete })]
         public async Task<AppDomainResult> DeleteItem(int id)
         {
@@ -659,6 +649,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="baseSearch"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.ViewAll })]
         public async Task<AppDomainResult> Get([FromQuery] SmallPackageSearch baseSearch)
         {
@@ -686,6 +677,7 @@ namespace NhapHangV2.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("get-permission-detail")]
+        [Authorize]
         public async Task<AppDomainResult> GetPermission()
         {
             List<int> permissionIds = new List<int>();

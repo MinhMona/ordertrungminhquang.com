@@ -109,6 +109,7 @@ namespace NhapHangV2.API.Controllers
                 var item = await this.domainService.GetByIdAsync(itemModel.Id);
                 if (item == null)
                     throw new KeyNotFoundException("Item không tồn tại");
+                item.Note = itemModel.Note;
                 success = await payHelpService.UpdateStatus(item, itemModel.Status ?? 0, item.Status ?? 0);
                 if (success)
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;

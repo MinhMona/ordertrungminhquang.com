@@ -15,7 +15,7 @@ namespace NhapHangV2.Models.DomainModels
         /// <summary>
         /// Khóa chính
         /// </summary>
-        public int Id { get; set; } = 0;
+        public int Id { get; set; }
 
         /// <summary>
         /// Ngày tạo
