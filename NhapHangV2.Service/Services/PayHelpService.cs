@@ -121,6 +121,7 @@ namespace NhapHangV2.Service.Services
 
             if (status == statusOld)
             {
+                unitOfWork.Repository<PayHelp>().Update(model);
                 await unitOfWork.SaveAsync();
                 return true;
             }
@@ -169,7 +170,7 @@ namespace NhapHangV2.Service.Services
                         var emailTemplateTQ = await sMSEmailTemplateService.GetByCodeAsync("UTTHBH");
                         string subjectTQ = emailTemplateTQ.Subject;
                         string emailContentTQ = string.Format(emailTemplateTQ.Body);
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), String.Format(Detail_MainOrder_Admin,model.Id), String.Format(Detail_MainOrder,model.Id), userRequest.Id, string.Empty, string.Empty);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), String.Format(Detail_MainOrder_Admin, model.Id), String.Format(Detail_MainOrder, model.Id), userRequest.Id, string.Empty, string.Empty);
                         //await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), $"/manager/order/order-list/{model.Id}", $"/user/order-list/{model.Id}", userRequest.Id, string.Empty, string.Empty);
                     }
                     break;
@@ -347,7 +348,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ACDTTHM");
                     string subject = emailTemplate.Subject;
                     string emailContent = string.Format(emailTemplate.Body);
-                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), String.Format(Detail_Payhelp_Admin,item.Id), "", null, string.Empty, string.Empty);
+                    await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), String.Format(Detail_Payhelp_Admin, item.Id), "", null, string.Empty, string.Empty);
                     //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/manager/order/request-payment/{item.Id}", "", null, string.Empty, string.Empty);
 
                     await unitOfWork.SaveAsync();

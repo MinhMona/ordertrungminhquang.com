@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NhapHangV2.BaseAPI.Controllers;
@@ -15,8 +13,6 @@ using NhapHangV2.Interface.Services.Configuration;
 using NhapHangV2.Models;
 using NhapHangV2.Request;
 using NhapHangV2.Request.DomainRequests;
-using NhapHangV2.Service.Services.Catalogue;
-using NhapHangV2.Service.Services.Configurations;
 using NhapHangV2.Utilities;
 using System;
 using System.Collections.Generic;
@@ -24,6 +20,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using System.Threading;
 using static NhapHangV2.Utilities.CoreContants;
 
 namespace NhapHangV2.API.Controllers
@@ -655,7 +652,7 @@ namespace NhapHangV2.API.Controllers
                     var messageUserCheck = await this.domainService.GetExistItemMessage(item);
                     if (!string.IsNullOrEmpty(messageUserCheck))
                         throw new KeyNotFoundException(messageUserCheck);
-                    success = await orderShopTempService.CreateAsync(item);
+                    success = await orderShopTempService.CreateAddSameAsync(item);
                     if (success)
                     {
                         //Thông báo thêm vào giỏ hàng thành công

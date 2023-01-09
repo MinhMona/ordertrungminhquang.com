@@ -2,23 +2,22 @@
 using Microsoft.Extensions.DependencyInjection;
 using NhapHangV2.Entities;
 using NhapHangV2.Entities.Catalogue;
-using NhapHangV2.Entities.Configuration;
+using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services;
 using NhapHangV2.Interface.Services.Auth;
 using NhapHangV2.Interface.Services.Configuration;
-using NhapHangV2.Service.Services.Auth;
 using NhapHangV2.Utilities;
-using NPOI.SS.Formula.Functions;
 using OneSignal.RestAPIv3.Client;
-using OneSignal.RestAPIv3.Client.Resources.Notifications;
 using OneSignal.RestAPIv3.Client.Resources;
+using OneSignal.RestAPIv3.Client.Resources.Notifications;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
-using NhapHangV2.Extensions;
+using NhapHangV2.Interface.UnitOfWork;
+using AutoMapper;
+using NhapHangV2.Interface.DbContext;
+using System.Threading;
 
 namespace NhapHangV2.Service.Services.Configurations
 {
@@ -148,7 +147,9 @@ namespace NhapHangV2.Service.Services.Configurations
                     {
                         playerIds.Add(user.OneSignalPlayerID);
                         if (user.OneSignalPlayerID != null)
+                        {
                             await OneSignalPushNotification(playerIds, $"{confi.WebsiteName}", noti, appId, restAPIKey);
+                        }
                     }
                 }
 
@@ -173,25 +174,29 @@ namespace NhapHangV2.Service.Services.Configurations
         private async Task OneSignalPushNotification(List<string> playerIds, string heading, Notification notification, Guid appId, string restKey)
         {
             var confi = await configurationsService.GetSingleAsync();
+            Thread oneSignalThread = new Thread(async () =>
+            {
+                OneSignalClient client = new OneSignalClient(restKey);
 
-            OneSignalClient client = new OneSignalClient(restKey);
-            var opt = new NotificationCreateOptions()
-            {
-                AppId = appId,
-                IncludePlayerIds = playerIds,
-                SendAfter = DateTime.Now.AddSeconds(5)
-            };
-            opt.Headings.Add(LanguageCodes.English, heading);
-            opt.Contents.Add(LanguageCodes.English, notification.NotificationContent);
-            opt.Url = $"{confi.WebsiteUrl}/{notification.Url}";
-            try
-            {
-                await client.Notifications.CreateAsync(opt);
-            }
-            catch (AppException)
-            {
-                throw new AppException("Gửi thông báo One Signal thất bại");
-            }
+                var opt = new NotificationCreateOptions()
+                {
+                    AppId = appId,
+                    IncludePlayerIds = playerIds,
+                    SendAfter = DateTime.Now.AddSeconds(5)
+                };
+                opt.Headings.Add(LanguageCodes.English, heading);
+                opt.Contents.Add(LanguageCodes.English, notification.NotificationContent);
+                opt.Url = $"{confi.WebsiteUrl}/{notification.Url}";
+                try
+                {
+                    await client.Notifications.CreateAsync(opt);
+                }
+                catch (AppException)
+                {
+                    throw new AppException("Gửi thông báo One Signal thất bại");
+                }
+            });
+            oneSignalThread.Start();
         }
     }
 }
