@@ -1,14 +1,12 @@
 ﻿using AutoMapper;
 using ClosedXML.Excel;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NhapHangV2.Entities;
 using NhapHangV2.Entities.Catalogue;
-using NhapHangV2.Entities.DomainEntities;
 using NhapHangV2.Entities.Search;
-using NhapHangV2.Entities.SQLModels;
+using NhapHangV2.Entities.SQLEntities;
 using NhapHangV2.Extensions;
 using NhapHangV2.Interface.DbContext;
 using NhapHangV2.Interface.Services;
@@ -16,24 +14,21 @@ using NhapHangV2.Interface.Services.Auth;
 using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Interface.Services.Configuration;
 using NhapHangV2.Interface.UnitOfWork;
-using NhapHangV2.Models;
 using NhapHangV2.Models.ExcelModels;
 using NhapHangV2.Service.Services.DomainServices;
 using NhapHangV2.Utilities;
-using NPOI.SS.Formula.Functions;
-using NPOI.SS.UserModel;
-using Org.BouncyCastle.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
 using SqlCommand = Microsoft.Data.SqlClient.SqlCommand;
 using SqlConnection = Microsoft.Data.SqlClient.SqlConnection;
 using SqlParameter = Microsoft.Data.SqlClient.SqlParameter;
+using Users = NhapHangV2.Entities.Users;
 
 namespace NhapHangV2.Service.Services
 {
@@ -360,7 +355,7 @@ namespace NhapHangV2.Service.Services
                         string emailContent = string.Format(emailTemplate.Body);
                         var notiTemplate = await notificationTemplateService.GetByIdAsync(notiTemplateId);
                         var notificationSetting = await notificationSettingService.GetByIdAsync(5);
-                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), string.Format(Detail_MainOrder_Admin,data.Id), "", null, string.Empty, string.Empty);
+                        await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), string.Format(Detail_MainOrder_Admin, data.Id), "", null, string.Empty, string.Empty);
                         //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), $"/manager/order/order-list/{data.Id}", "", null, string.Empty, string.Empty);
                     }
 
@@ -859,8 +854,7 @@ namespace NhapHangV2.Service.Services
                     var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("ADHDMH");
                     string subject = emailTemplate.Subject;
                     string emailContent = string.Format(emailTemplate.Body);
-                    await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", string.Format(Detail_MainOrder,item.Id), item.UID, subject, emailContent);
-                    //await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
+                    await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", string.Format(Detail_MainOrder, item.Id), item.UID, subject, emailContent);
                     break;
                 case (int)StatusOrderContants.DaVeKhoTQ:
                     item.DateTQ = currentDate;
@@ -872,7 +866,6 @@ namespace NhapHangV2.Service.Services
                     string subjectTQ = emailTemplateTQ.Subject;
                     string emailContentTQ = string.Format(emailTemplateTQ.Body);
                     await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectTQ, emailContentTQ);
-                    //await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectTQ, emailContentTQ);
                     break;
                 case (int)StatusOrderContants.DaVeKhoVN:
                     item.DateVN = currentDate;
@@ -884,10 +877,19 @@ namespace NhapHangV2.Service.Services
                     string subjectVN = emailTemplateVN.Subject;
                     string emailContentVN = string.Format(emailTemplateVN.Body);
                     await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectVN, emailContentVN);
-                    //await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", $"/user/order-list/{item.Id}", item.UID, subjectVN, emailContentVN);
                     break;
                 case (int)StatusOrderContants.DaHoanThanh:
                     item.CompleteDate = currentDate;
+                    var smallPackageUpdates = item.SmallPackages;
+                    if (smallPackageUpdates.Count > 0)
+                    {
+                        foreach (var smallPackage in smallPackageUpdates)
+                        {
+                            smallPackage.IsPayment = true;
+                            unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                        }
+                    }
+
                     break;
                 default:
                     break;
@@ -1145,6 +1147,16 @@ namespace NhapHangV2.Service.Services
             SqlParameter[] parameters = sqlParameters.ToArray();
             var data = storeService.GetDataFromStore(parameters, "GetMainOrdersAmount");
 
+            return data.FirstOrDefault();
+        }
+        public CountAllOrder GetCountAllOrder(MainOrderSearch mainOrderSearch)
+        {
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<CountAllOrder>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", mainOrderSearch.UID));
+            sqlParameters.Add(new SqlParameter("@RoleID", mainOrderSearch.RoleID));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetCountOrder");
             return data.FirstOrDefault();
         }
 
