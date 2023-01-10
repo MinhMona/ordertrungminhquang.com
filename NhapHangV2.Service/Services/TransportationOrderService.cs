@@ -209,7 +209,6 @@ namespace NhapHangV2.Service.Services
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
                         await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), String.Format(Detail_Transportorder_Admin, item.Id), "", item.Id, subject, emailContent);
-                        //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), $"/manager/deposit/deposit-list/{item.Id}", "", item.Id, subject, emailContent);
 
                         //var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
                         //if (smallPackage == null)
