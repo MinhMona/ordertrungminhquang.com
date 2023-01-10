@@ -372,206 +372,273 @@ namespace NhapHangV2.Service.Services
 
         public async Task<bool> Payment(int id, int paymentType, int paymentMethod, decimal amount, string note)
         {
-            DateTime currentDate = DateTime.Now;
-            var mainOrder = await this.GetByIdAsync(id);
-            if (mainOrder == null)
-                throw new KeyNotFoundException("Đơn hàng không tồn tại");
-            var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == LoginContext.Instance.CurrentUser.UserId).FirstOrDefaultAsync();
-            //if (user == null)
-            //    throw new KeyNotFoundException("User không tồn tại");
-
-            decimal? deposit = mainOrder.Deposit == null ? 0 : mainOrder.Deposit;
-            decimal? amountDeposit = mainOrder.AmountDeposit == null ? 0 : mainOrder.AmountDeposit;
-            decimal? mustPaymentDeposit = amountDeposit - deposit;
-
-            decimal? totalPriceVND = mainOrder.TotalPriceVND == null ? 0 : mainOrder.TotalPriceVND;
-            decimal? mustPayment = totalPriceVND - deposit;
-
-            var userMainOrder = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == mainOrder.UID).FirstOrDefaultAsync();
-            if (userMainOrder == null)
-                throw new KeyNotFoundException("User của đơn hàng không tồn tại");
-
-            decimal? wallet = userMainOrder.Wallet;
-
-            //Ghi lịch sử cập nhật trạng thái của đơn hàng
-            //await unitOfWork.Repository<OrderComment>().CreateAsync(new OrderComment
-            //{
-            //    MainOrderId = mainOrder.Id,
-            //    Comment = string.Format("Đã có cập nhật mới cho đơn hàng #{0} của bạn", mainOrder.Id),
-            //    Type = 1
-            //});
-
-            switch (paymentType) //Loại thanh toán
+            using (var dbContextTransaction = Context.Database.BeginTransaction())
             {
-                case 1: //Đặt cọc
-                    if (amount < mustPaymentDeposit)
-                        throw new AppException("Số tiền nhập vào không đủ để đặt cọc");
+                try
+                {
+                    DateTime currentDate = DateTime.Now;
+                    var mainOrder = await this.GetByIdAsync(id);
+                    if (mainOrder == null)
+                        throw new KeyNotFoundException("Đơn hàng không tồn tại");
+                    var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == LoginContext.Instance.CurrentUser.UserId).FirstOrDefaultAsync();
 
-                    decimal? depositPayment = 0;
-                    switch (paymentMethod) //Phương thức thanh toán
+                    decimal? deposit = mainOrder.Deposit == null ? 0 : mainOrder.Deposit;
+                    decimal? amountDeposit = mainOrder.AmountDeposit == null ? 0 : mainOrder.AmountDeposit;
+                    decimal? mustPaymentDeposit = amountDeposit - deposit;
+
+                    decimal? totalPriceVND = mainOrder.TotalPriceVND == null ? 0 : mainOrder.TotalPriceVND;
+                    decimal? mustPayment = totalPriceVND - deposit;
+
+                    var userMainOrder = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == mainOrder.UID).FirstOrDefaultAsync();
+                    if (userMainOrder == null)
+                        throw new KeyNotFoundException("User của đơn hàng không tồn tại");
+
+                    decimal? wallet = userMainOrder.Wallet;
+
+                    switch (paymentType) //Loại thanh toán
                     {
-                        case 1: //Trực tiếp
-                            depositPayment = deposit + amount;
-                            break;
-                        case 2: //Ví điện tử
-                            if (wallet < amount)
-                                throw new AppException("Số tiền trong ví của khách hàng không đủ để đặt cọc");
+                        case 1: //Đặt cọc
+                            if (amount < mustPaymentDeposit)
+                                throw new AppException("Số tiền nhập vào không đủ để đặt cọc");
 
-                            depositPayment = deposit + amount;
-                            //depositPayment = wallet - amount;
-
-                            //Cập nhật trừ số tiền trong account
-                            userMainOrder.Wallet -= amount;
-                            unitOfWork.Repository<Users>().Update(userMainOrder);
-
-                            //Thêm lịch sử của ví tiền
-                            await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet()
+                            decimal? depositPayment = 0;
+                            switch (paymentMethod) //Phương thức thanh toán
                             {
-                                UID = userMainOrder.Id,
+                                case 1: //Trực tiếp
+                                    depositPayment = deposit + amount;
+                                    await unitOfWork.Repository<AdminSendUserWallet>().CreateAsync(new AdminSendUserWallet()
+                                    {
+                                        UID = userMainOrder.Id,
+                                        Amount = amount,
+                                        Updated = DateTime.UtcNow.AddHours(7),
+                                        UpdatedBy = LoginContext.Instance.CurrentUser.UserName,
+                                        Status = (int)WalletStatus.DaDuyet,
+                                        BankId = 100, //Đặt đại
+                                        TradeContent = string.Format("{0} đã được nạp tiền vào tài khoản", userMainOrder.UserName),
+                                    });
+
+                                    await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet
+                                    {
+                                        UID = userMainOrder.Id,
+                                        MainOrderId = 0,
+                                        Amount = amount,
+                                        Content = string.Format("{0} đã được nạp tiền vào tài khoản.", userMainOrder.UserName),
+                                        MoneyLeft = userMainOrder.Wallet + amount,
+                                        Type = (int?)DauCongVaTru.Cong,
+                                        TradeType = (int?)HistoryPayWalletContents.AdminChuyenTien,
+                                    });
+
+                                    //Thêm lịch sử của ví tiền
+                                    await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet()
+                                    {
+                                        UID = userMainOrder.Id,
+                                        MainOrderId = mainOrder.Id,
+                                        Amount = amount,
+                                        Content = string.Format("{0} đã đặt cọc đơn hàng: {1}.", userMainOrder.UserName, mainOrder.Id),
+                                        MoneyLeft = userMainOrder.Wallet,
+                                        Type = (int?)DauCongVaTru.Tru,
+                                        TradeType = (int?)HistoryPayWalletContents.DatCoc
+                                    });
+                                    break;
+                                case 2: //Ví điện tử
+                                    if (wallet < amount)
+                                        throw new AppException("Số tiền trong ví của khách hàng không đủ để đặt cọc");
+
+                                    depositPayment = deposit + amount;
+                                    //depositPayment = wallet - amount;
+
+                                    //Cập nhật trừ số tiền trong account
+                                    userMainOrder.Wallet -= amount;
+                                    unitOfWork.Repository<Users>().Update(userMainOrder);
+
+                                    //Thêm lịch sử của ví tiền
+                                    await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet()
+                                    {
+                                        UID = userMainOrder.Id,
+                                        MainOrderId = mainOrder.Id,
+                                        Amount = amount,
+                                        Content = string.Format("{0} đã đặt cọc đơn hàng: {1}.", userMainOrder.UserName, mainOrder.Id),
+                                        MoneyLeft = userMainOrder.Wallet,
+                                        Type = (int?)DauCongVaTru.Tru,
+                                        TradeType = (int?)HistoryPayWalletContents.DatCoc
+                                    });
+
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (depositPayment == 0)
+                                throw new AppException("Số tiền đặt cọc bằng 0");
+
+                            //Thêm lịch sử đơn hàng thay đổi
+                            await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
+                            {
                                 MainOrderId = mainOrder.Id,
-                                Amount = amount,
-                                Content = string.Format("{0} đã đặt cọc đơn hàng: {1}.", userMainOrder.UserName, mainOrder.Id),
-                                MoneyLeft = userMainOrder.Wallet,
-                                Type = (int?)DauCongVaTru.Tru,
-                                TradeType = (int?)HistoryPayWalletContents.DatCoc
+                                UID = LoginContext.Instance.CurrentUser.UserId,
+                                HistoryContent = String.Format("{0} đã đổi tiền đặt cọc của đơn hàng ID là: {1} từ: {2}, sang: {3}.", LoginContext.Instance.CurrentUser.UserName, mainOrder.Id, deposit, depositPayment),
+                                Type = (int?)TypeHistoryOrderChange.PhiGiaoTanNha
                             });
 
-                            break;
-                        default:
-                            break;
-                    }
-
-                    if (depositPayment == 0)
-                        throw new AppException("Số tiền đặt cọc bằng 0");
-
-                    //Thêm lịch sử đơn hàng thay đổi
-                    await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
-                    {
-                        MainOrderId = mainOrder.Id,
-                        UID = LoginContext.Instance.CurrentUser.UserId,
-                        HistoryContent = String.Format("{0} đã đổi tiền đặt cọc của đơn hàng ID là: {1} từ: {2}, sang: {3}.", LoginContext.Instance.CurrentUser.UserName, mainOrder.Id, deposit, depositPayment),
-                        Type = (int?)TypeHistoryOrderChange.PhiGiaoTanNha
-                    });
-
-                    //Thêm lịch sử thanh toán mua hộ
-                    await unitOfWork.Repository<PayOrderHistory>().CreateAsync(new PayOrderHistory()
-                    {
-                        MainOrderId = mainOrder.Id,
-                        UID = LoginContext.Instance.CurrentUser.UserId,
-                        Status = (int?)StatusPayOrderHistoryContants.DatCoc2,
-                        Amount = amount,
-                        Type = (int?)TypePayOrderHistoryContants.ViDienTu
-                    });
-
-                    await unitOfWork.Repository<PayAllOrderHistory>().CreateAsync(new PayAllOrderHistory()
-                    {
-                        MainOrderId = mainOrder.Id,
-                        UID = LoginContext.Instance.CurrentUser.UserId,
-                        Status = (int?)StatusPayOrderHistoryContants.DatCoc2,
-                        Note = note,
-                        Amount = amount
-                    });
-
-                    mainOrder.Deposit = depositPayment;
-                    mainOrder.Status = (int)StatusOrderContants.DaDatCoc;
-                    mainOrder.DepositDate = currentDate;
-                    unitOfWork.Repository<MainOrder>().Update(mainOrder);
-
-                    break;
-                case 2: //Thanh toán
-                    if (amount < mustPayment)
-                        throw new AppException("Số tiền nhập vào không đủ để thanh toán");
-                    if (amount > mustPayment)
-                        throw new AppException("Số tiền đã vượt mức cần phải thanh toán");
-
-                    decimal? orderPayment = 0;
-                    switch (paymentMethod) //Phương thức thanh toán
-                    {
-                        case 1: //Trực tiếp
-                            orderPayment = deposit + amount;
-                            mainOrder.Deposit = orderPayment;
+                            //Thêm lịch sử thanh toán mua hộ
+                            await unitOfWork.Repository<PayOrderHistory>().CreateAsync(new PayOrderHistory()
+                            {
+                                MainOrderId = mainOrder.Id,
+                                UID = LoginContext.Instance.CurrentUser.UserId,
+                                Status = (int?)StatusPayOrderHistoryContants.DatCoc2,
+                                Amount = amount,
+                                Type = (int?)TypePayOrderHistoryContants.ViDienTu
+                            });
 
                             await unitOfWork.Repository<PayAllOrderHistory>().CreateAsync(new PayAllOrderHistory()
                             {
                                 MainOrderId = mainOrder.Id,
                                 UID = LoginContext.Instance.CurrentUser.UserId,
-                                Status = (int?)StatusPayOrderHistoryContants.ThanhToan,
+                                Status = (int?)StatusPayOrderHistoryContants.DatCoc2,
                                 Note = note,
                                 Amount = amount
                             });
 
+                            mainOrder.Deposit = depositPayment;
+                            mainOrder.Status = (int)StatusOrderContants.DaDatCoc;
+                            mainOrder.DepositDate = currentDate;
+                            unitOfWork.Repository<MainOrder>().Update(mainOrder);
+
                             break;
-                        case 2: //Ví điện tử
-                            if (wallet < amount)
-                                throw new AppException("Số tiền trong ví của khách hàng không đủ để thanh toán");
+                        case 2: //Thanh toán
+                            if (amount < mustPayment)
+                                throw new AppException("Số tiền nhập vào không đủ để thanh toán");
+                            if (amount > mustPayment)
+                                throw new AppException("Số tiền đã vượt mức cần phải thanh toán");
 
-                            orderPayment = deposit + amount;
-                            mainOrder.Deposit = orderPayment;
-                            if (mainOrder.DepositDate == null)
-                                mainOrder.DepositDate = currentDate;
-
-                            var walletLeft = wallet - amount;
-
-                            //Cập nhật trừ số tiền trong account
-                            userMainOrder.Wallet = walletLeft;
-                            unitOfWork.Repository<Users>().Update(userMainOrder);
-
-                            //Thêm lịch sử của ví tiền
-                            await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet()
+                            decimal? orderPayment = 0;
+                            switch (paymentMethod) //Phương thức thanh toán
                             {
-                                UID = userMainOrder.Id,
+                                case 1: //Trực tiếp
+                                    orderPayment = deposit + amount;
+                                    mainOrder.Deposit = orderPayment;
+
+                                    await unitOfWork.Repository<PayAllOrderHistory>().CreateAsync(new PayAllOrderHistory()
+                                    {
+                                        MainOrderId = mainOrder.Id,
+                                        UID = LoginContext.Instance.CurrentUser.UserId,
+                                        Status = (int?)StatusPayOrderHistoryContants.ThanhToan,
+                                        Note = note,
+                                        Amount = amount
+                                    });
+
+                                    await unitOfWork.Repository<AdminSendUserWallet>().CreateAsync(new AdminSendUserWallet()
+                                    {
+                                        UID = userMainOrder.Id,
+                                        Amount = amount,
+                                        Updated = DateTime.UtcNow.AddHours(7),
+                                        UpdatedBy = LoginContext.Instance.CurrentUser.UserName,
+                                        Status = (int)WalletStatus.DaDuyet,
+                                        BankId = 100, //Đặt đại
+                                        TradeContent = string.Format("{0} đã được nạp tiền vào tài khoản", userMainOrder.UserName),
+                                    });
+
+                                    await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet
+                                    {
+                                        UID = userMainOrder.Id,
+                                        MainOrderId = 0,
+                                        Amount = amount,
+                                        Content = string.Format("{0} đã được nạp tiền vào tài khoản.", userMainOrder.UserName),
+                                        MoneyLeft = userMainOrder.Wallet + amount,
+                                        Type = (int?)DauCongVaTru.Cong,
+                                        TradeType = (int?)HistoryPayWalletContents.AdminChuyenTien,
+                                    });
+
+                                    //Thêm lịch sử của ví tiền
+                                    await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet()
+                                    {
+                                        UID = userMainOrder.Id,
+                                        MainOrderId = mainOrder.Id,
+                                        Amount = amount,
+                                        Content = string.Format("{0} đã thanh toán đơn hàng: {1}.", userMainOrder.UserName, mainOrder.Id),
+                                        MoneyLeft = userMainOrder.Wallet,
+                                        Type = (int?)DauCongVaTru.Tru,
+                                        TradeType = (int?)HistoryPayWalletContents.ThanhToanHoaDon
+                                    });
+
+                                    break;
+                                case 2: //Ví điện tử
+                                    if (wallet < amount)
+                                        throw new AppException("Số tiền trong ví của khách hàng không đủ để thanh toán");
+
+                                    orderPayment = deposit + amount;
+                                    mainOrder.Deposit = orderPayment;
+                                    if (mainOrder.DepositDate == null)
+                                        mainOrder.DepositDate = currentDate;
+
+                                    var walletLeft = wallet - amount;
+
+                                    //Cập nhật trừ số tiền trong account
+                                    userMainOrder.Wallet = walletLeft;
+                                    unitOfWork.Repository<Users>().Update(userMainOrder);
+
+                                    //Thêm lịch sử của ví tiền
+                                    await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet()
+                                    {
+                                        UID = userMainOrder.Id,
+                                        MainOrderId = mainOrder.Id,
+                                        Amount = amount,
+                                        Content = string.Format("{0} đã thanh toán đơn hàng: {1}.", userMainOrder.UserName, mainOrder.Id),
+                                        MoneyLeft = walletLeft,
+                                        Type = (int?)DauCongVaTru.Tru,
+                                        TradeType = (int?)HistoryPayWalletContents.ThanhToanHoaDon
+                                    });
+
+                                    //Cập nhật ngày dự kiến
+                                    var warehouse = await unitOfWork.Repository<Warehouse>().GetQueryable().Where(e => e.Id == mainOrder.ReceivePlace).FirstOrDefaultAsync();
+                                    mainOrder.ExpectedDate = warehouse == null ? null : currentDate.AddDays(Convert.ToInt32(warehouse.ExpectedDate));
+
+                                    break;
+                                default:
+                                    break;
+                            }
+
+                            if (orderPayment == 0)
+                                throw new AppException("Số tiền thanh toán bằng 0");
+
+                            //Thêm lịch sử đơn hàng thay đổi
+                            await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
+                            {
                                 MainOrderId = mainOrder.Id,
-                                Amount = amount,
-                                Content = string.Format("{0} đã thanh toán đơn hàng: {1}.", userMainOrder.UserName, mainOrder.Id),
-                                MoneyLeft = walletLeft,
-                                Type = (int?)DauCongVaTru.Tru,
-                                TradeType = (int?)HistoryPayWalletContents.ThanhToanHoaDon
+                                UID = LoginContext.Instance.CurrentUser.UserId,
+                                HistoryContent = String.Format("{0} đã thanh toán và nhận hàng của đơn hàng ID là: {1} từ: {2}, sang: {3}.", LoginContext.Instance.CurrentUser.UserName, mainOrder.Id, deposit, orderPayment),
+                                Type = (int?)TypeHistoryOrderChange.TienDatCoc
                             });
 
-                            //Cập nhật ngày dự kiến
-                            var warehouse = await unitOfWork.Repository<Warehouse>().GetQueryable().Where(e => e.Id == mainOrder.ReceivePlace).FirstOrDefaultAsync();
-                            mainOrder.ExpectedDate = warehouse == null ? null : currentDate.AddDays(Convert.ToInt32(warehouse.ExpectedDate));
+                            //Thêm lịch sử thanh toán mua hộ
+                            await unitOfWork.Repository<PayOrderHistory>().CreateAsync(new PayOrderHistory()
+                            {
+                                MainOrderId = mainOrder.Id,
+                                UID = LoginContext.Instance.CurrentUser.UserId,
+                                Status = (int?)StatusPayOrderHistoryContants.ThanhToan,
+                                Amount = amount,
+                                Type = (int?)TypePayOrderHistoryContants.ViDienTu
+                            });
+
+                            mainOrder.Status = (int)StatusOrderContants.KhachDaThanhToan;
+                            mainOrder.PayDate = currentDate;
+                            unitOfWork.Repository<MainOrder>().Update(mainOrder);
 
                             break;
                         default:
                             break;
                     }
-
-                    if (orderPayment == 0)
-                        throw new AppException("Số tiền thanh toán bằng 0");
-
-                    //Thêm lịch sử đơn hàng thay đổi
-                    await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
-                    {
-                        MainOrderId = mainOrder.Id,
-                        UID = LoginContext.Instance.CurrentUser.UserId,
-                        HistoryContent = String.Format("{0} đã thanh toán và nhận hàng của đơn hàng ID là: {1} từ: {2}, sang: {3}.", LoginContext.Instance.CurrentUser.UserName, mainOrder.Id, deposit, orderPayment),
-                        Type = (int?)TypeHistoryOrderChange.TienDatCoc
-                    });
-
-                    //Thêm lịch sử thanh toán mua hộ
-                    await unitOfWork.Repository<PayOrderHistory>().CreateAsync(new PayOrderHistory()
-                    {
-                        MainOrderId = mainOrder.Id,
-                        UID = LoginContext.Instance.CurrentUser.UserId,
-                        Status = (int?)StatusPayOrderHistoryContants.ThanhToan,
-                        Amount = amount,
-                        Type = (int?)TypePayOrderHistoryContants.ViDienTu
-                    });
-
-                    mainOrder.Status = (int)StatusOrderContants.KhachDaThanhToan;
-                    mainOrder.PayDate = currentDate;
-                    unitOfWork.Repository<MainOrder>().Update(mainOrder);
-
-                    break;
-                default:
-                    break;
+                    await unitOfWork.SaveAsync();
+                    await dbContextTransaction.CommitAsync();
+                }
+                catch (Exception ex)
+                {
+                    await dbContextTransaction.RollbackAsync();
+                    throw new Exception(ex.Message);
+                }
             }
-
-            await unitOfWork.SaveAsync();
             return true;
         }
-
         public override async Task<MainOrder> GetByIdAsync(int id)
         {
             //var mainOrder = await Queryable.Where(e => e.Id == id && !e.Deleted).AsNoTracking().FirstOrDefaultAsync();
