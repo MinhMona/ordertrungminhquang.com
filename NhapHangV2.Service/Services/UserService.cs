@@ -389,6 +389,8 @@ namespace NhapHangV2.Service.Services
 
             if (userInfo.IsAdmin) return true;
 
+            if (controller.Equals("Warehouse") || controller.Equals("WarehouseFrom") || controller.Equals("ShippingTypeToWareHouse"))
+                return true;
             // Lấy ra những nhóm user thuộc
             var userGroupIds = await unitOfWork.Repository<UserInGroups>().GetQueryable()
                 .Where(e => e.UserId == userId)
@@ -593,9 +595,10 @@ namespace NhapHangV2.Service.Services
         public async Task<Users> GetUserByIdAndGroupId(int UID, int groupId)
         {
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == UID && !x.Deleted).FirstOrDefaultAsync();
-            if(user != null) { 
-                var userGroup = await unitOfWork.Repository<UserGroups>().GetQueryable().Where(x=>x.Id == groupId && !x.Deleted).FirstOrDefaultAsync();
-                if(userGroup != null)
+            if (user != null)
+            {
+                var userGroup = await unitOfWork.Repository<UserGroups>().GetQueryable().Where(x => x.Id == groupId && !x.Deleted).FirstOrDefaultAsync();
+                if (userGroup != null)
                     user.UserGroupName = userGroup.Description;
                 return user;
             }

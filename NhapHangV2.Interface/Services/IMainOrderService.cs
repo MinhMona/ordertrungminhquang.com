@@ -1,5 +1,6 @@
 ﻿using NhapHangV2.Entities;
 using NhapHangV2.Entities.Search;
+using NhapHangV2.Entities.SQLEntities;
 using NhapHangV2.Interface.Services.DomainServices;
 using NhapHangV2.Models;
 using NhapHangV2.Models.ExcelModels;
@@ -31,5 +32,6 @@ namespace NhapHangV2.Interface.Services
         void UpdateMainOrderFromSql(string commandText);
         NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch);
         byte[] GetMainOrdersExcel(MainOrderSearch mainOrderSearch);
+        CountAllOrder GetCountAllOrder(MainOrderSearch mainOrderSearch);
     }
 }

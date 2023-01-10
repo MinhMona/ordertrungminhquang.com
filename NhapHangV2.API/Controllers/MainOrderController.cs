@@ -1186,6 +1186,24 @@ namespace NhapHangV2.API.Controllers
             };
         }
 
+        /// <summary>
+        /// Tính số lượng các đơn hàng
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("get-count-order")]
+        [AppAuthorize(new int[] { CoreContants.View })]
+        public AppDomainResult GetCountAllOrder([FromQuery] MainOrderSearch mainOrderSearch)
+        {
+            var numberOfOrders = mainOrderService.GetCountAllOrder(mainOrderSearch);
+            return new AppDomainResult
+            {
+                Data = numberOfOrders,
+                ResultCode = (int)HttpStatusCode.OK,
+                ResultMessage = null,
+                Success = true
+            };
+        }
+
         #region Excel
 
         /// <summary>
