@@ -231,7 +231,7 @@ namespace NhapHangV2.Service.Services
                             var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync("UCNMDH");
                             string subject = emailTemplate.Subject;
                             string emailContent = string.Format(emailTemplate.Body);
-                            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", String.Format(Detail_MainOrder,item.Id), item.UID, subject, emailContent);
+                            await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", String.Format(Detail_MainOrder, item.Id), item.UID, subject, emailContent);
                             //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
 
                             mainOrder.Deposit = mainOrder.AmountDeposit;
@@ -251,7 +251,8 @@ namespace NhapHangV2.Service.Services
                     if (mainOrder.TotalPriceVND == 0) mainOrder.Status = (int)StatusOrderContants.ChuaDatCoc;
 
                     mainOrder.IsUpdatePrice = true;
-
+                    mainOrder.AmountDeposit = Math.Round((mainOrder.AmountDeposit ?? 0), 0);
+                    mainOrder.TotalPriceVND = Math.Round((mainOrder.TotalPriceVND ?? 0), 0);
                     unitOfWork.Repository<MainOrder>().Update(mainOrder);
                     await unitOfWork.SaveAsync();
                     #endregion

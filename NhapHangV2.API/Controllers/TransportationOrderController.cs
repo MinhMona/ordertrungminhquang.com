@@ -171,6 +171,7 @@ namespace NhapHangV2.API.Controllers
                     data.CODFeeTQ = list.FeeShip;
                     data.TotalPriceCNY = list.FeeShip;
                     data.TotalPriceVND = list.FeeShip * currency;
+                    data.TotalPriceVND = Math.Round(data.TotalPriceVND ?? 0, 0);
                     data.SalerID = itemModel.SalerID;
 
                     // Kiểm tra item có tồn tại chưa?
@@ -600,7 +601,7 @@ namespace NhapHangV2.API.Controllers
             }
             var config = await configurationsService.GetSingleAsync();
             totalCNY = Math.Round((totalVND / config.Currency) ?? 0, 1);
-            transportationOrder.TotalPriceVND = totalVND ?? 0;
+            transportationOrder.TotalPriceVND = Math.Round(totalVND ?? 0, 0);
             transportationOrder.TotalPriceCNY = totalCNY ?? 0;
             return transportationOrder;
         }
