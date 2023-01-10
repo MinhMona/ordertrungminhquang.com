@@ -388,7 +388,7 @@ namespace NhapHangV2.Service.Services
                 }
             }
             item.PriceVND = item.PriceCNY * currency ?? 0;
-
+            item.PriceVND = Math.Round(item.PriceVND.Value, 0);
             //Phí mua hàng
             var userLevel = await unitOfWork.Repository<UserLevel>().GetQueryable().Where(x => x.Id == user.LevelId).FirstOrDefaultAsync();
             var cKFeeBuyPro = userLevel == null ? 0 : userLevel.FeeBuyPro ?? 0;

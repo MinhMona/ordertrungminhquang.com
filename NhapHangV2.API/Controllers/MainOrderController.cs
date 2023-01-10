@@ -615,7 +615,7 @@ namespace NhapHangV2.API.Controllers
                     Status = 0,
                     Deposit = 0,
                     CurrentCNYVN = currency,
-                    TotalPriceVND = totalPriceVND,
+                    TotalPriceVND = Math.Round(totalPriceVND, 0),
 
                     SalerId = salerId,
                     DatHangId = datHangId,
@@ -996,7 +996,8 @@ namespace NhapHangV2.API.Controllers
                     mapper.Map(itemModel, item);
 
                     item.StaffIncomes = staffIncomes;
-
+                    item.TotalPriceVND = Math.Round((item.TotalPriceVND ?? 0), 0);
+                    item.AmountDeposit = Math.Round((item.AmountDeposit ?? 0), 0);
                     success = await this.domainService.UpdateAsync(item);
 
                     if (success)
