@@ -13,6 +13,7 @@ using NhapHangV2.Interface.Services;
 using NhapHangV2.Interface.Services.Catalogue;
 using NhapHangV2.Models;
 using NhapHangV2.Request;
+using NhapHangV2.Service;
 using NhapHangV2.Utilities;
 using System;
 using System.Collections.Generic;
@@ -244,7 +245,6 @@ namespace NhapHangV2.API.Controllers
                 {
                     DateTime currentDate = DateTime.Now;
 
-                    //item.UID = LoginContext.Instance.CurrentUser.UserId;
                     //Kiểm hàng Trung quốc
                     if (itemModel.IsWarehouseTQ)
                     {
@@ -317,7 +317,9 @@ namespace NhapHangV2.API.Controllers
                             throw new KeyNotFoundException("Mã vận đơn không tồn tại");
                     }
 
-
+                    var exists = await smallPackageService.GetByOrderTransactionCode(itemModel.OrderTransactionCode);
+                    if (exists != null)
+                        throw new AppException(string.Format("Mã vận đơn {0} đã tồn tại", itemModel.OrderTransactionCode));
                     success = await smallPackageService.CreateAsync(item);
                     if (success)
                     {

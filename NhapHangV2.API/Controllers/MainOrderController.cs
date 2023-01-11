@@ -916,7 +916,7 @@ namespace NhapHangV2.API.Controllers
                         updateSql += " INSERT INTO [dbo].[HistoryOrderChange] ([MainOrderId] ,[UID] ,[HistoryContent] ,[Type] ,[Created] ,[CreatedBy] ,[Deleted] ,[Active]) " +
                             $"VALUES({item.Id},{user.Id},N'{historyContent}',{type},'{DateTime.Now}','{user.UserName}',0,1)";
                     }
-
+                    
                     //Mã vận đơn
                     await UpdateSmallPackageWhenUpdateMainOrder(itemModel, item, user, updateSql);
                     //Danh sách phụ phí
@@ -992,9 +992,13 @@ namespace NhapHangV2.API.Controllers
 
                     //Tính phí hoa hồng
                     List<StaffIncome> staffIncomes = await Commission(itemModel, item, user, configurations, updateSql);
-
+                    var countOldSmallpackage = item.SmallPackages.Count;
                     mapper.Map(itemModel, item);
-
+                    //Đã thanh toán nhưng thêm mã vận đơn
+                    if (item.Status == (int)StatusOrderContants.KhachDaThanhToan && (itemModel.SmallPackages.Count > countOldSmallpackage))
+                    {
+                        item.Status = (int)StatusOrderContants.DaMuaHang;
+                    }
                     item.StaffIncomes = staffIncomes;
                     item.TotalPriceVND = Math.Round((item.TotalPriceVND ?? 0), 0);
                     item.AmountDeposit = Math.Round((item.AmountDeposit ?? 0), 0);
