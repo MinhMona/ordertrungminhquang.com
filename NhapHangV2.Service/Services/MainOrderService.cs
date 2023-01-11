@@ -809,6 +809,8 @@ namespace NhapHangV2.Service.Services
                         throw new AppException(string.Format("Mã vận đơn {0} đã tồn tại", smallPackage.OrderTransactionCode));
 
                     await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
+                    await unitOfWork.SaveAsync();
+                    unitOfWork.Repository<SmallPackage>().Detach(smallPackage);
                 }
                 else
                 {
@@ -945,6 +947,17 @@ namespace NhapHangV2.Service.Services
                     string emailContentVN = string.Format(emailTemplateVN.Body);
                     await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectVN, emailContentVN);
                     break;
+                case (int)StatusOrderContants.KhachDaThanhToan:
+                    var smallPackagePaid = item.SmallPackages;
+                    if (smallPackagePaid.Count > 0)
+                    {
+                        foreach (var smallPackage in smallPackagePaid)
+                        {
+                            smallPackage.IsPayment = true;
+                            unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                        }
+                    }
+                    break;
                 case (int)StatusOrderContants.DaHoanThanh:
                     item.CompleteDate = currentDate;
                     var smallPackageUpdates = item.SmallPackages;
@@ -956,7 +969,6 @@ namespace NhapHangV2.Service.Services
                             unitOfWork.Repository<SmallPackage>().Update(smallPackage);
                         }
                     }
-
                     break;
                 default:
                     break;
