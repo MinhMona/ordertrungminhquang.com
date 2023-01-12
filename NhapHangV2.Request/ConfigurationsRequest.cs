@@ -262,7 +262,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Thông báo chạy giao diện user
         /// </summary>
-        public string NotiRun { get; set; } = string.Empty;
+        public string? NotiRun { get; set; } = string.Empty;
         #endregion
 
         #region Cấu hình Footer

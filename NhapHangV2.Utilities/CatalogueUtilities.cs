@@ -127,103 +127,123 @@ namespace NhapHangV2.Utilities
     public class NumberOfOrders
     {
         /// <summary>
-        /// Chưa đặt cọc
+        /// Trạng thái
         /// </summary>
-        public int? UnDeposit { get; set; } = 0;
-        /// <summary>
-        /// Hủy
-        /// </summary>
-        public int? Cancel { get; set; } = 0;
-        /// <summary>
-        /// Đã đặt cọc
-        /// </summary>
-        public int? Deposit { get; set; } = 0;
-        /// <summary>
-        /// Chờ duyệt đơn
-        /// </summary>
-        public int? WaitConfirm { get; set; } = 0;
-        /// <summary>
-        /// Đã duyệt đơn
-        /// </summary>
-        public int? Comfirmed { get; set; } = 0;
-        /// <summary>
-        /// Đã mua hàng
-        /// </summary>
-        public int? PurchaseOrder { get; set; } = 0;
-        /// <summary>
-        /// Đã về kho TQ
-        /// </summary>
-        public int? InChinaWarehoue { get; set; } = 0;
-        /// <summary>
-        /// Đã về kho VN
-        /// </summary>
-        public int? InVietnamWarehoue { get; set; } = 0;
-        /// <summary>
-        /// Chờ thanh toán
-        /// </summary>
-        public int? WaitPayment { get; set; } = 0;
-        /// <summary>
-        /// Khách đã thanh toán
-        /// </summary>
-        public int? Paid { get; set; } = 0;
-        /// <summary>
-        /// Đã hoàn thành
-        /// </summary>
-        public int? Completed { get; set; } = 0;
-        /// <summary>
-        /// Đã khiếu nại
-        /// </summary>
-        public int? Complained { get; set; } = 0;
+        public int? Status { get; set; }
 
         /// <summary>
-        /// Tất cả
+        /// Số lượng
         /// </summary>
-        public int? AllOrders
-        {
-            get
-            {
-                return (UnDeposit + Cancel + Deposit + WaitConfirm + Comfirmed + PurchaseOrder + InChinaWarehoue + InVietnamWarehoue + WaitPayment + Paid + Completed);
-            }
-        }
+        public int? Quantity { get; set; }
+        ///// <summary>
+        ///// Chưa đặt cọc
+        ///// </summary>
+        //public int? UnDeposit { get; set; } = 0;
+        ///// <summary>
+        ///// Hủy
+        ///// </summary>
+        //public int? Cancel { get; set; } = 0;
+        ///// <summary>
+        ///// Đã đặt cọc
+        ///// </summary>
+        //public int? Deposit { get; set; } = 0;
+        ///// <summary>
+        ///// Chờ duyệt đơn
+        ///// </summary>
+        //public int? WaitConfirm { get; set; } = 0;
+        ///// <summary>
+        ///// Đã duyệt đơn
+        ///// </summary>
+        //public int? Comfirmed { get; set; } = 0;
+        ///// <summary>
+        ///// Đã mua hàng
+        ///// </summary>
+        //public int? PurchaseOrder { get; set; } = 0;
+        ///// <summary>
+        ///// Đã về kho TQ
+        ///// </summary>
+        //public int? InChinaWarehoue { get; set; } = 0;
+        ///// <summary>
+        ///// Đã về kho VN
+        ///// </summary>
+        //public int? InVietnamWarehoue { get; set; } = 0;
+        ///// <summary>
+        ///// Chờ thanh toán
+        ///// </summary>
+        //public int? WaitPayment { get; set; } = 0;
+        ///// <summary>
+        ///// Khách đã thanh toán
+        ///// </summary>
+        //public int? Paid { get; set; } = 0;
+        ///// <summary>
+        ///// Đã hoàn thành
+        ///// </summary>
+        //public int? Completed { get; set; } = 0;
+        ///// <summary>
+        ///// Đã khiếu nại
+        ///// </summary>
+        //public int? Complained { get; set; } = 0;
+
+        //public int? WaitingQuote { get; set; }
+        ///// <summary>
+        ///// Tất cả
+        ///// </summary>
+        //public int? AllOrders
+        //{
+        //    get
+        //    {
+        //        return (UnDeposit + Cancel + Deposit + WaitConfirm + Comfirmed + PurchaseOrder + InChinaWarehoue + InVietnamWarehoue + WaitPayment + Paid + Completed);
+        //    }
+        //}
     }
 
     public class TransportationsInfor
     {
         /// <summary>
-        /// Tổng số đơn hàng 
+        /// Trạng thái
         /// </summary>
-        public int TotalOrders { get; set; }
+        public int? Status { get; set; }
+
         /// <summary>
-        /// Đơn hàng mới
+        /// Số lượng
         /// </summary>
-        public int TotalNewOrders { get; set; }
-        /// <summary>
-        /// Đơn hàng đã duyệt
-        /// </summary>
-        public int ToTalConfimed { get; set; }
-        /// <summary>
-        /// Đơn hàng đã có tại kho TQ
-        /// </summary>
-        public int TotalInChina { get; set; }
-        /// <summary>
-        /// Đơn hàng đã có tại kho VN
-        /// </summary>
-        public int TotalInVietnam { get; set; }
-        /// <summary>
-        /// Đơn hàng đã thanh toán
-        /// </summary>
-        public int TotalPaid { get; set; }
-        /// <summary>
-        /// Đơn hàng đã nhận
-        /// </summary>
-        public int TotalCompleted { get; set; }
-        /// <summary>
-        /// Đơn hàng đã hủy
-        /// </summary>
-        public int TotalCancled { get; set; }
+        public int? Quantity { get; set; }
+        ///// <summary>
+        ///// Tổng số đơn hàng 
+        ///// </summary>
+        //public int TotalOrders { get; set; }
+        ///// <summary>
+        ///// Đơn hàng mới
+        ///// </summary>
+        //public int TotalNewOrders { get; set; }
+        ///// <summary>
+        ///// Đơn hàng đã duyệt
+        ///// </summary>
+        //public int ToTalConfimed { get; set; }
+        ///// <summary>
+        ///// Đơn hàng đã có tại kho TQ
+        ///// </summary>
+        //public int TotalInChina { get; set; }
+        ///// <summary>
+        ///// Đơn hàng đã có tại kho VN
+        ///// </summary>
+        //public int TotalInVietnam { get; set; }
+        ///// <summary>
+        ///// Đơn hàng đã thanh toán
+        ///// </summary>
+        //public int TotalPaid { get; set; }
+        ///// <summary>
+        ///// Đơn hàng đã nhận
+        ///// </summary>
+        //public int TotalCompleted { get; set; }
+        ///// <summary>
+        ///// Đơn hàng đã hủy
+        ///// </summary>
+        //public int TotalCancled { get; set; }
     }
     public class TransportationsAmount
     {
+
         /// <summary>
         /// Tổng tiền hàng tất cả
         /// </summary>

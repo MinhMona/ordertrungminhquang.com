@@ -697,7 +697,7 @@ namespace NhapHangV2.Service.Services
             };
         }
 
-        public TransportationsInfor GetTransportationsInfor(TransportationOrderSearch transportationOrderSearch)
+        public List<TransportationsInfor> GetTransportationsInfor(TransportationOrderSearch transportationOrderSearch)
         {
             var storeService = serviceProvider.GetRequiredService<IStoreSqlService<TransportationsInfor>>();
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
@@ -705,7 +705,20 @@ namespace NhapHangV2.Service.Services
             sqlParameters.Add(new SqlParameter("@RoleID", transportationOrderSearch.RoleID));
             SqlParameter[] parameters = sqlParameters.ToArray();
             var data = storeService.GetDataFromStore(parameters, "GetTransportationsInfor");
-            return data.FirstOrDefault();
+            if (data.Count != Enum.GetNames(typeof(StatusGeneralTransportationOrder)).Length)
+            {
+                int j = 0;
+                foreach (var item in Enum.GetValues(typeof(StatusGeneralTransportationOrder)))
+                {
+                    if (data[j].Status != (int)item)
+                        data.Add(new() { Status = (int)item, Quantity = 0 });
+                    else
+                        j++;
+                }
+            }
+            var all = data.Sum(x => x.Quantity);
+            data.Add(new() { Status = -1, Quantity = all });
+            return data;
         }
 
         public TransportationsAmount GetTransportationsAmount(int UID)
