@@ -737,6 +737,12 @@
             <param name="mainOrderSearch"> 1:Đơn mua hộ, 3: Đơn mua hộ khác</param>
             <returns></returns>
         </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.GetCountAllOrder(NhapHangV2.Entities.Search.MainOrderSearch)">
+            <summary>
+            Tính số lượng các đơn hàng
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:NhapHangV2.API.Controllers.MainOrderController.ExportExcel(NhapHangV2.Entities.Search.MainOrderSearch)">
             <summary>
             Xuất Excel
@@ -878,6 +884,13 @@
             Đặt hàng qua Extension
             </summary>
             <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.OrderShopTempController.AddSame(NhapHangV2.Request.DomainRequests.AppDomainRequest)">
+            <summary>
+            Đặt đơn tương tự
+            </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:NhapHangV2.API.Controllers.OrderTempController.UpdateItem(NhapHangV2.Request.OrderTempRequest)">
@@ -1067,6 +1080,13 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:NhapHangV2.API.Controllers.ShippingTypeToWareHouseController.UpdateItem(NhapHangV2.Request.Catalogue.ShippingTypeToWareHouseRequest)">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:NhapHangV2.API.Controllers.SmallPackageController.Confirm(NhapHangV2.Request.ConfirmSmallPackageRequest)">
             <summary>
             Xác nhận lệnh trôi nổi (User)
@@ -1202,7 +1222,6 @@
             </summary>        
             <param name="type">1: Thanh toán theo Id (1 thằng), 2: Thanh toán tất cả (nhiều thằng)</param>
             <param name="id">Thanh toán 1 Id</param>
-            <param name="baseSearch">Thanh toán tất cả dựa trên baseSearch (PageIndex = 0, PageSize = 0)</param>
             <returns></returns>
         </member>
         <member name="M:NhapHangV2.API.Controllers.StaffIncomeController.ExportExcel(NhapHangV2.Entities.Search.StaffIncomeSearch)">
@@ -1380,9 +1399,23 @@
             <param name="request"></param>
             <returns></returns>
         </member>
+        <member name="M:NhapHangV2.API.Controllers.WarehouseController.UpdateItem(NhapHangV2.Request.Catalogue.WarehouseRequest)">
+            <summary>
+            Cập nhật item
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
         <member name="M:NhapHangV2.API.Controllers.WarehouseFromController.AddItem(NhapHangV2.Request.Catalogue.WarehouseFromRequest)">
             <summary>
             Thêm mới item
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.WarehouseFromController.UpdateItem(NhapHangV2.Request.Catalogue.WarehouseFromRequest)">
+            <summary>
+            Cập nhật item
             </summary>
             <param name="request"></param>
             <returns></returns>

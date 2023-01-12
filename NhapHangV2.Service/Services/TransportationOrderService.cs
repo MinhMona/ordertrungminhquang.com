@@ -705,6 +705,9 @@ namespace NhapHangV2.Service.Services
             sqlParameters.Add(new SqlParameter("@RoleID", transportationOrderSearch.RoleID));
             SqlParameter[] parameters = sqlParameters.ToArray();
             var data = storeService.GetDataFromStore(parameters, "GetTransportationsInfor");
+
+            var all = data.Sum(x => x.Quantity);
+            data.Add(new() { Status = -1, Quantity = all });
             if (data.Count != Enum.GetNames(typeof(StatusGeneralTransportationOrder)).Length)
             {
                 int j = 0;
@@ -716,8 +719,6 @@ namespace NhapHangV2.Service.Services
                         j++;
                 }
             }
-            var all = data.Sum(x => x.Quantity);
-            data.Add(new() { Status = -1, Quantity = all });
             return data;
         }
 

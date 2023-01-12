@@ -1201,7 +1201,8 @@ namespace NhapHangV2.Service.Services
             sqlParameters.Add(new SqlParameter("@OrderType", mainOrderSearch.OrderType));
             SqlParameter[] parameters = sqlParameters.ToArray();
             var data = storeService.GetDataFromStore(parameters, "GetNumberOfOrder");
-            
+            var all = data.Sum(x => x.Quantity);
+            data.Add(new() { Status = -1, Quantity = all });
             if (data.Count != Enum.GetNames(typeof(StatusOrderContants)).Length)
             {
                 int j = 0;
@@ -1213,8 +1214,7 @@ namespace NhapHangV2.Service.Services
                         j++;
                 }
             }
-            var all = data.Sum(x => x.Quantity);
-            data.Add(new() { Status = -1, Quantity = all });
+
             return data;
         }
 
