@@ -257,6 +257,11 @@ namespace NhapHangV2.Models
         /// Email liên hệ Popup
         /// </summary>
         public string NotiPopupEmail { get; set; }
+
+        /// <summary>
+        /// Thông báo chạy giao diện user
+        /// </summary>
+        public string NotiRun { get; set; } = string.Empty;
         #endregion
 
         #region Cấu hình Footer

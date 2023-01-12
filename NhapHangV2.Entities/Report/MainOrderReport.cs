@@ -32,6 +32,12 @@ namespace NhapHangV2.Entities.Report
         public decimal? FeeShipCN { get; set; } = 0;
 
         /// <summary>
+        /// Phí ship TQ thật
+        /// </summary>
+        [Column(TypeName = "decimal(18,2)")] 
+        public decimal? FeeShipCNReal { get; set; } = 0;
+
+        /// <summary>
         /// Phí ship TQ - VN
         /// </summary>
         [Column(TypeName = "decimal(18,2)")] 

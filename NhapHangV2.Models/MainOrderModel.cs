@@ -30,12 +30,13 @@ namespace NhapHangV2.Models
         {
             get
             {
-                if (OrderType == 3 && IsCheckNotiPrice == false)
-                    return "Chờ báo giá";
                 switch (Status)
                 {
                     case (int)StatusOrderContants.ChuaDatCoc:
-                        return "Chưa đặt cọc";
+                        if(OrderType == 3 && IsCheckNotiPrice == false)
+                            return "Chờ báo giá";
+                        else
+                            return "Chưa đặt cọc";
                     case (int)StatusOrderContants.Huy:
                         return "Hủy";
                     case (int)StatusOrderContants.DaDatCoc:
@@ -58,6 +59,8 @@ namespace NhapHangV2.Models
                         return "Đã hoàn thành";
                     case (int)StatusOrderContants.DaKhieuNai:
                         return "Đã khiếu nại";
+                    case (int)StatusOrderContants.ChoBaoGia:
+                        return "Chờ báo giá";
                     default:
                         return string.Empty;
                 }

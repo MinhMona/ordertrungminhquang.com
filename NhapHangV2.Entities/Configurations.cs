@@ -255,6 +255,11 @@ namespace NhapHangV2.Entities
         /// Email liên hệ Popup
         /// </summary>
         public string NotiPopupEmail { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Thông báo chạy giao diện user
+        /// </summary>
+        public string NotiRun { get; set; } = string.Empty;
         #endregion
 
         #region Cấu hình Footer

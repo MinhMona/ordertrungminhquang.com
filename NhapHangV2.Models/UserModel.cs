@@ -3,6 +3,7 @@ using NhapHangV2.Models.DomainModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 using static NhapHangV2.Utilities.CoreContants;
 
@@ -65,9 +66,10 @@ namespace NhapHangV2.Models
         /// <summary>
         /// Tên trạng thái
         /// </summary>
-        public string StatusName 
-        { 
-            get {
+        public string StatusName
+        {
+            get
+            {
                 switch (Status)
                 {
                     case (int)StatusUser.Active:
@@ -79,7 +81,7 @@ namespace NhapHangV2.Models
                     default:
                         return string.Empty;
                 }
-            } 
+            }
         }
 
         /// <summary>
@@ -159,6 +161,17 @@ namespace NhapHangV2.Models
         public int? LevelId { get; set; }
 
         /// <summary>
+        /// Tên người dùng
+        /// </summary>
+        public string LevelName
+        {
+            get
+            {
+                return $"VIP {LevelId - 1}";
+            }
+        }
+
+        /// <summary>
         /// Số dư (VNĐ)
         /// </summary>
         public decimal? Wallet { get; set; }
@@ -169,9 +182,19 @@ namespace NhapHangV2.Models
         public int? SaleId { get; set; }
 
         /// <summary>
+        /// Nhân viên kinh doanh
+        /// </summary>
+        public string Saler { get; set; }
+
+        /// <summary>
         /// ID nhân viên đặt hàng
         /// </summary>
         public int? DatHangId { get; set; }
+
+        /// <summary>
+        /// Nhân viên đặt hàng
+        /// </summary>
+        public string DatHang { get; set; }
 
         /// <summary>
         /// Số dư (Tệ)

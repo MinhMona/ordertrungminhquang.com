@@ -32,6 +32,11 @@ namespace NhapHangV2.Models.Report
         public decimal? FeeShipCN { get; set; }
 
         /// <summary>
+        /// Phí ship TQ thật
+        /// </summary>
+        public decimal? FeeShipCNReal { get; set; }
+
+        /// <summary>
         /// Phí ship TQ - VN
         /// </summary>
         public decimal? FeeWeight { get; set; }
