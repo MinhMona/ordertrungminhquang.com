@@ -240,7 +240,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí ship nội địa TQ-Tệ
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? CODFeeTQ { get; set; } = 0;
 
         /// <summary>

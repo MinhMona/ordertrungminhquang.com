@@ -201,7 +201,7 @@ namespace NhapHangV2.Utilities
             KhachDaThanhToan = 9,
             DaHoanThanh = 10,
             DaKhieuNai = 11,
-
+            ChoBaoGia = 100 //Cho đơn mua hộ khác
             //DonMoi = 1,
             //DaCoc = 2,
             //DaMuaHang = 3,

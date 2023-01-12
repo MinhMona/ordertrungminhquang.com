@@ -328,7 +328,7 @@ namespace NhapHangV2.Service.Services
                                 UID = user.Id,
                                 MainOrderId = 0,
                                 Amount = totalMustPay,
-                                Content = string.Format("{0} đã thanh toán xuất kho.", user.UserName),
+                                Content = string.Format($"{user.UserName} đã thanh toán phiên xuất kho #{id}"),
                                 MoneyLeft = user.Wallet,
                                 Type = (int?)DauCongVaTru.Tru,
                                 TradeType = (int?)HistoryPayWalletContents.ThanhToanHoaDon,

@@ -58,12 +58,12 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Link Extension (Chrome)
         /// </summary>
-        public string ChromeExtensionLink { get; set; }
+        public string? ChromeExtensionLink { get; set; }
 
         /// <summary>
         /// Link Extension (CocCoc)
         /// </summary>
-        public string CocCocExtensionLink { get; set; }
+        public string? CocCocExtensionLink { get; set; }
 
         /// <summary>
         /// Về chúng tôi
@@ -258,6 +258,11 @@ namespace NhapHangV2.Request
         /// Email liên hệ Popup
         /// </summary>
         public string? NotiPopupEmail { get; set; }
+
+        /// <summary>
+        /// Thông báo chạy giao diện user
+        /// </summary>
+        public string NotiRun { get; set; } = string.Empty;
         #endregion
 
         #region Cấu hình Footer

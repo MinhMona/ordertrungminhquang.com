@@ -43,7 +43,6 @@ namespace NhapHangV2.API.Controllers
         /// </summary>        
         /// <param name="type">1: Thanh toán theo Id (1 thằng), 2: Thanh toán tất cả (nhiều thằng)</param>
         /// <param name="id">Thanh toán 1 Id</param>
-        /// <param name="baseSearch">Thanh toán tất cả dựa trên baseSearch (PageIndex = 0, PageSize = 0)</param>
         /// <returns></returns>
         [HttpPut("payment")]
         [AppAuthorize(new int[] { CoreContants.Update })]

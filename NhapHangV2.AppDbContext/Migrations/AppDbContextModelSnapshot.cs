@@ -1561,6 +1561,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<string>("NotiPopupTitle")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("NotiRun")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int?>("NumberLinkOfOrder")
                         .HasColumnType("int");
 
@@ -3924,7 +3927,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("decimal(18,0)");
 
                     b.Property<decimal?>("CODFeeTQ")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("CancelReason")
                         .HasMaxLength(1000)
@@ -4141,6 +4144,10 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.Property<decimal?>("FeeTQVNPerWeight")
                         .HasColumnType("decimal(18,1)");
+
+                    b.Property<string>("FireBaseID")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("FirstName")
                         .HasMaxLength(200)

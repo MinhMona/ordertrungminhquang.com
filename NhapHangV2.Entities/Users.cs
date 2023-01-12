@@ -144,7 +144,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Số dư (VNĐ)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? Wallet { get; set; } = 0;
 
         /// <summary>
@@ -153,14 +153,26 @@ namespace NhapHangV2.Entities
         public int? SaleId { get; set; } = 0;
 
         /// <summary>
+        /// Nhân viên kinh doanh
+        /// </summary>
+        [NotMapped]
+        public string Saler { get; set; }
+
+        /// <summary>
         /// ID nhân viên đặt hàng
         /// </summary>
         public int? DatHangId { get; set; } = 0;
 
         /// <summary>
+        /// Nhân viên đặt hàng
+        /// </summary>
+        [NotMapped]
+        public string DatHang { get; set; }
+
+        /// <summary>
         /// Số dư (Tệ)
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? WalletCNY { get; set; } = 0;
 
         /// <summary>
@@ -176,25 +188,25 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tỉ giá riêng (Tệ)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? Currency { get; set; } = 0;
 
         /// <summary>
         /// Phí mua hàng riêng (%)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? FeeBuyPro { get; set; } = 0;
 
         /// <summary>
         /// Phí cân nặng riêng (VNĐ/KG)
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,1)")]
         public decimal? FeeTQVNPerWeight { get; set; } = 0;
 
         /// <summary>
         /// Phần trăm đặt cọc (%)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? Deposit { get; set; } = 0;
 
         /// <summary>
