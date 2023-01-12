@@ -21,7 +21,15 @@ namespace NhapHangV2.Models
         /// <summary>
         /// Trạng thái đơn hàng
         /// </summary>
-        public int? Status { get; set; }
+        private int? status;
+        public int? Status
+        {
+            get
+            {
+                return (status == (int)StatusOrderContants.ChuaDatCoc && OrderType == 3 && IsCheckNotiPrice == false) ? 100 : status;
+            }
+            set { status = value; }
+        }
 
         /// <summary>
         /// Tên trạng thái đơn hàng
@@ -33,10 +41,7 @@ namespace NhapHangV2.Models
                 switch (Status)
                 {
                     case (int)StatusOrderContants.ChuaDatCoc:
-                        if(OrderType == 3 && IsCheckNotiPrice == false)
-                            return "Chờ báo giá";
-                        else
-                            return "Chưa đặt cọc";
+                        return "Chưa đặt cọc";
                     case (int)StatusOrderContants.Huy:
                         return "Hủy";
                     case (int)StatusOrderContants.DaDatCoc:

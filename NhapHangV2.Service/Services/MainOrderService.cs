@@ -1192,7 +1192,7 @@ namespace NhapHangV2.Service.Services
             }
         }
 
-        public NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch)
+        public List<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch)
         {
             var storeService = serviceProvider.GetRequiredService<IStoreSqlService<NumberOfOrders>>();
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
@@ -1201,8 +1201,21 @@ namespace NhapHangV2.Service.Services
             sqlParameters.Add(new SqlParameter("@OrderType", mainOrderSearch.OrderType));
             SqlParameter[] parameters = sqlParameters.ToArray();
             var data = storeService.GetDataFromStore(parameters, "GetNumberOfOrder");
-
-            return data.FirstOrDefault();
+            
+            if (data.Count != Enum.GetNames(typeof(StatusOrderContants)).Length)
+            {
+                int j = 0;
+                foreach (var item in Enum.GetValues(typeof(StatusOrderContants)))
+                {
+                    if (data[j].Status != (int)item)
+                        data.Add(new() { Status = (int)item, Quantity = 0 });
+                    else
+                        j++;
+                }
+            }
+            var all = data.Sum(x => x.Quantity);
+            data.Add(new() { Status = -1, Quantity = all });
+            return data;
         }
 
         public MainOrdersInfor GetMainOrdersInfor(int UID, int orderType)

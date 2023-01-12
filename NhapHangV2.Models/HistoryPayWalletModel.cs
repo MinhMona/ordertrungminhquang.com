@@ -73,6 +73,8 @@ namespace NhapHangV2.Models
                         return "Thanh toán vận chuyển hộ";
                     case (int)HistoryPayWalletContents.ThanhToanHo:
                         return "Thanh toán hộ";
+                    case (int)HistoryPayWalletContents.HoaHong:
+                        return "Hoa hồng";
                     default:
                         return string.Empty;
                 }

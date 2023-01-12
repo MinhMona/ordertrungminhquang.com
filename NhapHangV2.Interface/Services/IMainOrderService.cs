@@ -30,7 +30,7 @@ namespace NhapHangV2.Interface.Services
         Task<bool> UpdateStatus(int ID, int status);
         Task<bool> UpdateIsCheckNotiPrice(MainOrder mainOrder);
         void UpdateMainOrderFromSql(string commandText);
-        NumberOfOrders GetNumberOfOrders(MainOrderSearch mainOrderSearch);
+        List<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch);
         byte[] GetMainOrdersExcel(MainOrderSearch mainOrderSearch);
         CountAllOrder GetCountAllOrder(MainOrderSearch mainOrderSearch);
     }

@@ -21,7 +21,7 @@ namespace NhapHangV2.Interface.Services
         Task<bool> UpdateTransportationOrder(List<int> listId, int userId);
         Task<AmountStatistic> GetTotalOrderPriceByUID(int UID);
 
-        TransportationsInfor GetTransportationsInfor(TransportationOrderSearch transportationOrderSearch);
+        List<TransportationsInfor> GetTransportationsInfor(TransportationOrderSearch transportationOrderSearch);
         TransportationsAmount GetTransportationsAmount(int UID);
     }
 }
