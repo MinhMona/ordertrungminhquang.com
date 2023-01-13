@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using NhapHangV2.Entities;
@@ -11,6 +12,7 @@ using NhapHangV2.Models;
 using NhapHangV2.Request;
 using NhapHangV2.Utilities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Net;
 using System.Threading.Tasks;
@@ -51,7 +53,6 @@ namespace NhapHangV2.API.Controllers
                 success = await contactUsService.CreateAsync(item);
                 if (success)
                 {
-                    //Thông báo thêm vào giỏ hàng thành công
                     var notificationSetting = await notificationSettingService.GetByIdAsync(21);
                     var notiTemplateUser = await notificationTemplateService.GetByIdAsync(30);
                     await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, null, string.Format(CoreContants.New_Contact_Admin), String.Empty,
@@ -65,12 +66,40 @@ namespace NhapHangV2.API.Controllers
                 throw new AppException(ModelState.GetErrorMessage());
             return appDomainResult;
         }
+
+        /// <summary>
+        /// Thêm mới item
+        /// </summary>
+        /// <param name="itemModels"></param>
+        /// <returns></returns>
+        [HttpPut]
+        [Authorize]
+        public async Task<AppDomainResult> Updatetem([FromBody] List<ContactUsRequest> itemModels)
+        {
+            AppDomainResult appDomainResult = new AppDomainResult();
+            bool success = false;
+            if (ModelState.IsValid)
+            {
+                var items = mapper.Map<List<ContactUs>>(itemModels);
+                success = await contactUsService.UpdateListContactUs(items);
+                if (success)
+                {
+                    appDomainResult.ResultCode = (int)HttpStatusCode.OK;
+                    appDomainResult.Data = items;
+                }
+                appDomainResult.Success = success;
+            }
+            else
+                throw new AppException(ModelState.GetErrorMessage());
+            return appDomainResult;
+        }
         /// <summary>
         /// Lấy danh sách item phân trang
         /// </summary>
         /// <param name="baseSearch"></param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize]
         [AppAuthorize(new int[] { CoreContants.ViewAll })]
         public async Task<AppDomainResult> Get([FromQuery] ContactUsSearch baseSearch)
         {

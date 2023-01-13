@@ -26,5 +26,9 @@ namespace NhapHangV2.Models
         /// Nội dung
         /// </summary>
         public string Content { get; set; }
+        /// <summary>
+        /// Trạng thái: true: đã xử lý, false: chưa xử lý
+        /// </summary>
+        public bool Status { get; set; }
     }
 }

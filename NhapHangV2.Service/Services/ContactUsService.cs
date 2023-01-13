@@ -41,5 +41,31 @@ namespace NhapHangV2.Service.Services
         {
             return "ContactUs_GetPagingData";
         }
+
+        public async Task<bool> UpdateListContactUs(List<ContactUs> contactUs)
+        {
+            using (var dbContextTransaction = Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    foreach (var item in contactUs)
+                    {
+                        unitOfWork.Repository<ContactUs>().UpdateFieldsSave(item, new Expression<Func<ContactUs, object>>[]
+                        {
+                            c =>c.Status,
+                            c=>c.UpdatedBy,
+                            c=>c.Updated
+                        });;
+                    }
+                    await dbContextTransaction.CommitAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await dbContextTransaction.RollbackAsync();
+                    throw new AppException(ex.Message);
+                }
+            }
+        }
     }
 }

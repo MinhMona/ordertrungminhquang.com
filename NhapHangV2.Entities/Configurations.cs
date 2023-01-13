@@ -238,6 +238,11 @@ namespace NhapHangV2.Entities
         /// Số lượng link trong 1 đơn
         /// </summary>
         public int? NumberLinkOfOrder { get; set; } = 0;
+
+        /// <summary>
+        /// Phí hoa hồng sale đơn vận chuyển hộ
+        /// </summary>
+        public int? SaleTranportationPersent { get; set; } = 0;
         #endregion
 
         #region Cấu hình thông báo
