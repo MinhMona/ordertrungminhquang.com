@@ -101,9 +101,6 @@ namespace NhapHangV2.API.Controllers
 
             if (ModelState.IsValid)
             {
-                //var userRole = await userInGroupService.GetByIdAsync(LoginContext.Instance.CurrentUser.UserId);
-                //if (userRole != null && userRole.UserGroupId == 2)
-                //    baseSearch.UID = LoginContext.Instance.CurrentUser.UserId;
                 PagedList<TransportationOrder> pagedData = await this.domainService.GetPagedListData(baseSearch);
                 PagedList<TransportationOrderModel> pagedDataModel = mapper.Map<PagedList<TransportationOrderModel>>(pagedData);
 
@@ -136,8 +133,11 @@ namespace NhapHangV2.API.Controllers
                 user = await userService.GetByIdAsync(itemModel.UID ?? 0);
                 itemModel.SalerID = LoginContext.Instance.CurrentUser.UserId;
             }
-            else //user đang login tạo
+            else
+            { //user đang login tạo
                 user = await userService.GetByIdAsync(LoginContext.Instance.CurrentUser.UserId);
+                itemModel.SalerID = user.SaleId;
+            }
             bool success = false;
             if (ModelState.IsValid)
             {

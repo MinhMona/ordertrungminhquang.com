@@ -121,12 +121,13 @@ namespace NhapHangV2.Service.Services
 
         public override async Task<bool> UpdateAsync(TransportationOrder item)
         {
-            if (item.Status == (int)StatusGeneralTransportationOrder.DaDuyet)
+            using (var dbContextTransaction = Context.Database.BeginTransaction())
             {
-                using (var dbContextTransaction = Context.Database.BeginTransaction())
+                try
                 {
-                    try
+                    if (item.Status == (int)StatusGeneralTransportationOrder.DaDuyet)
                     {
+
                         var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.OrderTransactionCode.Equals(item.OrderTransactionCode)).FirstOrDefault();
                         if (smallPackage == null)
                         {
@@ -167,30 +168,52 @@ namespace NhapHangV2.Service.Services
                             }
                         }
                         await unitOfWork.SaveAsync();
-                        await dbContextTransaction.CommitAsync();
+
+
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        await dbContextTransaction.RollbackAsync();
-                        throw new Exception(ex.Message);
+                        unitOfWork.Repository<TransportationOrder>().Update(item);
+                        foreach (var smallPackage in item.SmallPackages)
+                        {
+                            smallPackage.DonGia = item.FeeWeightPerKg;
+                            smallPackage.OrderTransactionCode = smallPackage.OrderTransactionCode.Replace(" ", "");
+                            unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                        }
                     }
+                    //Tính tiền hoa hồng
+                    var staffInCome = await unitOfWork.Repository<StaffIncome>()
+                                            .GetQueryable()
+                                            .FirstOrDefaultAsync(x => x.TransportationOrderId == item.Id && x.Deleted == false);
+                    if (staffInCome == null)
+                    {
+                        //Nếu chưa có thì tạo mới
+                        var staffInComeNew = await CommissionTransportationOrder(item, staffInCome);
+                        await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
+                    }
+                    if (staffInCome != null && staffInCome.UID == item.SalerID)
+                    {
+                        //Nếu saler trùng thì cập nhật lại
+                        var staffInComeNew = await CommissionTransportationOrder(item, staffInCome);
+                        unitOfWork.Repository<StaffIncome>().Update(staffInComeNew);
+                    }
+                    else if (staffInCome != null && staffInCome.UID != item.SalerID)
+                    {
+                        //Nếu đổi saler thì tạo mới
+                        var staffInComeNew = await CommissionTransportationOrder(item, staffInCome);
+                        await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
+                    }
+                    await unitOfWork.SaveAsync();
+                    await dbContextTransaction.CommitAsync();
+                    return true;
                 }
-            }
-            else
-            {
-                unitOfWork.Repository<TransportationOrder>().Update(item);
-                foreach (var smallPackage in item.SmallPackages)
+                catch (Exception ex)
                 {
-                    smallPackage.DonGia = item.FeeWeightPerKg;
-                    smallPackage.OrderTransactionCode = smallPackage.OrderTransactionCode.Replace(" ", "");
-                    unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                    await dbContextTransaction.RollbackAsync();
+                    throw new Exception(ex.Message);
                 }
-                await unitOfWork.SaveAsync();
             }
-            return true;
-
         }
-
         public override async Task<bool> CreateAsync(IList<TransportationOrder> items)
         {
             using (var dbContextTransaction = Context.Database.BeginTransaction())
@@ -201,6 +224,10 @@ namespace NhapHangV2.Service.Services
                     {
                         await unitOfWork.Repository<TransportationOrder>().CreateAsync(item);
                         await unitOfWork.SaveAsync();
+                        //Tính hoa hồng
+                        var staffInCome = await CommissionTransportationOrder(item, null);
+                        if (staffInCome != null)
+                            await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInCome);
 
                         //Thông báo có đơn đặt hàng mới
                         var notiTemplate = await notificationTemplateService.GetByIdAsync(9);
@@ -209,35 +236,6 @@ namespace NhapHangV2.Service.Services
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
                         await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), String.Format(Detail_Transportorder_Admin, item.Id), "", item.Id, subject, emailContent);
-
-                        //var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.TransportationOrderId == item.Id).FirstOrDefault();
-                        //if (smallPackage == null)
-                        //{
-                        //    smallPackage = new SmallPackage();
-                        //    smallPackage.UID = item.UID;
-                        //    smallPackage.TransportationOrderId = item.Id;
-                        //    smallPackage.OrderTransactionCode = item.OrderTransactionCode;
-                        //    smallPackage.ProductType = item.Category;
-                        //    smallPackage.BigPackageId = 0;
-                        //    smallPackage.FeeShip = smallPackage.Weight = 0;
-                        //    smallPackage.Status = (int)StatusGeneralTransportationOrder.ChoDuyet;
-
-                        //    smallPackage.Deleted = false;
-                        //    smallPackage.Active = true;
-                        //    smallPackage.Created = item.Created;
-                        //    smallPackage.CreatedBy = item.CreatedBy;
-
-                        //    smallPackage.IsInsurance = item.IsInsurance;
-                        //    smallPackage.IsCheckProduct = item.IsCheckProduct;
-                        //    smallPackage.IsPackged = item.IsPacked;
-                        //    smallPackage.TotalOrderQuantity = (int)item.Amount;
-                        //    await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
-                        //    await unitOfWork.SaveAsync();
-
-                        //    item.SmallPackageId = smallPackage.Id;
-
-                        //    unitOfWork.Repository<TransportationOrder>().Update(item);
-                        //}
                     }
                     await unitOfWork.SaveAsync();
                     await dbContextTransaction.CommitAsync();
@@ -746,6 +744,52 @@ namespace NhapHangV2.Service.Services
         {
             public int TransportationId { get; set; }
             public decimal Weight { get; set; }
+        }
+
+        public async Task<StaffIncome> CommissionTransportationOrder(TransportationOrder transportationOrder, StaffIncome staffIncome)
+        {
+            var configuration = await configurationsService.GetSingleAsync();
+            if (configuration == null)
+                throw new KeyNotFoundException("Không tìm thấy cấu hình hệ thống");
+            //Không có SalerId
+            if (transportationOrder.SalerID == null || transportationOrder.SalerID < 1)
+                return null;
+            //Tạo các biến để tính hoa hồng
+            decimal orderTotalPrice = transportationOrder.TotalPriceVND ?? 0;
+            int percentRecevie = configuration.SaleTranportationPersent ?? 0;
+            decimal totalPriceRecieve = 0;
+            if (transportationOrder.DeliveryPrice > 0 && percentRecevie > 0)
+            {
+                totalPriceRecieve = (transportationOrder.DeliveryPrice ?? 0) * percentRecevie / 100;
+            }
+            if (staffIncome == null)
+                return new StaffIncome()
+                {
+                    TransportationOrderId = transportationOrder.Id,
+                    OrderTotalPrice = orderTotalPrice,
+                    PercentReceive = percentRecevie,
+                    UID = transportationOrder.SalerID,
+                    TotalPriceReceive = totalPriceRecieve
+                };
+
+            if (transportationOrder.SalerID == staffIncome.UID)
+            {
+                staffIncome.OrderTotalPrice = orderTotalPrice;
+                staffIncome.TotalPriceReceive = totalPriceRecieve;
+                return staffIncome;
+            }
+            staffIncome.Deleted = true;
+            unitOfWork.Repository<StaffIncome>().Update(staffIncome);
+            await unitOfWork.SaveAsync();
+
+            return new StaffIncome()
+            {
+                TransportationOrderId = transportationOrder.Id,
+                OrderTotalPrice = orderTotalPrice,
+                PercentReceive = percentRecevie,
+                UID = transportationOrder.SalerID,
+                TotalPriceReceive = totalPriceRecieve
+            };
         }
     }
 }

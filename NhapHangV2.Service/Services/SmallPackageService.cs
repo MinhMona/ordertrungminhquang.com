@@ -28,6 +28,7 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
@@ -506,11 +507,24 @@ namespace NhapHangV2.Service.Services
 
                                     //Detach
                                     if (!transportationOrderList.Select(e => e.Id).Contains(transportationOrder.Id))
+                                    {
                                         unitOfWork.Repository<TransportationOrder>().Update(transportationOrder);
+                                        //Cập nhật hoa hồng ký gửi
+                                        var staffInCome = await unitOfWork.Repository<StaffIncome>()
+                                                        .GetQueryable()
+                                                        .FirstOrDefaultAsync(x => x.TransportationOrderId == transportationOrder.Id && x.Deleted == false);
+                                        if (staffInCome != null)
+                                        {
+                                            staffInCome.TotalPriceReceive = transportationOrder.DeliveryPrice * staffInCome.PercentReceive / 100;
+                                            await unitOfWork.Repository<StaffIncome>().UpdateFieldsSaveAsync(staffInCome, new Expression<Func<StaffIncome, object>>[]
+                                            {
+                                                s =>s.TotalPriceReceive
+                                            });
+                                        }
+                                    }
                                     transportationOrderList.Add(transportationOrder);
 
                                     await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, transportationOrder.Id.ToString(), String.Format(Detail_Transportorder_Admin, transportationOrder.Id), String.Format(Detail_Transportorder), transportationOrder.UID, string.Empty, string.Empty);
-                                    //await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, transportationOrder.Id.ToString(), $"/manager/deposit/deposit-list/{transportationOrder.Id}", "/user/deposit-list", transportationOrder.UID, string.Empty, string.Empty);
                                 }
 
                                 break;
@@ -642,7 +656,21 @@ namespace NhapHangV2.Service.Services
                                     }
                                     //Detach
                                     if (!transportationOrderList.Select(e => e.Id).Contains(transportationOrder.Id))
+                                    {
                                         unitOfWork.Repository<TransportationOrder>().Update(transportationOrder);
+                                        //Cập nhật hoa hồng ký gửi
+                                        var staffInCome = await unitOfWork.Repository<StaffIncome>()
+                                                        .GetQueryable()
+                                                        .FirstOrDefaultAsync(x => x.TransportationOrderId == transportationOrder.Id && x.Deleted == false);
+                                        if (staffInCome != null)
+                                        {
+                                            staffInCome.TotalPriceReceive = transportationOrder.DeliveryPrice * staffInCome.PercentReceive / 100;
+                                            await unitOfWork.Repository<StaffIncome>().UpdateFieldsSaveAsync(staffInCome, new Expression<Func<StaffIncome, object>>[]
+                                            {
+                                                s =>s.TotalPriceReceive
+                                            });
+                                        }
+                                    }
                                     transportationOrderList.Add(transportationOrder);
                                     await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, transportationOrder.Id.ToString(), String.Format(Detail_Transportorder_Admin, transportationOrder.Id), String.Format(Detail_Transportorder), transportationOrder.UID, string.Empty, string.Empty);
                                 }
@@ -660,8 +688,8 @@ namespace NhapHangV2.Service.Services
                             default:
                                 break;
                         }
-                        item.DonGia = Math.Round(item.DonGia.Value, 2);
-                        item.TotalPrice = Math.Round(item.TotalPrice.Value, 2);
+                        item.DonGia = Math.Round(item.DonGia.Value, 0);
+                        item.TotalPrice = Math.Round(item.TotalPrice.Value, 0);
                         unitOfWork.Repository<SmallPackage>().Update(item);
                         await unitOfWork.SaveAsync();
                     }

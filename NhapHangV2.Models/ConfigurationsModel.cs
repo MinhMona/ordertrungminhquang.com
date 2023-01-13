@@ -240,6 +240,11 @@ namespace NhapHangV2.Models
         /// Số lượng link trong 1 đơn
         /// </summary>
         public int? NumberLinkOfOrder { get; set; }
+
+        /// <summary>
+        /// Phí hoa hồng sale đơn vận chuyển hộ
+        /// </summary>
+        public int? SaleTranportationPersent { get; set; }
         #endregion
 
         #region Cấu hình thông báo

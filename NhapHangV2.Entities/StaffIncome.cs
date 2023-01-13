@@ -16,14 +16,22 @@ namespace NhapHangV2.Entities
         /// Mã đơn hàng
         /// </summary>
         public int? MainOrderId { get; set; } = 0;
+        /// <summary>
+        /// Mã đơn hàng ký gửi
+        /// </summary>
+        public int? TransportationOrderId { get; set; } = 0;
+        /// <summary>
+        /// Mã đơn hàng thanh toán hộ
+        /// </summary>
+        public int? PayHelpOrderId { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? OrderTotalPrice { get; set; } = 0;
 
         /// <summary>
         /// Phần trăm
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? PercentReceive { get; set; } = 0;
 
         /// <summary>
