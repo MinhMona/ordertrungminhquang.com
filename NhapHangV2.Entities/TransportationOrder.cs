@@ -247,6 +247,12 @@ namespace NhapHangV2.Entities
         /// ID Saler tạo dùm
         /// </summary>
         public int? SalerID { get; set; }
-        
+
+        /// <summary>
+        /// Phí dịch vụ (VNĐ)
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal? FeeService { get; set; } = 0;
+
     }
 }
