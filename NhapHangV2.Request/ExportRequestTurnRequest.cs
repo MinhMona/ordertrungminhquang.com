@@ -27,7 +27,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Ghi chú của nhân viên
         /// </summary>
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         /// <summary>
         /// ID đơn vị vận chuyển
@@ -42,7 +42,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Ghi chú của khách hàng
         /// </summary>
-        public string StaffNote { get; set; }
+        public string? StaffNote { get; set; }
 
         /// <summary>
         /// Trạng thái thanh toán
@@ -61,6 +61,6 @@ namespace NhapHangV2.Request
 
         public int? Type { get; set; }
 
-        public List<int> SmallPackageIds { get; set; }
+        public List<int>? SmallPackageIds { get; set; }
     }
 }

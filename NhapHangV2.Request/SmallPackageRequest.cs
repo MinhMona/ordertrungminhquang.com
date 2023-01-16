@@ -15,7 +15,7 @@ namespace NhapHangV2.Request
         /// Mã vận đơn ((POST) Thêm mã kiện ở trang "Kiểm hàng TQ", (PUT) Cập nhật kiện trôi nổi)
         /// </summary>
         [StringLength(50)]
-        public string OrderTransactionCode { get; set; }
+        public string? OrderTransactionCode { get; set; }
 
         /// <summary>
         /// Id Đơn hàng mua hộ

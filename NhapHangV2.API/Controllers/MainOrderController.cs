@@ -1030,6 +1030,7 @@ namespace NhapHangV2.API.Controllers
         /// <param name="item"></param>
         /// <param name="user"></param>
         /// <param name="configurations"></param>
+        /// <param name="updateSql"></param>
         /// <returns></returns>
         protected async Task<List<StaffIncome>> Commission(MainOrderRequest itemModel, MainOrder item, Users user, Configurations configurations, string updateSql)
         {
@@ -1264,10 +1265,10 @@ namespace NhapHangV2.API.Controllers
             };
         }
 
-        protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<MainOrderModel> listData)
-        {
-            return excelData;
-        }
+        //protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<MainOrderModel> listData)
+        //{
+        //    return excelData;
+        //}
 
         /// <summary>
         /// Lấy đường dẫn file template

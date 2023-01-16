@@ -9,7 +9,7 @@ namespace NhapHangV2.Request.Auth
         /// <summary>
         /// Tên chức năng (menu)
         /// </summary>
-        public string RoleName { get; set; }
+        public string? RoleName { get; set; }
 
         ///// <summary>
         ///// Quyền của chức năng
@@ -19,6 +19,6 @@ namespace NhapHangV2.Request.Auth
         /// <summary>
         /// Quyền của chức năng
         /// </summary>
-        public string[] Permissions { get; set; }
+        public string[]? Permissions { get; set; }
     }
 }

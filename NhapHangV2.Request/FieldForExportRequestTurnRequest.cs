@@ -16,7 +16,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Xuất kho đã yêu cầu - List SmallPackageId
         /// </summary>
-        public List<int> SmallPackageIds { get; set; }
+        public List<int>? SmallPackageIds { get; set; }
 
         /// <summary>
         /// Cờ xuất kho đã yêu cầu

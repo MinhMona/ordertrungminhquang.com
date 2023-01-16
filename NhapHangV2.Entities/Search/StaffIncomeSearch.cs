@@ -23,6 +23,11 @@ namespace NhapHangV2.Entities.Search
         public int? Status { get; set; }
 
         /// <summary>
+        /// Loại hoa hồng: 0-mua hộ, 1-ký gửi, 2-thanh toán hộ
+        /// </summary>
+        public int? Type { get; set; }
+
+        /// <summary>
         /// Từ ngày
         /// </summary>
         public DateTime? FromDate { get; set; }

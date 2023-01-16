@@ -110,6 +110,7 @@ namespace NhapHangV2.API.Controllers
                 if (item == null)
                     throw new KeyNotFoundException("Item không tồn tại");
                 item.Note = itemModel.Note;
+                item.SalerID = itemModel.SalerID;
                 success = await payHelpService.UpdateStatus(item, itemModel.Status ?? 0, item.Status ?? 0);
                 if (success)
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;
@@ -119,6 +120,33 @@ namespace NhapHangV2.API.Controllers
             }
             else
                 throw new AppException(ModelState.GetErrorMessage());
+
+            return appDomainResult;
+        }
+        /// <summary>
+        /// Cập nhật nhân viên sale
+        /// </summary>
+        /// <param name="itemModel"></param>
+        /// <returns></returns>
+        [HttpPut("update-staff")]
+        [AppAuthorize(new int[] { CoreContants.Update })]
+        public async Task<AppDomainResult> UpdateStaff([FromBody] PayHelpRequest itemModel)
+        {
+            AppDomainResult appDomainResult = new AppDomainResult();
+            bool success = false;
+            if (!ModelState.IsValid)
+                throw new AppException(ModelState.GetErrorMessage());
+            var item = await this.domainService.GetByIdAsync(itemModel.Id);
+            if (item == null)
+                throw new KeyNotFoundException("Item không tồn tại");
+            int oldSalerId = item.SalerID ?? 0;
+            item.SalerID = itemModel.SalerID;
+            success = await payHelpService.UpdateStaff(item, oldSalerId);
+            if (success)
+                appDomainResult.ResultCode = (int)HttpStatusCode.OK;
+            else
+                throw new Exception("Lỗi trong quá trình xử lý");
+            appDomainResult.Success = success;
 
             return appDomainResult;
         }
@@ -152,7 +180,7 @@ namespace NhapHangV2.API.Controllers
                 pagedListModel.Items.Add(new PayHelpModel());
             byte[] fileByteReport = excelUtility.Export(pagedListModel.Items);
             // Xuất biểu đồ nếu có
-            fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
+            //fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
 
             // 4. LƯU THÔNG TIN FILE BÁO CÁO XUỐNG FOLDER BÁO CÁO
             string fileName = string.Format("{0}-{1}.xlsx", Guid.NewGuid().ToString(), "PayHelp");
@@ -178,10 +206,10 @@ namespace NhapHangV2.API.Controllers
             };
         }
 
-        protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<PayHelpModel> listData)
-        {
-            return excelData;
-        }
+        //protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<PayHelpModel> listData)
+        //{
+        //    return excelData;
+        //}
 
         /// <summary>
         /// Lấy đường dẫn file template

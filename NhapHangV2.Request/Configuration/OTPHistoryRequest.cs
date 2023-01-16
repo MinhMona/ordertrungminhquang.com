@@ -19,17 +19,17 @@ namespace NhapHangV2.Request.Configuration
         /// <summary>
         /// SDT gửi OTP
         /// </summary>
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// Email gửi OTP
         /// </summary>
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Mã OTP
         /// </summary>
-        public string OTPValue { get; set; }
+        public string? OTPValue { get; set; }
 
         /// <summary>
         /// Thời gian hết hạn

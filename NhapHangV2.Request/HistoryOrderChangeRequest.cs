@@ -18,7 +18,7 @@ namespace NhapHangV2.Request
         /// Nội dung
         /// </summary>
         [StringLength(1000)]
-        public string HistoryContent { get; set; }
+        public string? HistoryContent { get; set; }
 
         /// <summary>
         /// Loại

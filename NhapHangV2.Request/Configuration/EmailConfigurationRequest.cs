@@ -17,7 +17,7 @@ namespace NhapHangV2.Request.Configuration
         /// </summary>
         [Required(ErrorMessage = "Vui lòng nhập SMTP Server!")]
         [MaxLength(1000, ErrorMessage = "Giá trị smtp server phải nhỏ hơn 1000 kí tự!")]
-        public string SmtpServer { set; get; }
+        public string? SmtpServer { set; get; }
 
         /// <summary>
         /// Port 
@@ -42,21 +42,21 @@ namespace NhapHangV2.Request.Configuration
         /// </summary>
         [Required(ErrorMessage = "Vui lòng nhập tên hiển thị!")]
         [MaxLength(1000, ErrorMessage = "Tên hiển thị phải nhỏ hơn 1000 kí tự")]
-        public string DisplayName { set; get; }
+        public string? DisplayName { set; get; }
 
         /// <summary>
         /// Tên đăng nhập cấu hình
         /// </summary>
         [Required(ErrorMessage = "Vui lòng nhập UserName!")]
         [MaxLength(1000, ErrorMessage = "Tên hiển thị phải nhỏ hơn 1000 kí tự")]
-        public string UserName { set; get; }
+        public string? UserName { set; get; }
 
         [MaxLength(1000)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập mật khẩu!")]
         [StringLength(128, ErrorMessage = "Mật khẩu phải ít nhất 8 kí tự", MinimumLength = 8)]
-        public string Password { set; get; }
+        public string? Password { set; get; }
 
         public int ItemSendCount { get; set; }
 

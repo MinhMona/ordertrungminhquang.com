@@ -119,7 +119,7 @@ namespace NhapHangV2.API.Controllers.Catalogue
                 itemModel.SmallPackages.Add(new Models.SmallPackageModel());
             byte[] fileByteReport = excelUtility.Export(itemModel.SmallPackages);
             // Xuất biểu đồ nếu có
-            fileByteReport = await this.ExportChart(fileByteReport, itemModel.SmallPackages);
+            //fileByteReport = await this.ExportChart(fileByteReport, itemModel.SmallPackages);
 
             // 4. LƯU THÔNG TIN FILE BÁO CÁO XUỐNG FOLDER BÁO CÁO
             string fileName = string.Format("{0}-{1}.xlsx", Guid.NewGuid().ToString(), "BigPackage");
@@ -145,10 +145,10 @@ namespace NhapHangV2.API.Controllers.Catalogue
             };
         }
 
-        protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<Models.SmallPackageModel> listData)
-        {
-            return excelData;
-        }
+        //protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<Models.SmallPackageModel> listData)
+        //{
+        //    return excelData;
+        //}
 
         /// <summary>
         /// Lấy đường dẫn file template

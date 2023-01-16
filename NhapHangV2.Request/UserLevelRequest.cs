@@ -12,7 +12,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Cấp người dùng
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         /// <summary>
         /// Chiết khấu phí mua hàng (%)	

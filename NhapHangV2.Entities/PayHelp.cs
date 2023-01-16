@@ -31,7 +31,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tổng tiền (Tệ)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal? TotalPrice { get; set; } = 0;
 
         /// <summary>
@@ -43,7 +43,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tỉ giá (Tỉ giá tính tiền)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal? Currency { get; set; } = 0;
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tỉ giá hệ thống
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal? CurrencyConfig { get; set; } = 0;
 
         /// <summary>
@@ -82,5 +82,16 @@ namespace NhapHangV2.Entities
         /// </summary>
         [NotMapped]
         public List<HistoryServices> HistoryServicess { get; set; } = new List<HistoryServices>();
+
+        /// <summary>
+        /// Id Saler
+        /// </summary>
+        public int? SalerID { get; set; }
+
+        /// <summary>
+        /// SalerName
+        /// </summary>
+        [NotMapped]
+        public string SalerName { get; set; } = string.Empty;
     }
 }

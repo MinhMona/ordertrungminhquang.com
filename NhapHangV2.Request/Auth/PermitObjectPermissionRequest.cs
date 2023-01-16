@@ -15,7 +15,7 @@ namespace NhapHangV2.Request.Auth
         /// <summary>
         /// List quyền
         /// </summary>
-        public string Permissions { get; set; }
+        public string? Permissions { get; set; }
 
         /// <summary>
         /// Mã nhóm

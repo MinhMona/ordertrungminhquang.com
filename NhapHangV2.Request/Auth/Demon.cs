@@ -8,7 +8,7 @@ namespace NhapHangV2.Request.Auth
 {
     public class Demon
     {
-        public string Key { get; set; }
+        public string? Key { get; set; }
         public int? ID { get; set; }
     }
 }

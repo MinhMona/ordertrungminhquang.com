@@ -16,6 +16,6 @@ namespace NhapHangV2.Request
         /// Mã đơn hàng
         /// </summary>
         [StringLength(100)]
-        public string Code { get; set; }
+        public string? Code { get; set; }
     }
 }

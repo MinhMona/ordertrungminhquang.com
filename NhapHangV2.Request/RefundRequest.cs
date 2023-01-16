@@ -24,7 +24,7 @@ namespace NhapHangV2.Request
         /// Nội dung
         /// </summary>
         [StringLength(1000)]
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         /// <summary>
         /// Trạng thái

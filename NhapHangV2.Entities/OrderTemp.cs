@@ -98,7 +98,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,1)")]
         public decimal? Weight { get; set; } = 0;
 
         /// <summary>
@@ -191,14 +191,14 @@ namespace NhapHangV2.Entities
         /// Tiền hàng (VNĐ)
         /// </summary>
         [NotMapped]
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? EPriceBuyVN { get; set; } = 0;
 
         /// <summary>
         /// Tổng tiền tất cả đơn hàng
         /// </summary>
         [NotMapped]
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? MaxEPriceBuyVN { get; set; } = 0;
     }
 }

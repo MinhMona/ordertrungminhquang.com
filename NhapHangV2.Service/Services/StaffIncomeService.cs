@@ -38,7 +38,7 @@ namespace NhapHangV2.Service.Services
 
         protected override string GetStoreProcName()
         {
-            return "StaffIncome_GetPagingData";
+            return "StaffIncome_2_GetPagingData";
         }
 
         /// <summary>

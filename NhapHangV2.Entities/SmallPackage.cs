@@ -87,7 +87,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Kiện trôi nổi - Phí ship (tệ)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? FeeShip { get; set; } = 0;
 
         /// <summary>
@@ -114,19 +114,19 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Dài
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Length { get; set; } = 0;
 
         /// <summary>
         /// Rộng
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Height { get; set; } = 0;
 
         /// <summary>
         /// Cao
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Width { get; set; } = 0;
 
         /// <summary>

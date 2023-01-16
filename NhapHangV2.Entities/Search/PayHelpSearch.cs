@@ -11,9 +11,6 @@ namespace NhapHangV2.Entities.Search
     {
         public int? UID { get; set; }
 
-        /// <summary>
-        /// UserGroupID
-        /// </summary>
         public int? RoleID { get; set; }
 
         public int? Status { get; set; }
@@ -23,7 +20,5 @@ namespace NhapHangV2.Entities.Search
         public DateTime? ToDate { get; set; }
 
         public int? SalerId { get; set; }
-
-        public int? DatHangId { get; set; }
     }
 }

@@ -257,7 +257,6 @@ namespace NhapHangV2.API.Controllers
         /// Cập nhật ảnh đại diện của tài khoản
         /// </summary>
         /// <param name="request"></param>
-        ///// <param name="avatarIMG"></param>
         /// <returns></returns>
         [HttpPut("update-avatar")]
         [AppAuthorize(new int[] { CoreContants.Update })]
@@ -271,48 +270,12 @@ namespace NhapHangV2.API.Controllers
             var item = await userService.GetByIdAsync(request.UserId);
             if (item == null)
                 throw new KeyNotFoundException("Item không tồn tại");
-            #region Upload ảnh code cũ
-            //string filePath = Path.Combine(env.ContentRootPath, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.TEMP_FOLDER_NAME, request.AvatarIMG);
-            //// ------- START GET URL FOR FILE
-            ////string folderUploadPath = string.Empty;
-            //var folderUpload = configuration.GetValue<string>("MySettings:FolderUpload");
-            //string folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
-            //string fileUploadPath = Path.Combine(folderUploadPath, Path.GetFileName(filePath));
-            //// Kiểm tra có tồn tại file trong temp chưa?
-            //if (System.IO.File.Exists(filePath) && !System.IO.File.Exists(fileUploadPath))
-            //{
-            //    FileUtilities.CreateDirectory(folderUploadPath);
-            //    FileUtilities.SaveToPath(fileUploadPath, System.IO.File.ReadAllBytes(filePath));
-            //    //folderUploadPaths.Add(fileUploadPath);
-            //    var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.UPLOAD_FOLDER_NAME}/";
-            //    string fileUrl = Path.Combine(currentLinkSite, Path.GetFileName(filePath)); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
-            //                                                                                // ------- END GET URL FOR FILE
-            //                                                                                //filePaths.Add(filePath);
-
-            //    //Gán lại cho itemModel để mapper
-            //    item.AvatarIMG = fileUrl;
-            //}
-            #endregion
             item.AvatarIMG = request.AvatarIMG;
             success = await this.domainService.UpdateAsync(item);
             if (success)
             {
                 appDomainResult.ResultCode = (int)HttpStatusCode.OK;
             }
-            #region Response cũ
-            //if (success)
-            //{
-            //    appDomainResult.ResultCode = (int)HttpStatusCode.OK;
-            //    //// Remove file trong thư mục temp
-            //    System.IO.File.Delete(filePath);
-
-            //}
-            //else
-            //{
-            //    System.IO.File.Delete(folderUploadPath);
-            //    throw new Exception("Lỗi trong quá trình xử lý");
-            //}
-            #endregion
 
             appDomainResult.Success = success;
             return appDomainResult;
@@ -349,7 +312,7 @@ namespace NhapHangV2.API.Controllers
                 pagedListModel.Items.Add(new UserModel());
             byte[] fileByteReport = excelUtility.Export(pagedListModel.Items);
             // Xuất biểu đồ nếu có
-            fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
+            //fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
 
             // 4. LƯU THÔNG TIN FILE BÁO CÁO XUỐNG FOLDER BÁO CÁO
             string getName = "Users";
@@ -376,10 +339,10 @@ namespace NhapHangV2.API.Controllers
             };
         }
 
-        protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<UserModel> listData)
-        {
-            return excelData;
-        }
+        //protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<UserModel> listData)
+        //{
+        //    return excelData;
+        //}
 
         /// <summary>
         /// Lấy đường dẫn file template

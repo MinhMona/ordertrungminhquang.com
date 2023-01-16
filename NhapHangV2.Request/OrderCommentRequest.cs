@@ -17,7 +17,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Nội dung
         /// </summary>
-        public string Comment { get; set; }
+        public string? Comment { get; set; }
 
         /// <summary>
         /// 1. Nhắn tin với khách

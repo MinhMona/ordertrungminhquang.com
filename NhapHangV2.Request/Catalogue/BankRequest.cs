@@ -13,21 +13,21 @@ namespace NhapHangV2.Request.Catalogue
         /// <summary>
         /// Tên ngân hàng
         /// </summary>
-        public string BankName { get; set; }
+        public string? BankName { get; set; }
 
         /// <summary>
         /// Số tài khoản
         /// </summary>
-        public string BankNumber { get; set; }
+        public string? BankNumber { get; set; }
 
         /// <summary>
         /// Chi nhánh
         /// </summary>
-        public string Branch { get; set; }
+        public string? Branch { get; set; }
 
         /// <summary>
         /// Hình ảnh
         /// </summary>
-        public string IMG { get; set; }
+        public string? IMG { get; set; }
     }
 }

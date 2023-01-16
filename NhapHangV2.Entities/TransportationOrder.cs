@@ -244,7 +244,7 @@ namespace NhapHangV2.Entities
         public decimal? CODFeeTQ { get; set; } = 0;
 
         /// <summary>
-        /// ID Saler tạo dùm
+        /// ID Saler
         /// </summary>
         public int? SalerID { get; set; }
 

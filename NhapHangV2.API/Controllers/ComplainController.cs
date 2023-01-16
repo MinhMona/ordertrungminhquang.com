@@ -173,7 +173,7 @@ namespace NhapHangV2.API.Controllers
                 pagedListModel.Items.Add(new ComplainModel());
             byte[] fileByteReport = excelUtility.Export(pagedListModel.Items);
             // Xuất biểu đồ nếu có
-            fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
+            //fileByteReport = await this.ExportChart(fileByteReport, pagedListModel.Items);
 
             // 4. LƯU THÔNG TIN FILE BÁO CÁO XUỐNG FOLDER BÁO CÁO
             string fileName = string.Format("{0}-{1}.xlsx", Guid.NewGuid().ToString(), "Complain");
@@ -199,10 +199,10 @@ namespace NhapHangV2.API.Controllers
             };
         }
 
-        protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<ComplainModel> listData)
-        {
-            return excelData;
-        }
+        //protected virtual async Task<byte[]> ExportChart(byte[] excelData, IList<ComplainModel> listData)
+        //{
+        //    return excelData;
+        //}
 
         /// <summary>
         /// Lấy đường dẫn file template

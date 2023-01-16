@@ -27,7 +27,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Nội dung
         /// </summary>
-        public string Content { get; set; }
+        public string? Content { get; set; }
 
         /// <summary>
         /// Số dư

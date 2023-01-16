@@ -47,35 +47,8 @@ namespace NhapHangV2.API.Controllers
 
             if (ModelState.IsValid)
             {
-                //baseSearch.UID = LoginContext.Instance.CurrentUser.UserId;
-
                 PagedList<Notification> pagedData = await this.domainService.GetPagedListData(baseSearch);
                 PagedList<NotificationModel> pagedDataModel = mapper.Map<PagedList<NotificationModel>>(pagedData);
-
-                //#region Gán loại cho response
-                //foreach (var item in pagedDataModel.Items)
-                //{
-                //    switch (baseSearch.Type)
-                //    {
-                //        case 0:
-                //            item.Type = 1;
-                //            break;
-                //        case 1:
-                //            item.Type = 1;
-                //            break;
-                //        case 2:
-                //            item.Type = 2;
-                //            break;
-                //        case 3:
-                //            item.Type = 3;
-                //            break;
-                //        default:
-                //            item.Type = 4;
-                //            break;
-                //    }                    
-                //}
-                //#endregion
-
                 appDomainResult = new AppDomainResult
                 {
                     Data = pagedDataModel,

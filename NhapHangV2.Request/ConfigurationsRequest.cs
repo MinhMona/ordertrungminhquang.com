@@ -243,9 +243,14 @@ namespace NhapHangV2.Request
         public int? NumberLinkOfOrder { get; set; }
 
         /// <summary>
-        /// Phí hoa hồng sale đơn vận chuyển hộ
+        /// Phần trăm hoa hồng sale đơn vận chuyển hộ
         /// </summary>
         public int? SaleTranportationPersent { get; set; }
+
+        /// <summary>
+        /// Phần trăm hoa hồng sale đơn vận chuyển hộ
+        /// </summary>
+        public int? SalePayHelpPersent { get; set; } = 0;
         #endregion
 
         #region Cấu hình thông báo

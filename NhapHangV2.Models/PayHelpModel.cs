@@ -94,5 +94,9 @@ namespace NhapHangV2.Models
         /// Lịch sử thanh toán
         /// </summary>
         public List<HistoryServicesModel> HistoryServices { get; set; }
+        /// <summary>
+        /// ID Saler
+        /// </summary>
+        public int? SalerID { get; set; }
     }
 }
