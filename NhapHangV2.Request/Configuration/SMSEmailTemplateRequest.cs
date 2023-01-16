@@ -14,12 +14,12 @@ namespace NhapHangV2.Request.Configuration
         /// <summary>
         /// Tiêu đề
         /// </summary>
-        public string Subject { get; set; }
+        public string? Subject { get; set; }
 
         /// <summary>
         /// Nội dung
         /// </summary>
-        public string Body { get; set; }
+        public string? Body { get; set; }
 
         /// <summary>
         /// Mẫu là SMS

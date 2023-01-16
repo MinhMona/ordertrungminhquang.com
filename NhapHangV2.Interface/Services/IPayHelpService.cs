@@ -14,5 +14,6 @@ namespace NhapHangV2.Interface.Services
     {
         Task<bool> UpdateStatus(PayHelp model, int status, int statusOld);
         Task<AmountStatistic> GetTotalOrderPriceByUID(int UID);
+        Task<bool> UpdateStaff(PayHelp payHelp, int oldSalerId);
     }
 }

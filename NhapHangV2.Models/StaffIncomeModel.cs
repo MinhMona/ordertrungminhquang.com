@@ -15,6 +15,16 @@ namespace NhapHangV2.Models
         /// </summary>
         public int? MainOrderId { get; set; }
 
+        /// <summary>
+        /// Mã đơn hàng ký gửi
+        /// </summary>
+        public int? TransportationOrderId { get; set; }
+
+        /// <summary>
+        /// Mã đơn hàng thanh toán hộ
+        /// </summary>
+        public int? PayHelpOrderId { get; set; }
+
         public decimal? OrderTotalPrice { get; set; }
 
         /// <summary>

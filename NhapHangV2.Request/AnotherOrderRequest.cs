@@ -36,7 +36,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Danh sách sản phẩm
         /// </summary>
-        public List<Product> Products { get; set; }
+        public List<Product>? Products { get; set; }
 
         /// <summary>
         /// Giao tận nhà
@@ -70,12 +70,12 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Link sản phẩm
         /// </summary>
-        public string LinkProduct { get; set; }
+        public string? LinkProduct { get; set; }
 
         /// <summary>
         /// Tên sản phẩm
         /// </summary>
-        public string NameProduct { get; set; }
+        public string? NameProduct { get; set; }
 
         /// <summary>
         /// Giá sản phẩm

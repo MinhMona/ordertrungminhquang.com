@@ -19,6 +19,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tổng tiền phải trả (Tiền cần thanh toán)
         /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? TotalPay { get; set; } = 0;
 
         /// <summary>

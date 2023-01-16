@@ -240,9 +240,14 @@ namespace NhapHangV2.Entities
         public int? NumberLinkOfOrder { get; set; } = 0;
 
         /// <summary>
-        /// Phí hoa hồng sale đơn vận chuyển hộ
+        /// Phần trăm hồng sale đơn vận chuyển hộ
         /// </summary>
         public int? SaleTranportationPersent { get; set; } = 0;
+
+        /// <summary>
+        /// Phần trăm hoa hồng sale đơn thanh toán hộ
+        /// </summary>
+        public int? SalePayHelpPersent { get; set; } = 0;
         #endregion
 
         #region Cấu hình thông báo

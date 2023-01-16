@@ -13,7 +13,7 @@ namespace NhapHangV2.Request.Auth
         [StringLength(128, ErrorMessage = "Mật khẩu phải có ít nhất 8 kí tự và tối đa 128 ký tự", MinimumLength = 8)]
         [Required(ErrorMessage = "Mật khẩu mới là bắt buộc nhập")]
         [DataType(DataType.Password)]
-        public string NewPassword { get; set; }
+        public string? NewPassword { get; set; }
 
         /// <summary>
         /// Xác nhận mật khẩu mới
@@ -22,6 +22,6 @@ namespace NhapHangV2.Request.Auth
         [StringLength(128, ErrorMessage = "Mật khẩu xác nhận phải có ít nhất 8 kí tự và tối đa 128 ký tự", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Compare("NewPassword")]
-        public string ConfirmNewPassword { get; set; }
+        public string? ConfirmNewPassword { get; set; }
     }
 }

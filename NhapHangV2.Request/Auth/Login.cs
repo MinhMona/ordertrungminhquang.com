@@ -9,10 +9,10 @@ namespace NhapHangV2.Request.Auth
     public class Login
     {
         [Required(ErrorMessage = "Tên đăng nhập là bắt buộc nhập")]
-        public string UserName { set; get; }
+        public string? UserName { set; get; }
 
         [Required(ErrorMessage = "Mật khẩu là bắt buộc nhập")]
-        public string Password { set; get; }
+        public string? Password { set; get; }
 
         /// <summary>
         /// Mã OTP nêu đăng nhập bằng sdt

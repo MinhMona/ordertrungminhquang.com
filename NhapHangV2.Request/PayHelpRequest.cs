@@ -38,5 +38,10 @@ namespace NhapHangV2.Request
         /// Hóa đơn thanh toán hộ
         /// </summary>
         public List<PayHelpDetailRequest>? PayHelpDetails { get; set; }
+
+        /// <summary>
+        /// ID Saler
+        /// </summary>
+        public int? SalerID { get; set; }
     }
 }

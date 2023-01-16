@@ -138,7 +138,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,1)")] 
         public decimal? Weight { get; set; } = 0;
 
         /// <summary>
@@ -174,37 +174,37 @@ namespace NhapHangV2.Entities
 
         public bool? IsFastDelivery { get; set; } = false;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? IsFastDeliveryPrice { get; set; } = 0;
 
         public bool? IsCheckProduct { get; set; } = false;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? IsCheckProductPrice { get; set; } = 0;
 
         public bool? IsPacked { get; set; } = false;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? IsPackedPrice { get; set; } = 0;
 
         public bool? IsFast { get; set; } = false;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? IsFastPrice { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? PriceVND { get; set; } = 0;
 
         [Column(TypeName = "decimal(18,2)")] 
         public decimal? PriceCNY { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? FeeShipCN { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? FeeBuyPro { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? FeeWeight { get; set; } = 0;
 
         [StringLength(1000)]
@@ -224,13 +224,13 @@ namespace NhapHangV2.Entities
 
         public int? Status { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? Deposit { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? TotalPriceVND { get; set; } = 0;
 
-        [Column(TypeName = "decimal(18,2)")] 
+        [Column(TypeName = "decimal(18,0)")] 
         public decimal? PriceChange { get; set; } = 0;
 
         [StringLength(1000)]
@@ -263,7 +263,7 @@ namespace NhapHangV2.Entities
         /// Đơn giá (VNĐ)
         /// </summary>
         [NotMapped]
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? UPriceBuyVN { get; set; } = 0;
     }
 }

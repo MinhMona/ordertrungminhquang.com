@@ -10,14 +10,14 @@ namespace NhapHangV2.Request.Configuration
     {
         [Required(ErrorMessage = "Vui lòng nhập API Key")]
         [DataType(DataType.Password)]
-        public string APIKey { get; set; }
+        public string? APIKey { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập Secret Key")]
         [DataType(DataType.Password)]
-        public string SecretKey { get; set; }
+        public string? SecretKey { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập Brand name")]
-        public string BrandName { get; set; }
+        public string? BrandName { get; set; }
 
         [Required(ErrorMessage = "Vui lòng nhập Loại SMS")]
         public int SMSType { get; set; }
@@ -25,11 +25,11 @@ namespace NhapHangV2.Request.Configuration
         /// <summary>
         /// Cú pháp tin nhắn mẫu
         /// </summary>
-        public string TemplateText { get; set; }
+        public string? TemplateText { get; set; }
 
         /// <summary>
         /// Url web service
         /// </summary>
-        public string WebServiceUrl { get; set; }
+        public string? WebServiceUrl { get; set; }
     }
 }

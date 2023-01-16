@@ -42,7 +42,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí giao tận nhà
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? IsFastDeliveryPrice { get; set; } = 0;
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí kiểm tra hàng
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? IsCheckProductPrice { get; set; } = 0;
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí giao nhanh
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? IsFastPrice { get; set; } = 0;
 
         /// <summary>
@@ -86,13 +86,13 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí bảo hiểm
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? InsuranceMoney { get; set; } = 0;
 
         /// <summary>
         /// Tổng giá của shop (VNĐ)
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? PriceVND { get; set; } = 0;
 
         /// <summary>
@@ -110,7 +110,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí mua hàng (VNĐ)
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? FeeBuyPro { get; set; } = 0;
 
         /// <summary>

@@ -19,7 +19,7 @@ namespace NhapHangV2.Entities.Catalogue
         /// <summary>
         /// Khối (m3)
         /// </summary>
-        [Column(TypeName = "decimal(18,0)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Volume { get; set; } = 0;
 
         /// <summary>

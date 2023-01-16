@@ -12,17 +12,17 @@ namespace NhapHangV2.Request.Auth
         /// <summary>
         /// List id user của nhóm
         /// </summary>
-        public List<int> UserIds { get; set; }
+        public List<int>? UserIds { get; set; }
 
         /// <summary>
         /// Người dùng thuộc nhóm
         /// </summary>
-        public IList<UserInGroupRequest> UserInGroups { get; set; }
+        public IList<UserInGroupRequest>? UserInGroups { get; set; }
 
         /// <summary>
         /// Chức năng + quyền của nhóm
         /// </summary>
-        public IList<PermitObjectPermissionRequest> PermitObjectPermissions { get; set; }
+        public IList<PermitObjectPermissionRequest>? PermitObjectPermissions { get; set; }
         #endregion
     }
 }

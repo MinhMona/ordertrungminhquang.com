@@ -90,7 +90,6 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
         public virtual async Task<AppDomainResult> LoginAsync([FromForm] Login loginModel)
         {
             AppDomainResult appDomainResult = new AppDomainResult();
-            bool success = false;
             if (ModelState.IsValid)
             {
                 var userInfos = await this.userService.Verify(loginModel.UserName, loginModel.Password);
@@ -472,7 +471,6 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
         /// <summary>
         /// Đổi mật khẩu
         /// </summary>
-        /// <param name="userId"></param>
         /// <param name="changePasswordModel"></param>
         /// <returns></returns>
         [HttpPut("changePassword")]

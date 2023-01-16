@@ -38,17 +38,17 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Danh sách mã đơn hàng
         /// </summary>
-        public List<MainOrderCodeRequest> MainOrderCodes { get; set; }
+        public List<MainOrderCodeRequest>? MainOrderCodes { get; set; }
 
         /// <summary>
         /// Danh sách sản phẩm
         /// </summary>
-        public List<OrderRequest> Orders { get; set; }
+        public List<OrderRequest>? Orders { get; set; }
 
         /// <summary>
         /// Danh sách mã vận đơn
         /// </summary>
-        public List<SmallPackageRequest> SmallPackages { get; set; }
+        public List<SmallPackageRequest>? SmallPackages { get; set; }
 
         /// <summary>
         /// Đủ mã vận đơn
@@ -58,7 +58,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Danh sách phụ phí
         /// </summary>
-        public List<FeeSupportRequest> FeeSupports { get; set; }
+        public List<FeeSupportRequest>? FeeSupports { get; set; }
 
         /// <summary>
         /// Tổng số tiền mua thật (VNĐ)

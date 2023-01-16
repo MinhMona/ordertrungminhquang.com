@@ -15,17 +15,18 @@ namespace NhapHangV2.Request.Auth
         /// <summary>
         /// Tên controller
         /// </summary>
-        public string ControllerNames { get; set; }
+        public string? ControllerNames { get; set; }
 
         #region Extension Properties
 
         /// <summary>
         /// Danh sách tên controller
         /// </summary>
-        public IList<string> Controllers { get; set; }
+        public IList<string>? Controllers { get; set; }
 
         public void ToModel()
         {
+            #pragma warning disable CS8604 // Possible null reference argument.
             ControllerNames = string.Join(";", Controllers);
         }
 

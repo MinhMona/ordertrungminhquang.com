@@ -13,7 +13,7 @@ namespace NhapHangV2.Request
         /// Họ tên
         /// </summary>
         [Required(ErrorMessage = "Vui lòng nhập họ và tên!")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
 
         /// <summary>
         /// Số điện thoại
@@ -21,25 +21,25 @@ namespace NhapHangV2.Request
         [Required(ErrorMessage = "Vui lòng nhập Số điện thoại!")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^[0-9]+${9,11}", ErrorMessage = "Số điện thoại không hợp lệ")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// Email
         /// </summary>
         [Required(ErrorMessage = "Vui lòng nhập Email!")]
         [EmailAddress(ErrorMessage = "Email có định dạng không hợp lệ!")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Địa chỉ
         /// </summary>
         [StringLength(1000, ErrorMessage = "Số kí tự của địa chỉ phải nhỏ hơn 1000!")]
-        public string Address { get; set; }
+        public string? Address { get; set; }
 
         /// <summary>
         /// Danh sách shop
         /// </summary>
-        public List<ShopPayment> ShopPayments { get; set; }
+        public List<ShopPayment>? ShopPayments { get; set; }
     }
 
     public class ShopPayment
@@ -68,7 +68,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Khách ghi chú
         /// </summary>
-        public string? UserNote{ get; set; }
+        public string? UserNote { get; set; }
         //public decimal TotalMoney { get; set; }
     }
 }

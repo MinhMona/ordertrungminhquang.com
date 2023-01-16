@@ -36,6 +36,6 @@ namespace NhapHangV2.Request
         /// </summary>
         public int? IsOutStockTrans { get; set; } = 0;
 
-        public List<int> SmallPackageIds { get; set; }
+        public List<int>? SmallPackageIds { get; set; }
     }
 }

@@ -37,6 +37,6 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Nội dung
         /// </summary>
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 }

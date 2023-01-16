@@ -15,14 +15,14 @@ namespace NhapHangV2.Request
 
         public int? OldStatus { get; set; }
 
-        public string OldeStatusText { get; set; }
+        public string? OldeStatusText { get; set; }
 
         public int? NewStatus { get; set; }
 
-        public string NewStatusText { get; set; }
+        public string? NewStatusText { get; set; }
 
         public int? Type { get; set; }
 
-        public string Note { get; set; }
+        public string? Note { get; set; }
     }
 }

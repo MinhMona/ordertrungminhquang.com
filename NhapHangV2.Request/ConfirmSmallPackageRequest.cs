@@ -16,12 +16,12 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Số điện thoại xác nhận
         /// </summary>
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// Ghi chú xác nhận
         /// </summary>
-        public string Note { get; set; }
+        public string? Note { get; set; }
 
         /// <summary>
         /// Hình ảnh

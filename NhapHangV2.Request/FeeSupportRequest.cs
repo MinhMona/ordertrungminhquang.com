@@ -14,7 +14,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Tên phụ phí
         /// </summary>
-        public string SupportName { get; set; }
+        public string? SupportName { get; set; }
 
         /// <summary>
         /// Số tiền (VNĐ)

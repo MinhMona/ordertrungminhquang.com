@@ -10,18 +10,18 @@ namespace NhapHangV2.Request.Auth
     {
         [MaxLength(128, ErrorMessage = "Tên đăng nhập tối đa 128 ký tự")]
         [Required(ErrorMessage = "Tên đăng nhập là bắt buộc nhập")]
-        public string UserName { set; get; }
+        public string? UserName { set; get; }
 
         [StringLength(128, ErrorMessage = "Mật khẩu phải có ít nhất 8 kí tự và tối đa 128 ký tự", MinimumLength = 8)]
         [Required(ErrorMessage = "Mật khẩu là bắt buộc nhập")]
         [DataType(DataType.Password)]
-        public string Password { set; get; }
+        public string? Password { set; get; }
 
         [Required(ErrorMessage = "Vui lòng nhập xác nhận mật khẩu")]
         [StringLength(128, ErrorMessage = "Mật khẩu xác nhận phải có ít nhất 8 kí tự và tối đa 128 ký tự", MinimumLength = 8)]
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "Mật khẩu xác nhận không giống với mật khẩu")]
-        public string ConfirmPassword { get; set; }
+        public string? ConfirmPassword { get; set; }
 
         /// <summary>
         /// Email
@@ -29,7 +29,7 @@ namespace NhapHangV2.Request.Auth
         [StringLength(50, ErrorMessage = "Số kí tự của email phải nhỏ hơn 50!")]
         [Required(ErrorMessage = "Vui lòng nhập Email!")]
         [EmailAddress(ErrorMessage = "Email có định dạng không hợp lệ!")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         /// <summary>
         /// Số điện thoại
@@ -38,7 +38,7 @@ namespace NhapHangV2.Request.Auth
         [Required(ErrorMessage = "Vui lòng nhập Số điện thoại!")]
         [DataType(DataType.PhoneNumber)]
         [RegularExpression(@"^[0-9]+${9,11}", ErrorMessage = "Số điện thoại không hợp lệ")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         /// <summary>
         /// Tên
@@ -59,6 +59,6 @@ namespace NhapHangV2.Request.Auth
         /// </summary>
         [StringLength(255, ErrorMessage = "Họ và tên của bạn quá dài", MinimumLength = 1)]
         [Required(ErrorMessage = "Vui lòng nhập họ và tên của bạn!")]
-        public string FullName { get; set; }
+        public string? FullName { get; set; }
     }
 }

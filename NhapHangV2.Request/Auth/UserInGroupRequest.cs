@@ -21,12 +21,12 @@ namespace NhapHangV2.Request.Auth
         /// <summary>
         /// Lấy thông tin Người dùng
         /// </summary>
-        public UserRequest Users { get; set; }
+        public UserRequest? Users { get; set; }
 
         /// <summary>
         /// Lấy thông tin Nhóm người dùng
         /// </summary>
-        public UserGroupRequest UserGroups { get; set; }
+        public UserGroupRequest? UserGroups { get; set; }
 
         #endregion
     }

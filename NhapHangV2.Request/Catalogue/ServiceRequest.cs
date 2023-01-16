@@ -12,12 +12,12 @@ namespace NhapHangV2.Request.Catalogue
         /// <summary>
         /// Link
         /// </summary>
-        public string Link { get; set; }
+        public string? Link { get; set; }
 
         /// <summary>
         /// Hình ảnh
         /// </summary>
-        public string IMG { get; set; }
+        public string? IMG { get; set; }
 
         /// <summary>
         /// Vị trí
