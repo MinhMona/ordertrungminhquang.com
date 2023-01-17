@@ -225,10 +225,16 @@ namespace NhapHangV2.Entities
         public decimal? OrderWeight { get; set; } = 0;
 
         /// <summary>
-        /// Phí vận chuyển TQ - VN - Cân nặng
+        /// TQ - VN - Cân nặng
         /// </summary>
         [Column(TypeName = "decimal(18,1)")]
         public decimal? TQVNWeight { get; set; } = 0;
+
+        /// <summary>
+        /// TQ - VN - Cân khối
+        /// </summary>
+        [Column(TypeName = "decimal(18,5)")]
+        public decimal? TQVNVolume { get; set; } = 0;
 
         /// <summary>
         /// Tổng số tiền mua thật (VNĐ)

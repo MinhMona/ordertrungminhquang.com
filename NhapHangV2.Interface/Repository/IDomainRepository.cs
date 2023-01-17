@@ -33,6 +33,7 @@ namespace NhapHangV2.Interface.Repository
         DataTable ExcuteQuery(string commandText, SqlParameter[] sqlParameters);
 
         Task<PagedList<T>> ExcuteQueryPagingAsync(string commandText, SqlParameter[] sqlParameters);
+        Task<T> ExcuteQueryGetByIdAsync(string commandText, SqlParameter sqlParameter);
         Task<DataTable> ExcuteQueryAsync(string commandText, SqlParameter[] sqlParameters);
         bool UpdateFieldsSave(T entity, params Expression<Func<T, object>>[] includeProperties);
         Task<IList<T>> ExcuteStoreAsync(string commandText, SqlParameter[] sqlParameters);

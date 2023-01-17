@@ -157,6 +157,10 @@ namespace NhapHangV2.Models.AutoMapper
             CreateMap<WarehouseFeeRequest, WarehouseFee>().ReverseMap();
             CreateMap<PagedList<WarehouseFeeModel>, PagedList<WarehouseFee>>().ReverseMap();
 
+            CreateMap<VolumeFeeModel, VolumeFee>().ReverseMap();
+            CreateMap<VolumeFeeRequest, VolumeFee>().ReverseMap();
+            CreateMap<PagedList<VolumeFeeModel>, PagedList<VolumeFee>>().ReverseMap();
+
             CreateMap<WithdrawModel, Withdraw>().ReverseMap();
             CreateMap<WithdrawRequest, Withdraw>().ReverseMap();
             CreateMap<PagedList<WithdrawModel>, PagedList<Withdraw>>().ReverseMap();

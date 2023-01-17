@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NhapHangV2.AppDbContext;
 
 namespace NhapHangV2.AppDbContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230116101609_Update-103")]
+    partial class Update103
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2512,9 +2514,6 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.Property<decimal?>("Surcharge")
                         .HasColumnType("decimal(18,0)");
-
-                    b.Property<decimal?>("TQVNVolume")
-                        .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal?>("TQVNWeight")
                         .HasColumnType("decimal(18,1)");

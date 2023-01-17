@@ -30,6 +30,7 @@ namespace NhapHangV2.Interface.Services.DomainServices
         IList<E> Get(Expression<Func<E, bool>>[] expression, IConfigurationProvider mapperConfiguration);
 
         Task<PagedList<E>> GetPagedListData(T baseSearch);
+        Task<E> GetDataById(int id);
 
         Task<bool> SaveAsync(E item);
         Task<bool> SaveAsync(IList<E> items);

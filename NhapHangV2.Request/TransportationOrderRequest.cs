@@ -79,6 +79,12 @@ namespace NhapHangV2.Request
         public decimal? FeeWeightPerKg { get; set; } = 0;
 
         /// <summary>
+        /// Tiền thể tích / m3
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal? FeePerVolume { get; set; } = 0;
+
+        /// <summary>
         /// Phí vận chuyển(VNĐ)
         /// </summary>
         [Column(TypeName = "decimal(18,0)")]

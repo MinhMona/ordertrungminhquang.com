@@ -999,6 +999,7 @@ namespace NhapHangV2.Service.Services
             //decimal? ckFeeWeight = userLevel == null ? 1 : userLevel.FeeWeight;
             item.FeeWeightCK = ckFeeWeight;
             decimal? totalWeight = smallPackages.Sum(e => e.PayableWeight);
+            decimal? totalVolume = smallPackages.Sum(e => e.VolumePayment);
 
             #region Tính phí vận chuyển của tổng cân nặng
             ////Fix lấy warehouseFee 
@@ -1026,11 +1027,14 @@ namespace NhapHangV2.Service.Services
             #endregion
             #region Tính phí vận chuyển của từng mã vận đơn rồi cộng lại
             decimal? totalFeeWeight = 0;
+            decimal? totalFeeVolume = 0;
             foreach (var smallPackage in smallPackages)
             {
                 decimal? payableWeight = smallPackage.PayableWeight;
                 decimal? feeWeight = 0;
+                decimal? feeVolume = 0;
 
+                //Tiền cân nặng
                 var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable()
                     .Where(e => !e.Deleted &&
                     e.WarehouseFromId == item.FromPlace &&
@@ -1046,15 +1050,26 @@ namespace NhapHangV2.Service.Services
                     feeWeight = payableWeight * user.FeeTQVNPerWeight;
                     smallPackage.PriceWeight = user.FeeTQVNPerWeight;
                     smallPackage.DonGia = user.FeeTQVNPerWeight;
-                    smallPackage.TotalPrice = feeWeight;
                 }
                 else
                 {
                     feeWeight = payableWeight * warehouseFeePrice;
                     smallPackage.PriceWeight = warehouseFeePrice;
                     smallPackage.DonGia = warehouseFeePrice;
-                    smallPackage.TotalPrice = payableWeight * warehouseFeePrice;
                 }
+
+                //Tiền khối
+                var volumeFee = await unitOfWork.Repository<VolumeFee>().GetQueryable().FirstOrDefaultAsync(e => !e.Deleted
+                    && e.WarehouseFromId == item.FromPlace
+                    && e.WarehouseId == item.ReceivePlace
+                    && e.ShippingTypeToWareHouseId == item.ShippingType
+                    && e.IsHelpMoving == true
+                    && (totalVolume >= e.VolumeFrom && totalVolume < e.VolumeTo));
+                feeVolume = (totalVolume * volumeFee.Price);
+
+                smallPackage.TotalPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
+
+                totalFeeVolume += feeVolume;
                 totalFeeWeight += feeWeight;
             }
             #endregion
@@ -1062,7 +1077,8 @@ namespace NhapHangV2.Service.Services
             totalFeeWeight -= feeWeightDiscount;
 
             item.TQVNWeight = item.OrderWeight = Math.Round(totalWeight.Value, 2);
-            item.FeeWeight = Math.Round(totalFeeWeight.Value, 2);
+            item.TQVNVolume = totalVolume;
+            item.FeeWeight = totalFeeVolume > totalFeeWeight ? totalFeeVolume : totalFeeWeight;
 
             decimal? totalPriceVNDFn = 0;
             if (item.FeeWeight != null) totalPriceVNDFn += item.FeeWeight;

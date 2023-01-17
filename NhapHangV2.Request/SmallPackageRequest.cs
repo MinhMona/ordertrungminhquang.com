@@ -12,6 +12,11 @@ namespace NhapHangV2.Request
     public class SmallPackageRequest : AppDomainRequest
     {
         /// <summary>
+        /// Khối tính tiền
+        /// </summary>
+        public decimal? VolumePayment { get; set; }
+
+        /// <summary>
         /// Mã vận đơn ((POST) Thêm mã kiện ở trang "Kiểm hàng TQ", (PUT) Cập nhật kiện trôi nổi)
         /// </summary>
         [StringLength(50)]
@@ -60,7 +65,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Trạng thái
         /// </summary>
-        public int? Status { get; set; }        
+        public int? Status { get; set; }
 
         /// <summary>
         /// Loại sản phẩm
@@ -224,13 +229,13 @@ namespace NhapHangV2.Request
         /// </summary>
         [Column(TypeName = "decimal(18,0)")]
         public decimal? InsuranceMoney { get; set; } = 0;
-        
+
         /// <summary>
         /// Số lượng
         /// </summary>
         [Column(TypeName = "decimal(18,0)")]
         public decimal? Amount { get; set; } = 0;
-        
+
         /// <summary>
         /// Loại sản phẩm
         /// </summary>
