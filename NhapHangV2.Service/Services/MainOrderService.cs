@@ -1031,6 +1031,7 @@ namespace NhapHangV2.Service.Services
             foreach (var smallPackage in smallPackages)
             {
                 decimal? payableWeight = smallPackage.PayableWeight;
+                decimal? smallPackageVolume = smallPackage.VolumePayment;
                 decimal? feeWeight = 0;
                 decimal? feeVolume = 0;
 
@@ -1064,8 +1065,8 @@ namespace NhapHangV2.Service.Services
                     && e.WarehouseId == item.ReceivePlace
                     && e.ShippingTypeToWareHouseId == item.ShippingType
                     && e.IsHelpMoving == true
-                    && (totalVolume >= e.VolumeFrom && totalVolume < e.VolumeTo));
-                feeVolume = (totalVolume * volumeFee.Price);
+                    && (smallPackageVolume >= e.VolumeFrom && smallPackageVolume < e.VolumeTo));
+                feeVolume = (smallPackageVolume * volumeFee.Price);
 
                 smallPackage.TotalPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
 
