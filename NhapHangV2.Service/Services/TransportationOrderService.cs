@@ -127,7 +127,6 @@ namespace NhapHangV2.Service.Services
                 {
                     if (item.Status == (int)StatusGeneralTransportationOrder.DaDuyet)
                     {
-
                         var smallPackage = unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.OrderTransactionCode.Equals(item.OrderTransactionCode)).FirstOrDefault();
                         if (smallPackage == null)
                         {
@@ -139,12 +138,10 @@ namespace NhapHangV2.Service.Services
                             smallPackage.BigPackageId = 0;
                             smallPackage.FeeShip = smallPackage.Weight = 0;
                             smallPackage.Status = (int)StatusSmallPackage.MoiDat;
-
                             smallPackage.Deleted = false;
                             smallPackage.Active = true;
                             smallPackage.Created = item.Created;
                             smallPackage.CreatedBy = item.CreatedBy;
-
                             smallPackage.IsInsurance = item.IsInsurance;
                             smallPackage.IsCheckProduct = item.IsCheckProduct;
                             smallPackage.IsPackged = item.IsPacked;
@@ -161,6 +158,12 @@ namespace NhapHangV2.Service.Services
                             if (item.SmallPackages.Count > 0)
                             {
                                 unitOfWork.Repository<TransportationOrder>().Update(item);
+                                foreach (var sm in item.SmallPackages)
+                                {
+                                    sm.DonGia = item.FeeWeightPerKg;
+                                    sm.OrderTransactionCode = sm.OrderTransactionCode.Replace(" ", "");
+                                    unitOfWork.Repository<SmallPackage>().Update(sm);
+                                }
                             }
                             else
                             {
@@ -168,8 +171,6 @@ namespace NhapHangV2.Service.Services
                             }
                         }
                         await unitOfWork.SaveAsync();
-
-
                     }
                     else
                     {
@@ -748,7 +749,6 @@ namespace NhapHangV2.Service.Services
             SqlParameter[] parameters = sqlParameters.ToArray();
             var data = storeService.GetDataFromStore(parameters, "GetTransportationsAmount");
             return data.FirstOrDefault();
-
         }
 
         public class CheckWarehouse
