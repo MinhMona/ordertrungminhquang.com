@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NhapHangV2.AppDbContext;
 
 namespace NhapHangV2.AppDbContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230116073005_Update-101")]
+    partial class Update101
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -2513,9 +2515,6 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<decimal?>("Surcharge")
                         .HasColumnType("decimal(18,0)");
 
-                    b.Property<decimal?>("TQVNVolume")
-                        .HasColumnType("decimal(18,5)");
-
                     b.Property<decimal?>("TQVNWeight")
                         .HasColumnType("decimal(18,1)");
 
@@ -3772,9 +3771,6 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<decimal?>("PriceVolume")
-                        .HasColumnType("decimal(18,0)");
-
                     b.Property<decimal?>("PriceWeight")
                         .HasColumnType("decimal(18,0)");
 
@@ -3825,9 +3821,6 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.Property<string>("UserNote")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal?>("VolumePayment")
-                        .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal?>("Weight")
                         .HasColumnType("decimal(18,1)");
@@ -3990,9 +3983,6 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<decimal?>("FeePerVolume")
-                        .HasColumnType("decimal(18,0)");
-
                     b.Property<decimal?>("FeeService")
                         .HasColumnType("decimal(18,0)");
 
@@ -4000,7 +3990,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("FeeWeightPerKg")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,1)");
 
                     b.Property<decimal?>("InsuranceMoney")
                         .HasColumnType("decimal(18,0)");

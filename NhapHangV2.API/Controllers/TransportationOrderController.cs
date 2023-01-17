@@ -232,15 +232,9 @@ namespace NhapHangV2.API.Controllers
                 var item = await this.domainService.GetByIdAsync(itemModel.Id);
                 if (item != null)
                 {
-                    //if (itemModel.Status == (int)StatusGeneralTransportationOrder.DaDuyet && itemModel.SmallPackages.Count == 0)
-                    //{
-                    //    item.Status = (int)StatusGeneralTransportationOrder.DaDuyet;
-                    //}
-                    //else
-                    //{
                     item = await CalculatePrice(itemModel, item);
+                    mapper.Map(item.SmallPackages, itemModel.SmallPackages);
                     mapper.Map(itemModel, item);
-                    //}
                     success = await this.domainService.UpdateAsync(item);
                     if (success)
                         appDomainResult.ResultCode = (int)HttpStatusCode.OK;
@@ -538,30 +532,33 @@ namespace NhapHangV2.API.Controllers
             totalVND += (itemModel.AdditionFeeVND ?? 0) + (itemModel.SensorFeeVND ?? 0);
 
             var smallPackage = transportationOrder.SmallPackages.FirstOrDefault();
+            transportationOrder.SmallPackages = new List<SmallPackage>();
             if (smallPackage != null)
             {
+                decimal? priceWeight = 0;
+                decimal? priceVolume = 0;
                 if (itemModel.FeeWeightPerKg != null && itemModel.FeeWeightPerKg > 0)
                 {
-                    decimal? priceWeight = itemModel.FeeWeightPerKg * smallPackage.PayableWeight;
-                    if (priceWeight != transportationOrder.DeliveryPrice)
-                    {
-                        smallPackage.PriceWeight = priceWeight;
-                    }
-                    totalVND += priceWeight;
-
+                    priceWeight = itemModel.FeeWeightPerKg * smallPackage.PayableWeight;
+                    smallPackage.PriceWeight = itemModel.FeeWeightPerKg;
                 }
-                else
+                if (itemModel.FeePerVolume != null && itemModel.FeePerVolume > 0)
                 {
-                    if (itemModel.SmallPackages.FirstOrDefault() != null)
-                        totalVND += itemModel.SmallPackages.FirstOrDefault().TotalPrice;
+                    priceVolume = itemModel.FeePerVolume * smallPackage.VolumePayment;
+                    smallPackage.PriceVolume = itemModel.FeePerVolume;
                 }
-
+                //Tiền vận chuyển của mã vận đơn
+                decimal? deliveryFeeSM = priceVolume > priceWeight ? priceVolume : priceWeight;
+                totalVND += deliveryFeeSM ?? 0;
                 if (smallPackage.PayableWeight != null)
                     transportationOrder.PayableWeight = smallPackage.PayableWeight;
                 smallPackage.AdditionFeeCNY = itemModel.AdditionFeeCNY;
                 smallPackage.AdditionFeeVND = itemModel.AdditionFeeVND;
                 smallPackage.SensorFeeCNY = itemModel.SensorFeeCNY;
                 smallPackage.SensorFeeVND = itemModel.SensorFeeVND;
+                smallPackage.TotalPrice = (deliveryFeeSM ?? 0) + (smallPackage.AdditionFeeCNY ?? 0)
+                    + (smallPackage.AdditionFeeVND ?? 0) + (smallPackage.SensorFeeCNY ?? 0) + (smallPackage.SensorFeeVND ?? 0);
+                transportationOrder.SmallPackages.Add(smallPackage);
             }
             //Cộng phí kiểm đếm, phí đóng gỗ, phí bảo hiểm, phí giao hàng
             if (itemModel.IsCheckProduct == null || itemModel.IsCheckProduct.Value == false)

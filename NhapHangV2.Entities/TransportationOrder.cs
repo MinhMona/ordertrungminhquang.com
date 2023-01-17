@@ -144,8 +144,14 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tiền cân / Kg
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? FeeWeightPerKg { get; set; } = 0;
+
+        /// <summary>
+        /// Tiền thể tích / m3
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal? FeePerVolume { get; set; } = 0;
 
         /// <summary>
         /// % phí cân nặng chiết khấu

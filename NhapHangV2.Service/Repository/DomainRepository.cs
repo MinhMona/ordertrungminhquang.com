@@ -256,6 +256,43 @@ namespace NhapHangV2.Service.Repository
             });
         }
 
+        /// <summary>
+        /// Get by id 
+        /// </summary>
+        /// <param name="commandText"></param>
+        /// <param name="sqlParameter"></param>
+        /// <returns></returns>
+        public virtual Task<T> ExcuteQueryGetByIdAsync(string commandText, SqlParameter sqlParameter)
+        {
+            return Task.Run(() =>
+            {
+                T data = Activator.CreateInstance<T>();
+                DataTable dataTable = new DataTable();
+                SqlConnection connection = null;
+                SqlCommand command = null;
+                try
+                {
+                    connection = (SqlConnection)Context.Database.GetDbConnection();
+                    command = connection.CreateCommand();
+                    connection.Open();
+                    command.CommandText = commandText;
+                    command.Parameters.Add(sqlParameter);
+                    command.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(command);
+                    sqlDataAdapter.Fill(dataTable);
+                    data = MappingDataTable.ConvertToModel<T>(dataTable);
+                    return data;
+                }
+                finally
+                {
+                    if (connection != null && connection.State == System.Data.ConnectionState.Open)
+                        connection.Close();
+                    if (command != null)
+                        command.Dispose();
+                }
+            });
+        }
+
 
 
         public async Task<object> ExcuteStoreGetValue(string commandText, SqlParameter[] sqlParameters, string outputName)

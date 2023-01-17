@@ -563,35 +563,54 @@ namespace NhapHangV2.Service.Services
             var userLevel = await unitOfWork.Repository<UserLevel>().GetQueryable().Where(e => !e.Deleted && e.Id == user.LevelId).FirstOrDefaultAsync();
             decimal? ckFeeWeight = userLevel == null ? 1 : userLevel.FeeWeight;
             item.FeeWeightCK = ckFeeWeight;
+
+            //Tiền cân nặng
             decimal? totalWeight = smallPackages.Sum(e => e.PayableWeight);
             var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable().Where(e => !e.Deleted
                 && e.WarehouseFromId == item.WareHouseFromId
                 && e.WarehouseId == item.WareHouseId
                 && e.ShippingTypeToWareHouseId == item.ShippingTypeId
                 && e.IsHelpMoving == true
-                && totalWeight >= e.WeightFrom && totalWeight <= e.WeightTo).FirstOrDefaultAsync();
+                && totalWeight >= e.WeightFrom && totalWeight < e.WeightTo).FirstOrDefaultAsync();
             decimal? warehouseFeePrice = warehouseFee == null ? 1 : warehouseFee.Price;
             if (user.FeeTQVNPerWeight > 0)
             {
                 warehouseFeePrice = user.FeeTQVNPerWeight;
             }
             decimal? feeWeight = 0;
-
             feeWeight = totalWeight * warehouseFeePrice;
-            smallPackages.ForEach(e => { e.PriceWeight = warehouseFeePrice; e.DonGia = warehouseFeePrice; e.TotalPrice = totalWeight * warehouseFeePrice; });
+
+            //Tiền khối
+            decimal? totalVolume = smallPackages.Sum(e => e.VolumePayment);
+            var volumeFee = await unitOfWork.Repository<VolumeFee>().GetQueryable().FirstOrDefaultAsync(e => !e.Deleted
+                && e.WarehouseFromId == item.WareHouseFromId
+                && e.WarehouseId == item.WareHouseId
+                && e.ShippingTypeToWareHouseId == item.ShippingTypeId
+                && e.IsHelpMoving == true
+                && (totalVolume >= e.VolumeFrom && totalVolume < e.VolumeTo));
+            decimal? feeVolume = (totalVolume * volumeFee.Price);
+
+            smallPackages.ForEach(e =>
+            {
+                e.PriceWeight = warehouseFeePrice;
+                e.DonGia = warehouseFeePrice;
+                e.PriceVolume = volumeFee.Price;
+                e.TotalPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
+            });
 
             decimal? feeWeightDiscount = feeWeight * ckFeeWeight / 100;
             feeWeight -= feeWeightDiscount;
 
+            decimal? deliveryPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
             if (item.TotalPriceVND == null)
             {
-                item.TotalPriceVND = feeWeight + (item.CODFee ?? 0) + (item.IsCheckProductPrice ?? 0) + (item.IsPackedPrice ?? 0) + (item.InsuranceMoney ?? 0);
+                item.TotalPriceVND = (deliveryPrice ?? 0) + (item.CODFee ?? 0) + (item.IsCheckProductPrice ?? 0) + (item.IsPackedPrice ?? 0) + (item.InsuranceMoney ?? 0);
             }
             else
             {
-                if (item.DeliveryPrice != feeWeight)
+                if (item.DeliveryPrice != (deliveryPrice ?? 0))
                 {
-                    item.TotalPriceVND = item.TotalPriceVND - item.DeliveryPrice + feeWeight;
+                    item.TotalPriceVND = item.TotalPriceVND - item.DeliveryPrice + (deliveryPrice ?? 0);
                 }
             }
             if (user.Currency != null && user.Currency > 0)
@@ -599,7 +618,8 @@ namespace NhapHangV2.Service.Services
             else
                 item.TotalPriceCNY = item.TotalPriceVND / config.AgentCurrency;
             item.FeeWeightPerKg = warehouseFeePrice;
-            item.DeliveryPrice = feeWeight;
+            item.FeePerVolume = volumeFee.Price;
+            item.DeliveryPrice = deliveryPrice ?? 0;
             return item;
         }
 

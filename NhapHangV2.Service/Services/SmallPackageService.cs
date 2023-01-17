@@ -381,7 +381,6 @@ namespace NhapHangV2.Service.Services
                         switch (item.Status)
                         {
                             case (int)StatusSmallPackage.DaVeKhoTQ: //Kiểm hàng kho TQ
-
                                 item.DateInTQWarehouse = item.DateScanTQ = currentDate;
                                 item.StaffTQWarehouse = user.UserName;
 
@@ -613,8 +612,6 @@ namespace NhapHangV2.Service.Services
                                                     HistoryContent = String.Format("{0} đã đổi trạng thái của đơn hàng Id là: {1}, là \"Đã về kho VN\"", user.UserName, mainOrder.Id),
                                                     Type = (int)TypeHistoryOrderChange.MaVanDon
                                                 });
-
-                                                //Thông báo (gửi mail)
                                             }
                                         }
                                     }
@@ -688,8 +685,8 @@ namespace NhapHangV2.Service.Services
                             default:
                                 break;
                         }
-                        item.DonGia = Math.Round(item.DonGia.Value, 0);
-                        item.TotalPrice = Math.Round(item.TotalPrice.Value, 0);
+                        //item.DonGia = Math.Round(item.DonGia.Value, 0);
+                        //item.TotalPrice = Math.Round(item.TotalPrice.Value, 0);
                         unitOfWork.Repository<SmallPackage>().Update(item);
                         await unitOfWork.SaveAsync();
                     }

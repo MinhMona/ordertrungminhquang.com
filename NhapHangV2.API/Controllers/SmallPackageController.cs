@@ -307,10 +307,6 @@ namespace NhapHangV2.API.Controllers
                         var smallPackageCheck = await smallPackageService.GetSingleAsync(e => e.OrderTransactionCode == item.OrderTransactionCode);
                         if (smallPackageCheck != null) //Tồn tại
                         {
-                            //item.UID = smallPackageCheck.UID;
-                            //item.MainOrderId = smallPackageCheck.MainOrderId;
-                            //item.TransportationOrderId = smallPackageCheck.TransportationOrderId;
-                            //item.OrderTransactionCode = smallPackageCheck.OrderTransactionCode + "-" + currentDate.Second.ToString();
                             throw new AppException("Mã vận đã tồn tại");
                         }
                         else

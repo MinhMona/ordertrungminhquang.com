@@ -113,7 +113,7 @@ namespace NhapHangV2.Service.Services.DomainServices
             }
         }
 
-        
+
         public virtual IList<E> GetAll()
         {
             return GetAll(null);
@@ -138,11 +138,27 @@ namespace NhapHangV2.Service.Services.DomainServices
             return pagedList;
         }
 
+        public virtual async Task<E> GetDataById(int id)
+        {
+            SqlParameter parameter = new SqlParameter("@Id", id);
+            E data = await this.unitOfWork.Repository<E>().ExcuteQueryGetByIdAsync(this.GetStoreProcNameGetById(), parameter);
+            return data;
+        }
+
         /// <summary>
         /// Lấy thông tin tên procedure cần exec
         /// </summary>
         /// <returns></returns>
         protected virtual string GetStoreProcName()
+        {
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// Lấy thông tin tên procedure cần exec
+        /// </summary>
+        /// <returns></returns>
+        protected virtual string GetStoreProcNameGetById()
         {
             return string.Empty;
         }
@@ -335,7 +351,7 @@ namespace NhapHangV2.Service.Services.DomainServices
         {
             var query = unitOfWork.Repository<E>()
                .GetQueryable()
-               .Where(e=> !e.Deleted)
+               .Where(e => !e.Deleted)
                .AsNoTracking();
             if (select != null)
             {
@@ -369,7 +385,7 @@ namespace NhapHangV2.Service.Services.DomainServices
                 .ToListAsync();
         }
 
-        
+
 
 
         public async Task<IList<E>> GetAsync(Expression<Func<E, bool>> expression, bool useProjectTo)

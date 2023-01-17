@@ -85,6 +85,7 @@ namespace NhapHangV2.AppDbContext
             modelBuilder.Entity<UserLevel>(x => x.ToTable("UserLevel"));
             modelBuilder.Entity<Users>(x => x.ToTable("Users"));
             modelBuilder.Entity<WarehouseFee>(x => x.ToTable("WarehouseFee"));
+            modelBuilder.Entity<VolumeFee>(x => x.ToTable("VolumeFee"));
             modelBuilder.Entity<Withdraw>(x => x.ToTable("Withdraw"));
             modelBuilder.Entity<CustomerTalk>(x => x.ToTable("CustomerTalk"));
             modelBuilder.Entity<ContactUs>(x => x.ToTable("ContactUs"));

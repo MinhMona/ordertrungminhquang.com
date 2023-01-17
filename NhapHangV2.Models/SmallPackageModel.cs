@@ -1,6 +1,7 @@
 ﻿using NhapHangV2.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +11,15 @@ namespace NhapHangV2.Models
 {
     public class SmallPackageModel : AppDomainModel
     {
+        /// <summary>
+        /// Khối tính tiền
+        /// </summary>
+        public decimal? VolumePayment { get; set; }
+
+        /// <summary>
+        /// Tiền /m3
+        /// </summary>
+        public decimal? PriceVolume { get; set; }
 
         /// <summary>
         /// Trạng thái thanh toán
