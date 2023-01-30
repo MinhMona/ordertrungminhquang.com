@@ -15,6 +15,11 @@ namespace NhapHangV2.Entities.Search
         public int? UID { get; set; }
 
         /// <summary>
+        /// RoleID
+        /// </summary>
+        public int? RoleID { get; set; }
+
+        /// <summary>
         /// ID Shop
         /// </summary>
         public int? MainOrderId { get; set; }

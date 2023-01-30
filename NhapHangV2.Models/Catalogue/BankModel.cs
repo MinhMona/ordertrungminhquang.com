@@ -28,5 +28,10 @@ namespace NhapHangV2.Models.Catalogue
         /// Hình ảnh
         /// </summary>
         public string IMG { get; set; }
+
+        /// <summary>
+        /// Hình ảnh mã QR
+        /// </summary>
+        public string IMGQR { get; set; }
     }
 }

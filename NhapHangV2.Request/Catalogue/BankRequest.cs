@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 
 namespace NhapHangV2.Request.Catalogue
 {
-    //public class BankRequest : AppDomainCatalogueRequest
     public class BankRequest : AppDomainCatalogueRequest
     {
         /// <summary>
@@ -29,5 +28,10 @@ namespace NhapHangV2.Request.Catalogue
         /// Hình ảnh
         /// </summary>
         public string? IMG { get; set; }
+
+        /// <summary>
+        /// Hình ảnh mã QR
+        /// </summary>
+        public string? IMGQR { get; set; }
     }
 }

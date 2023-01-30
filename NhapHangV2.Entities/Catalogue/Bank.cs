@@ -35,6 +35,11 @@ namespace NhapHangV2.Entities.Catalogue
         public string IMG { get; set; } = string.Empty;
 
         /// <summary>
+        /// Hình ảnh mã QR
+        /// </summary>
+        public string IMGQR { get; set; } = string.Empty;
+
+        /// <summary>
         /// Thông tin
         /// </summary>
         [NotMapped]

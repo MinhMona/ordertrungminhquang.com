@@ -48,14 +48,11 @@ namespace NhapHangV2.API.Controllers
             this.mapper = mapper;
             this.env = env;
             this.configuration = configuration;
-
             userService = serviceProvider.GetRequiredService<IUserService>();
             smallPackageService = serviceProvider.GetRequiredService<ISmallPackageService>();
             bigPackageService = serviceProvider.GetRequiredService<IBigPackageService>();
-
             mainOrderService = serviceProvider.GetRequiredService<IMainOrderService>();
             transportationOrderService = serviceProvider.GetRequiredService<ITransportationOrderService>();
-
             this.hubContext = hubContext;
         }
 
