@@ -40,7 +40,7 @@ namespace NhapHangV2.Utilities
         public const string Widthdraw_History = "/user/withdrawal-vnd";
         public const string Recharge_History = "/user/recharge-vnd";
         //Url thông báo manager
-        public const string New_Contact_Admin = "/manager/contact";
+        public const string New_Contact_Admin = "/manager/client/contact";
         public const string New_User_Admin = "/manager/client/client-list/detail?id={0}";
         public const string Complain_Admin = "/manager/order/complain-list";
         public const string Detail_MainOrder_Admin = "/manager/order/order-list/detail?id={0}";

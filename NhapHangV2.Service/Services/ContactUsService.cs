@@ -42,23 +42,23 @@ namespace NhapHangV2.Service.Services
             return "ContactUs_GetPagingData";
         }
 
-        public async Task<bool> UpdateListContactUs(List<ContactUs> contactUs)
+        public async Task<List<ContactUs>> UpdateListContactUs(List<int> contactUs)
         {
             using (var dbContextTransaction = Context.Database.BeginTransaction())
             {
                 try
                 {
+                    List<ContactUs> contactUsList = new List<ContactUs>();
                     foreach (var item in contactUs)
                     {
-                        unitOfWork.Repository<ContactUs>().UpdateFieldsSave(item, new Expression<Func<ContactUs, object>>[]
-                        {
-                            c =>c.Status,
-                            c=>c.UpdatedBy,
-                            c=>c.Updated
-                        });;
+                        var contact = unitOfWork.Repository<ContactUs>().GetQueryable().Where(x => x.Id == item).FirstOrDefault();
+                        contact.Status = true;
+                        unitOfWork.Repository<ContactUs>().Update(contact);
+                        contactUsList.Add(contact);
                     }
+                    await unitOfWork.SaveAsync();
                     await dbContextTransaction.CommitAsync();
-                    return true;
+                    return contactUsList;
                 }
                 catch (Exception ex)
                 {

@@ -1201,9 +1201,14 @@ namespace NhapHangV2.API.Controllers
         public AppDomainResult GetCountAllOrder([FromQuery] MainOrderSearch mainOrderSearch)
         {
             var numberOfOrders = mainOrderService.GetCountAllOrder(mainOrderSearch);
+            IDictionary<string, int> result = new Dictionary<string, int>();
+            result.Add("MainOrder", numberOfOrders.MainOrder);
+            result.Add("MainOrderAnother", numberOfOrders.MainOrderAnother);
+            result.Add("PayHelp", numberOfOrders.PayHelp);
+            result.Add("TransportationOrder", numberOfOrders.TransportationOrder);
             return new AppDomainResult
             {
-                Data = numberOfOrders,
+                Data = result.ToArray(),
                 ResultCode = (int)HttpStatusCode.OK,
                 ResultMessage = null,
                 Success = true

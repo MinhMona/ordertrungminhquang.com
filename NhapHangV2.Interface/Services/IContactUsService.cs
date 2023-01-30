@@ -11,6 +11,6 @@ namespace NhapHangV2.Interface.Services
 {
     public interface IContactUsService : IDomainService<ContactUs, ContactUsSearch>
     {
-        Task<bool> UpdateListContactUs(List<ContactUs> contactUs);
+        Task<List<ContactUs>> UpdateListContactUs(List<int> contactUs);
     }
 }

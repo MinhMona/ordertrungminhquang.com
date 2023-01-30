@@ -74,7 +74,7 @@ namespace NhapHangV2.API.Controllers
         /// <returns></returns>
         [HttpPut]
         [Authorize]
-        public async Task<AppDomainResult> Updatetem([FromBody] List<ContactUsRequest> itemModels)
+        public async Task<AppDomainResult> Updatetem([FromBody] List<int> itemModels)
         {
             AppDomainResult appDomainResult = new AppDomainResult();
             bool success = false;
