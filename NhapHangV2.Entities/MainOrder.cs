@@ -221,13 +221,13 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Tổng cân nặng (Kg)
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? OrderWeight { get; set; } = 0;
 
         /// <summary>
         /// TQ - VN - Cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? TQVNWeight { get; set; } = 0;
 
         /// <summary>

@@ -181,7 +181,7 @@ namespace NhapHangV2.Models
         /// <summary>
         /// Tiền cân / Kg
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? FeeWeightPerKg { get; set; } = 0;
 
         /// <summary>

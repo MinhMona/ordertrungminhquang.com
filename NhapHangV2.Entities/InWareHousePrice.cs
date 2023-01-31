@@ -13,13 +13,13 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Cân nặng từ
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? WeightFrom { get; set; } = 0;
 
         /// <summary>
         /// Cân nặng đến
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal? WeightTo { get; set; } = 0;
 
         /// <summary>

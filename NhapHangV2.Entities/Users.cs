@@ -200,7 +200,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí cân nặng riêng (VNĐ/KG)
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? FeeTQVNPerWeight { get; set; } = 0;
 
         /// <summary>

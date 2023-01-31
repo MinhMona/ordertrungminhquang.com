@@ -20,7 +20,7 @@ namespace NhapHangV2.Entities.Report
         /// <summary>
         /// Cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal Weight { get; set; } = 0;
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace NhapHangV2.Entities.Report
         /// <summary>
         /// Tiền cân / Kg
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal? FeeWeightPerKg { get; set; } = 0;
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace NhapHangV2.Entities.Report
         /// <summary>
         /// Tổng cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal MaxWeight { get; set; } = 0;
 
         /// <summary>

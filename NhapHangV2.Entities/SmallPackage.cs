@@ -68,7 +68,7 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Cân nặng - Cân thực (kg)
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Weight { get; set; } = 0;
 
         /// <summary>
@@ -282,7 +282,7 @@ namespace NhapHangV2.Entities
         /// Khối (m3) - Cân quy đổi (kg)
         /// </summary>
         [NotMapped]
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Volume
         {
             get
@@ -300,7 +300,7 @@ namespace NhapHangV2.Entities
         /// Cân tính tiền (Kg)
         /// </summary>
         [NotMapped]
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? PayableWeight
         {
             get

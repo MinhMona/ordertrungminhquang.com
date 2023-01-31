@@ -13,7 +13,7 @@ namespace NhapHangV2.Entities.Catalogue
         /// <summary>
         /// Cân nặng (kg)
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? Weight { get; set; } = 0;
 
         /// <summary>

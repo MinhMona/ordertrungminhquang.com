@@ -39,7 +39,7 @@ namespace NhapHangV2.Entities.Report
         /// <summary>
         /// Cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal TQVNWeight { get; set; } = 0;
 
         /// <summary>
@@ -97,7 +97,7 @@ namespace NhapHangV2.Entities.Report
         /// <summary>
         /// Tổng cân nặng
         /// </summary>
-        [Column(TypeName = "decimal(18,1)")] 
+        [Column(TypeName = "decimal(18,2)")] 
         public decimal MaxTQVNWeight { get; set; } = 0;
 
         /// <summary>

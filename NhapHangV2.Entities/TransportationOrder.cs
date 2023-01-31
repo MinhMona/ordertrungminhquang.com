@@ -210,7 +210,7 @@ namespace NhapHangV2.Entities
         /// Cân tính tiền (Kg) - Lấy từ SmallPackage
         /// </summary>
         [NotMapped]
-        [Column(TypeName = "decimal(18,1)")]
+        [Column(TypeName = "decimal(18,2)")]
         public decimal? PayableWeight { get; set; }
 
         /// <summary>
