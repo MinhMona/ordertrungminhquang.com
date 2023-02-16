@@ -13,6 +13,8 @@ using System.Net;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Crypto.Parameters;
 
 namespace NhapHangV2.Extensions
 {
@@ -65,7 +67,7 @@ namespace NhapHangV2.Extensions
                     ValidateAudience = false,
                     ClockSkew = TimeSpan.Zero
                 }, out SecurityToken validatedToken);
-
+                
                 var jwtToken = (JwtSecurityToken)validatedToken;
                 var userModel = new UserLoginModel();
                 var claim = jwtToken.Claims.First(x => x.Type == ClaimTypes.UserData);
@@ -73,7 +75,12 @@ namespace NhapHangV2.Extensions
                 {
                     userModel = JsonConvert.DeserializeObject<UserLoginModel>(claim.Value);
                 }
+                var expirationTime = jwtToken.ValidTo;
 
+                //if ((DateTime.UtcNow.AddHours(7)) > expirationTime)
+                //{
+                //    throw new UnauthorizedAccessException("Hết hạn token");
+                //}
                 context.Items["User"] = userModel;
             }
             catch(Exception ex)

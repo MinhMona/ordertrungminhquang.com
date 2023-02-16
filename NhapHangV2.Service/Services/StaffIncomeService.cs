@@ -59,9 +59,10 @@ namespace NhapHangV2.Service.Services
 
             foreach (var staffIncome in staffIncomes)
             {
-                var mainOrder = new MainOrder();
-                mainOrder = await mainOrderService.GetByIdAsync(staffIncome.MainOrderId ?? 0);
-                if (mainOrder == null)
+                var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().FirstOrDefaultAsync(x => x.Id == (staffIncome.MainOrderId ?? 0));
+                var transOrder = await unitOfWork.Repository<TransportationOrder>().GetQueryable().FirstOrDefaultAsync(x => x.Id == (staffIncome.TransportationOrderId ?? 0));
+                var payHelp = await unitOfWork.Repository<PayHelp>().GetQueryable().FirstOrDefaultAsync(x => x.Id == (staffIncome.PayHelpOrderId ?? 0));
+                if (mainOrder == null && transOrder == null && payHelp == null)
                     continue;
                 var userInGroups = await userInGroupService.GetAsync(x => !x.Deleted &&
                     (x.UserId == staffIncome.UID)
@@ -71,10 +72,21 @@ namespace NhapHangV2.Service.Services
                 foreach (var userInGroup in userInGroups)
                 {
                     int? idUser = 0;
-                    if (userInGroup.UserGroupId == (int)PermissionTypes.Orderer)
+                    if (userInGroup.UserGroupId == (int)PermissionTypes.Orderer 
+                        || userInGroup.UserGroupId == (int)PermissionTypes.Admin 
+                        || userInGroup.UserGroupId == (int)PermissionTypes.Manager)
                         idUser = mainOrder.DatHangId;
-                    if (userInGroup.UserGroupId == (int)PermissionTypes.Saler)
-                        idUser = mainOrder.SalerId;
+                    if (userInGroup.UserGroupId == (int)PermissionTypes.Saler
+                        || userInGroup.UserGroupId == (int)PermissionTypes.Admin
+                        || userInGroup.UserGroupId == (int)PermissionTypes.Manager)
+                    {
+                        if (staffIncome.MainOrderId > 0)
+                            idUser = mainOrder.SalerId;
+                        if (staffIncome.TransportationOrderId > 0)
+                            idUser = transOrder.SalerID;
+                        if (staffIncome.PayHelpOrderId > 0)
+                            idUser = payHelp.SalerID;
+                    }
                     var user = await userService.GetByIdAsync(idUser ?? 0);
                     if (user == null)
                         continue;
@@ -92,15 +104,23 @@ namespace NhapHangV2.Service.Services
                         unitOfWork.Repository<Users>().Update(user);
 
                         //Lịch sử ví tiền VNĐ
+                        int? mainOrderId = 0;
+                        if (staffIncome.MainOrderId > 0)
+                            mainOrderId = staffIncome.MainOrderId;
+                        if (staffIncome.TransportationOrderId > 0)
+                            mainOrderId = staffIncome.TransportationOrderId;
+                        if (staffIncome.PayHelpOrderId > 0)
+                            mainOrderId = staffIncome.PayHelpOrderId;
+
                         await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet
                         {
                             UID = user.Id,
-                            MainOrderId = mainOrder.Id,
+                            MainOrderId = mainOrderId,
                             MoneyLeft = wallet,
                             Amount = staffIncome.TotalPriceReceive,
                             Type = (int)DauCongVaTru.Cong,
                             TradeType = (int)HistoryPayWalletContents.HoaHong,
-                            Content = string.Format("{0} đã nhận được hoa hồng của đơn hàng: {1}.", user.UserName, mainOrder.Id),
+                            Content = string.Format("{0} đã nhận được hoa hồng của đơn hàng: {1}.", user.UserName, mainOrderId),
                             Deleted = false,
                             Active = true,
                             Created = currentDate,
@@ -116,7 +136,12 @@ namespace NhapHangV2.Service.Services
                     staffIncome.Status = (int)StatusStaffIncome.Paid;
 
                     unitOfWork.Repository<StaffIncome>().Update(staffIncome);
-                    unitOfWork.Repository<MainOrder>().Detach(mainOrder);
+                    if (mainOrder != null)
+                        unitOfWork.Repository<MainOrder>().Detach(mainOrder);
+                    if (transOrder != null)
+                        unitOfWork.Repository<TransportationOrder>().Detach(transOrder);
+                    if (payHelp != null)
+                        unitOfWork.Repository<PayHelp>().Detach(payHelp);
                     await unitOfWork.SaveAsync();
                 }
             }

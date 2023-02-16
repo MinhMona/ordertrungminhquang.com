@@ -182,8 +182,10 @@ namespace NhapHangV2.Service.Services
         {
             bool result = false;
             var existItem = await this.Queryable.Where(e => e.Id == item.Id).FirstOrDefaultAsync();
+            int oldLevel = 0;
             if (existItem != null)
             {
+                oldLevel = existItem.LevelId ?? 0;
                 //Hủy đăngg ký OneSignal
                 if (item.OneSignalPlayerID != null)
                 {
@@ -202,6 +204,15 @@ namespace NhapHangV2.Service.Services
                 existItem.Created = currentCreated;
                 existItem.CreatedBy = currentCreatedByInfo;
 
+                //Sửa đổi tiền tích lũy
+                if (item.LevelId != oldLevel)
+                {
+                    var userLevel = await this.unitOfWork.Repository<UserLevel>().GetQueryable().FirstOrDefaultAsync(e => e.Id == item.LevelId && !e.Deleted);
+                    if (userLevel != null)
+                    {
+                        item.TransactionMoney = userLevel.Money ?? 0;
+                    }
+                }
                 this.unitOfWork.Repository<Users>().Update(existItem);
                 await this.unitOfWork.SaveAsync();
 
@@ -580,18 +591,6 @@ namespace NhapHangV2.Service.Services
             return result.ToArray();
         }
 
-
-        private async Task<string> UnsubriseOneSignal(string playerId)
-        {
-            var config = await this.unitOfWork.Repository<NhapHangV2.Entities.Configurations>().GetQueryable().FirstOrDefaultAsync();
-            var appConfig = new Configuration();
-            appConfig.BasePath = "https://onesignal.com/api/v1";
-            appConfig.AccessToken = config.RestAPIKey;
-            var api = new OneSignalApi.Api.DefaultApi(appConfig);
-            var result = await api.DeletePlayerAsync(config.OneSignalAppID, playerId);
-            return result.Success;
-        }
-
         public async Task<Users> GetUserByIdAndGroupId(int UID, int groupId)
         {
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == UID && !x.Deleted).FirstOrDefaultAsync();
@@ -604,10 +603,35 @@ namespace NhapHangV2.Service.Services
             }
             return null;
         }
+
         public async Task<Users> GetUserByFireBaseIdToken(string idToken)
         {
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.FireBaseID.Equals(idToken)).FirstOrDefaultAsync();
             return user;
+        }
+
+        public async Task<Users> CreateUserTransactionMoney(Users users, decimal totalMoney)
+        {
+            var userTransactionMoney = users.TransactionMoney += totalMoney;
+            var userLevel = await unitOfWork.Repository<UserLevel>().GetQueryable()
+                .FirstOrDefaultAsync(x => !x.Deleted && userTransactionMoney >= x.Money && userTransactionMoney < x.MoneyTo);
+            if (userLevel.Id != (users.LevelId ?? 0))
+            {
+                users.LevelId = userLevel.Id;
+                users.DateUpLevel = DateTime.Now;
+            }
+            return users;
+        }
+
+        private async Task<string> UnsubriseOneSignal(string playerId)
+        {
+            var config = await this.unitOfWork.Repository<NhapHangV2.Entities.Configurations>().GetQueryable().FirstOrDefaultAsync();
+            var appConfig = new Configuration();
+            appConfig.BasePath = "https://onesignal.com/api/v1";
+            appConfig.AccessToken = config.RestAPIKey;
+            var api = new OneSignalApi.Api.DefaultApi(appConfig);
+            var result = await api.DeletePlayerAsync(config.OneSignalAppID, playerId);
+            return result.Success;
         }
     }
 }

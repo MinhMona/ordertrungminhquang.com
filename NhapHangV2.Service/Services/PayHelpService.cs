@@ -149,6 +149,8 @@ namespace NhapHangV2.Service.Services
                             {
                                 //Trả tiền lại ví người dùng
                                 userRequest.Wallet += model.TotalPriceVND;
+                                //Tính tiền tích lũy
+                                userRequest = await userService.CreateUserTransactionMoney(userRequest, 0 - (model.TotalPriceVND ?? 0));
                                 unitOfWork.Repository<Users>().Update(userRequest);
                                 //Lịch sử ví tiền
                                 await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet
@@ -182,7 +184,6 @@ namespace NhapHangV2.Service.Services
                                 string subjectTQ = emailTemplateTQ.Subject;
                                 string emailContentTQ = string.Format(emailTemplateTQ.Body);
                                 await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), String.Format(Detail_MainOrder_Admin, model.Id), String.Format(Detail_MainOrder, model.Id), userRequest.Id, string.Empty, string.Empty);
-                                //await sendNotificationService.SendNotification(notificationSetting, notiTemplateDaHuy, model.Id.ToString(), $"/manager/order/order-list/{model.Id}", $"/user/order-list/{model.Id}", userRequest.Id, string.Empty, string.Empty);
                             }
                             break;
                         case (int)StatusPayHelp.ChuaThanhToan:
@@ -225,6 +226,8 @@ namespace NhapHangV2.Service.Services
                             userRequest.Wallet = walletleft;
                             userRequest.Updated = currentDate;
                             userRequest.UpdatedBy = user.UserName;
+                            //Tính tiền tích lũy
+                            userRequest = await userService.CreateUserTransactionMoney(userRequest, totalPriceVND);
                             unitOfWork.Repository<Users>().Update(userRequest);
 
                             await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet
@@ -274,7 +277,6 @@ namespace NhapHangV2.Service.Services
                                 string emailContent = string.Format(emailTemplate.Body);
                                 await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, model.Id.ToString(),
                                     String.Format(Detail_Payhelp_Admin, model.Id), String.Format(Detail_Payhelp, model.Id), userRequest.Id, subject, emailContent);
-                                //await sendNotificationService.SendNotification(notificationSetting, notiTemplateUser, model.Id.ToString(), $"/manager/order/request-payment/{model.Id}", $"/user/request-list/{model.Id}", userRequest.Id, subject, emailContent);
 
                                 //Thông báo cho Admin và manager
                                 var notiTemplateAdmin = await notificationTemplateService.GetByIdAsync(21);

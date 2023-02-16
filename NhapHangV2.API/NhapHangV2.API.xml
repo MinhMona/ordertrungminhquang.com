@@ -530,6 +530,13 @@
             <param name="itemModel"></param>
             <returns></returns>
         </member>
+        <member name="M:NhapHangV2.API.Controllers.ContactUsController.Updatetem(System.Collections.Generic.List{System.Int32})">
+            <summary>
+            Thêm mới item
+            </summary>
+            <param name="itemModels"></param>
+            <returns></returns>
+        </member>
         <member name="M:NhapHangV2.API.Controllers.ContactUsController.Get(NhapHangV2.Entities.Search.ContactUsSearch)">
             <summary>
             Lấy danh sách item phân trang
@@ -721,6 +728,7 @@
             <param name="item"></param>
             <param name="user"></param>
             <param name="configurations"></param>
+            <param name="updateSql"></param>
             <returns></returns>
         </member>
         <member name="M:NhapHangV2.API.Controllers.MainOrderController.UpdateIsCheckNotiPrice(NhapHangV2.Request.MainOrderRequest)">
@@ -1008,6 +1016,20 @@
         <member name="M:NhapHangV2.API.Controllers.PayHelpController.UpdateItem(NhapHangV2.Request.PayHelpRequest)">
             <summary>
             Cập nhật thông tin item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.UpdateConfirm(NhapHangV2.Request.PayHelpRequest)">
+            <summary>
+            Cập nhật thông tin duyệt đơn
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.PayHelpController.UpdateStaff(NhapHangV2.Request.PayHelpRequest)">
+            <summary>
+            Cập nhật nhân viên sale
             </summary>
             <param name="itemModel"></param>
             <returns></returns>
@@ -1317,6 +1339,13 @@
             <param name="listId">Danh sách ID</param>
             <returns></returns>
         </member>
+        <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.UpdateStaff(NhapHangV2.Request.TransportationOrderRequest)">
+            <summary>
+            Cập nhật nhân viên sale 
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
         <member name="M:NhapHangV2.API.Controllers.TransportationOrderController.ExportExcel(NhapHangV2.Entities.Search.TransportationOrderSearch)">
             <summary>
             Xuất Excel
@@ -1368,6 +1397,10 @@
             <returns></returns>
         </member>
         <member name="M:NhapHangV2.API.Controllers.UserController.UpdateAvatarIMG(NhapHangV2.Request.UpdateAvatarRequest)">
+            <summary>
+            Cập nhật ảnh đại diện của tài khoản
+            </summary>
+            <param name="request"></param>
             <returns></returns>
         </member>
         <member name="M:NhapHangV2.API.Controllers.UserController.ExportExcel(NhapHangV2.Entities.Search.UserSearch)">
@@ -1390,6 +1423,20 @@
             </summary>
             <param name="pagedList"></param>
             <param name="baseSearch"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.UserLevelController.UpdateItem(NhapHangV2.Request.UserLevelRequest)">
+            <summary>
+            Cập nhật item
+            </summary>
+            <param name="itemModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:NhapHangV2.API.Controllers.VolumeFeeController.GetById(System.Int32)">
+            <summary>
+            Lấy thông tin theo id
+            </summary>
+            <param name="id"></param>
             <returns></returns>
         </member>
         <member name="M:NhapHangV2.API.Controllers.WarehouseController.AddItem(NhapHangV2.Request.Catalogue.WarehouseRequest)">

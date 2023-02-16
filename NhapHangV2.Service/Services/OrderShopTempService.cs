@@ -80,9 +80,9 @@ namespace NhapHangV2.Service.Services
                 .FirstOrDefault();
             if (exists != null)
             {
-                var orderTemp = unitOfWork.Repository<OrderTemp>().GetQueryable().Where(e => !e.Deleted && e.Active
-                    && (e.OrderShopTempId == exists.Id)
-                ).ToList();
+                var orderTemp = unitOfWork.Repository<OrderTemp>().GetQueryable()
+                    .Where(e => !e.Deleted && e.Active && (e.OrderShopTempId == exists.Id))
+                    .ToList();
 
                 if (orderTemp.Any())
                     unitOfWork.Repository<OrderTemp>().Delete(orderTemp);
@@ -408,6 +408,9 @@ namespace NhapHangV2.Service.Services
 
             decimal subfeebp = feebpnotdc * (cKFeeBuyPro / 100);
             decimal feebp = feebpnotdc - subfeebp;
+
+            //Phí mua hàng tối thiểu
+            feebp = feebp > (conf.FeeBuyProMin ?? 0) ? feebp : (conf.FeeBuyProMin ?? 0);
 
             item.FeeBuyPro = feebp;
 

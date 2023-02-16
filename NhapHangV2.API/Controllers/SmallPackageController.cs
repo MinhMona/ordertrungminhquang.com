@@ -219,7 +219,7 @@ namespace NhapHangV2.API.Controllers
                 };
             }
             else
-                throw new KeyNotFoundException("Item không tồn tại");
+                throw new KeyNotFoundException("Mã vận đơn không tồn tại");
             return appDomainResult;
         }
 
@@ -352,10 +352,6 @@ namespace NhapHangV2.API.Controllers
             if (ModelState.IsValid)
             {
                 IList<SmallPackage> items = new List<SmallPackage>();
-
-                List<string> filePaths = new List<string>();
-                List<string> folderUploadPaths = new List<string>();
-
                 foreach (var itemModel in itemModels)
                 {
                     var item = await smallPackageService.GetByIdAsync(itemModel.Id);
@@ -365,7 +361,6 @@ namespace NhapHangV2.API.Controllers
                         var messageUserCheck = await smallPackageService.GetExistItemMessage(item);
                         if (!string.IsNullOrEmpty(messageUserCheck))
                             throw new KeyNotFoundException(messageUserCheck);
-
                         //Cập nhật kiện trôi nổi
                         if (item.IsFloating)
                         {
@@ -376,23 +371,17 @@ namespace NhapHangV2.API.Controllers
                                     throw new AppException("Mã vận đơn đã tồn tại, vui lòng nhập mã vận đơn khác");
                             }
                         }
-
                         mapper.Map(itemModel, item);
-
-
                         items.Add(item);
                     }
                     else
                         throw new KeyNotFoundException("Không tìm thấy Item");
                 }
-
                 success = await smallPackageService.UpdateAsync(items);
                 if (success)
                 {
                     appDomainResult.ResultCode = (int)HttpStatusCode.OK;
                 }
-
-
                 appDomainResult.Success = success;
             }
             else

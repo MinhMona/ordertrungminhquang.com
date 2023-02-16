@@ -200,8 +200,14 @@ namespace NhapHangV2.Entities
         /// <summary>
         /// Phí cân nặng riêng (VNĐ/KG)
         /// </summary>
-        [Column(TypeName = "decimal(18,2)")]
+        [Column(TypeName = "decimal(18,0)")]
         public decimal? FeeTQVNPerWeight { get; set; } = 0;
+
+        /// <summary>
+        /// Phí thể tích riêng (VNĐ/KG)
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal? FeeTQVNPerVolume { get; set; } = 0;
 
         /// <summary>
         /// Phần trăm đặt cọc (%)
@@ -255,10 +261,16 @@ namespace NhapHangV2.Entities
         [StringLength(100)]
         public string FireBaseID { get; set; } = string.Empty;
 
-        //public string FeeTQVNPerVolume { get; set; } = string.Empty;
-
-        //public string TienTichLuy { get; set; } = string.Empty;
+        /// <summary>
+        /// Tiền thanh toán tích lũy
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal TransactionMoney { get; set; } = 0;
 
         //public DateTime? DateUpLevel { get; set; }
+        /// <summary>
+        /// Ngày nâng cấp VIP
+        /// </summary>
+        public DateTime? DateUpLevel { get; set; }
     }
 }

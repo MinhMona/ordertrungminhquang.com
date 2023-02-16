@@ -320,6 +320,8 @@ namespace NhapHangV2.API.Controllers
                     decimal pricePro = orderShopTemp.PriceVND ?? 0;
                     decimal priceProCNY = orderShopTemp.PriceCNY ?? 0;
                     decimal feebp = orderShopTemp.FeeBuyPro ?? 0;
+                    //Tính phí mua hàng tối thiểu
+                    feebp = feebp > (configurations.FeeBuyProMin ?? 0) ? feebp : (configurations.FeeBuyProMin ?? 0);
 
                     decimal feecnship = 0;
 

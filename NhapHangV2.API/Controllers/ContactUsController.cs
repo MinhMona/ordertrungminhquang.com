@@ -80,13 +80,9 @@ namespace NhapHangV2.API.Controllers
             bool success = false;
             if (ModelState.IsValid)
             {
-                var items = mapper.Map<List<ContactUs>>(itemModels);
-                success = await contactUsService.UpdateListContactUs(items);
-                if (success)
-                {
-                    appDomainResult.ResultCode = (int)HttpStatusCode.OK;
-                    appDomainResult.Data = items;
-                }
+                var data = await contactUsService.UpdateListContactUs(itemModels);
+                appDomainResult.ResultCode = (int)HttpStatusCode.OK;
+                appDomainResult.Data = data;
                 appDomainResult.Success = success;
             }
             else

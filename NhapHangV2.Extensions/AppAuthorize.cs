@@ -49,12 +49,13 @@ namespace NhapHangV2.Extensions
             }
             var expirationTime = DateTimeOffset.FromUnixTimeSeconds(long.Parse(context.HttpContext.User.Claims.ElementAt(2).Value)).DateTime;
 
-            if ((DateTime.UtcNow.AddHours(7).AddMinutes(1)) > expirationTime)
+            if ((DateTime.UtcNow.AddHours(7)) > expirationTime)
             {
                 context.Result = new JsonResult(new AppDomainResult()
                 {
                     ResultCode = (int)HttpStatusCode.Unauthorized,
-                    ResultMessage = "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại"
+                    ResultMessage = "Unauthorized"
+                    //ResultMessage = "Phiên đăng nhập hết hạn, vui lòng đăng nhập lại"
                 });
                 return;
             }
@@ -79,7 +80,7 @@ namespace NhapHangV2.Extensions
                 context.Result = new JsonResult(new AppDomainResult()
                 {
                     ResultCode = (int)HttpStatusCode.Unauthorized,
-                    ResultMessage = "Bạn không có quyền thực hiện thao tác này"
+                    ResultMessage = "Unauthorized"
                 });
                 throw new UnauthorizedAccessException();
             }

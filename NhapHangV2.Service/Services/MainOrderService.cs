@@ -17,6 +17,7 @@ using NhapHangV2.Interface.UnitOfWork;
 using NhapHangV2.Models.ExcelModels;
 using NhapHangV2.Service.Services.DomainServices;
 using NhapHangV2.Utilities;
+using NPOI.SS.Formula.Functions;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -158,6 +159,9 @@ namespace NhapHangV2.Service.Services
                                 users.Wallet -= mustDeposit;
                                 users.Updated = currentDate;
                                 users.UpdatedBy = userName;
+
+                                //Tính tiền tích lũy
+                                users = await userService.CreateUserTransactionMoney(users, mustDeposit);
                                 unitOfWork.Repository<Users>().Update(users);
                                 //Cập nhật lại trạng thái, tiền cọc, ngày cọc, ngày dự kiến của đơn hàng
                                 item.Status = (int?)StatusOrderContants.DaDatCoc;
@@ -207,7 +211,6 @@ namespace NhapHangV2.Service.Services
                                 string subject = emailTemplate.Subject;
                                 string emailContent = string.Format(emailTemplate.Body);
                                 await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), "", null, subject, emailContent);
-                                //await sendNotificationService.SendNotification(notificationSettingDC, notiTemplateAdmin, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
                             }
                             break;
 
@@ -237,6 +240,8 @@ namespace NhapHangV2.Service.Services
                                 users.Wallet -= moneyLeft;
                                 users.Updated = currentDate;
                                 users.UpdatedBy = userName;
+                                //Tính tiền tích lũy
+                                users = await userService.CreateUserTransactionMoney(users, moneyLeft);
                                 unitOfWork.Repository<Users>().Update(users);
 
                                 //Cập nhật lại trạng thái, tiền cọc (tổng tiền), ngày thanh toán, ngày dự kiến của Đơn hàng
@@ -299,7 +304,6 @@ namespace NhapHangV2.Service.Services
                                 string subject = emailTemplate.Subject;
                                 string emailContent = string.Format(emailTemplate.Body);
                                 await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), "", null, subject, emailContent);
-                                //await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/manager/order/order-list/{item.Id}", "", null, subject, emailContent);
                             }
 
                             break;
@@ -356,7 +360,6 @@ namespace NhapHangV2.Service.Services
                         var notiTemplate = await notificationTemplateService.GetByIdAsync(notiTemplateId);
                         var notificationSetting = await notificationSettingService.GetByIdAsync(5);
                         await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), string.Format(Detail_MainOrder_Admin, data.Id), "", null, string.Empty, string.Empty);
-                        //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, data.Id.ToString(), $"/manager/order/order-list/{data.Id}", "", null, string.Empty, string.Empty);
                     }
 
                     await dbContextTransaction.CommitAsync();
@@ -406,6 +409,9 @@ namespace NhapHangV2.Service.Services
                             {
                                 case 1: //Trực tiếp
                                     depositPayment = deposit + amount;
+                                    //Tính tiền tích lũy
+                                    userMainOrder = await userService.CreateUserTransactionMoney(userMainOrder, amount);
+                                    unitOfWork.Repository<Users>().Update(userMainOrder);
                                     await unitOfWork.Repository<AdminSendUserWallet>().CreateAsync(new AdminSendUserWallet()
                                     {
                                         UID = userMainOrder.Id,
@@ -449,6 +455,8 @@ namespace NhapHangV2.Service.Services
 
                                     //Cập nhật trừ số tiền trong account
                                     userMainOrder.Wallet -= amount;
+                                    //Tính tiền tích lũy
+                                    userMainOrder = await userService.CreateUserTransactionMoney(userMainOrder, amount);
                                     unitOfWork.Repository<Users>().Update(userMainOrder);
 
                                     //Thêm lịch sử của ví tiền
@@ -518,6 +526,10 @@ namespace NhapHangV2.Service.Services
                                     orderPayment = deposit + amount;
                                     mainOrder.Deposit = orderPayment;
 
+                                    //Tính tiền tích lũy
+                                    userMainOrder = await userService.CreateUserTransactionMoney(userMainOrder, amount);
+                                    unitOfWork.Repository<Users>().Update(userMainOrder);
+
                                     await unitOfWork.Repository<PayAllOrderHistory>().CreateAsync(new PayAllOrderHistory()
                                     {
                                         MainOrderId = mainOrder.Id,
@@ -575,6 +587,8 @@ namespace NhapHangV2.Service.Services
 
                                     //Cập nhật trừ số tiền trong account
                                     userMainOrder.Wallet = walletLeft;
+                                    //Tính tiền tích lũy
+                                    userMainOrder = await userService.CreateUserTransactionMoney(userMainOrder, amount);
                                     unitOfWork.Repository<Users>().Update(userMainOrder);
 
                                     //Thêm lịch sử của ví tiền
@@ -641,8 +655,8 @@ namespace NhapHangV2.Service.Services
         }
         public override async Task<MainOrder> GetByIdAsync(int id)
         {
-            //var mainOrder = await Queryable.Where(e => e.Id == id && !e.Deleted).AsNoTracking().FirstOrDefaultAsync();
-            var mainOrder = await Queryable.Where(e => e.Id == id && !e.Deleted).FirstOrDefaultAsync();
+            var mainOrder = await Queryable.Where(e => e.Id == id && !e.Deleted).AsNoTracking().FirstOrDefaultAsync();
+            //var mainOrder = await Queryable.Where(e => e.Id == id && !e.Deleted).FirstOrDefaultAsync();
             if (mainOrder == null)
                 return null;
 
@@ -767,20 +781,49 @@ namespace NhapHangV2.Service.Services
             var smallPackages = item.SmallPackages;
 
             decimal? totalWeight = smallPackages.Sum(e => e.PayableWeight);
-            decimal? warehouseFeePrice = 1;
+            decimal? totalVolume = smallPackages.Sum(e => e.VolumePayment);
+            decimal? warehouseFeePrice = 0;
+            decimal? volumeFeePrice = 0;
 
-            var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable().Where(e => !e.Deleted &&
-                e.WarehouseFromId == item.FromPlace && e.WarehouseId == item.ReceivePlace && e.ShippingTypeToWareHouseId == item.ShippingType && e.IsHelpMoving == false &&
-                totalWeight > e.WeightFrom && totalWeight <= e.WeightTo).FirstOrDefaultAsync();
-
-            if (warehouseFee != null)
-                warehouseFeePrice = warehouseFee.Price;
+            //Phí cân nặng vận chuyển TQ - VN
+            decimal? feeWeight = 0;
+            //Phí thể tích TQ - VN
+            decimal? feeVolume = 0;
 
             foreach (var smallPackage in smallPackages)
             {
                 var exists = new SmallPackage();
 
-                smallPackage.TotalPrice = totalWeight * warehouseFeePrice;
+                var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable().Where(e => !e.Deleted &&
+                    e.WarehouseFromId == item.FromPlace && e.WarehouseId == item.ReceivePlace && e.ShippingTypeToWareHouseId == item.ShippingType && e.IsHelpMoving == false &&
+                    smallPackage.PayableWeight >= e.WeightFrom && smallPackage.PayableWeight < e.WeightTo).FirstOrDefaultAsync();
+
+                var volumeFee = await unitOfWork.Repository<VolumeFee>().GetQueryable().Where(e => !e.Deleted &&
+                    e.WarehouseFromId == item.FromPlace && e.WarehouseId == item.ReceivePlace && e.ShippingTypeToWareHouseId == item.ShippingType && e.IsHelpMoving == false &&
+                    smallPackage.VolumePayment >= e.VolumeFrom && smallPackage.VolumePayment < e.VolumeTo).FirstOrDefaultAsync();
+
+                if (warehouseFee != null)
+                    warehouseFeePrice = warehouseFee.Price;
+
+                if (volumeFee != null)
+                    volumeFeePrice = volumeFee.Price;
+                //decimal? smPriceWeight = totalWeight * warehouseFeePrice;
+                decimal? smPriceWeight = 0;
+                if (userMainOrder.FeeTQVNPerWeight > 0)
+                    smPriceWeight = smallPackage.PayableWeight * userMainOrder.FeeTQVNPerWeight;
+                else
+                    smPriceWeight = smallPackage.PayableWeight * warehouseFeePrice;
+                feeWeight += smPriceWeight;
+
+                //decimal? smPriceVolume = totalVolume * volumeFeePrice;
+                decimal? smPriceVolume = 0;
+                if (userMainOrder.FeeTQVNPerVolume > 0)
+                    smPriceVolume = smallPackage.VolumePayment * userMainOrder.FeeTQVNPerVolume;
+                else
+                    smPriceVolume = smallPackage.VolumePayment * volumeFeePrice;
+                feeVolume += smPriceVolume;
+
+                smallPackage.TotalPrice = smPriceWeight > smPriceVolume ? smPriceWeight : smPriceVolume;
 
                 switch (smallPackage.Status)
                 {
@@ -886,21 +929,15 @@ namespace NhapHangV2.Service.Services
                     item.Deposit = 0;
                 }
 
-                //Thông báo đơn hàng đã bị hủy
             }
 
-            //Cân nặng vận chuyển TQ - VN
-            decimal? feeWeight = 0;
-            if (userMainOrder.FeeTQVNPerWeight > 0)
-                feeWeight = totalWeight * userMainOrder.FeeTQVNPerWeight;
-            else
-                feeWeight = totalWeight * warehouseFeePrice;
-
-            decimal? feeWeightDiscount = feeWeight * ckFeeWeight / 100;
-            feeWeight -= feeWeightDiscount;
-
             item.TQVNWeight = item.OrderWeight = totalWeight;
-            item.FeeWeight = feeWeight;
+            item.TQVNVolume = totalVolume;
+
+            decimal? feeDelivery = feeWeight > feeVolume ? feeWeight : feeVolume;
+            decimal? feeDeliveryDiscount = feeDelivery * ckFeeWeight / 100;
+            feeDelivery -= feeDeliveryDiscount;
+            item.FeeWeight = feeDelivery;
 
             item.TotalPriceVND = (item.FeeWeight ?? 0) + (item.FeeShipCN ?? 0)
                 + (item.FeeBuyPro ?? 0) + (item.IsCheckProductPrice ?? 0)
@@ -1042,8 +1079,9 @@ namespace NhapHangV2.Service.Services
                     e.WarehouseId == item.ReceivePlace &&
                     e.ShippingTypeToWareHouseId == item.ShippingType &&
                     e.IsHelpMoving == false &&
-                    (e.WeightFrom < payableWeight && e.WeightTo >= payableWeight)).FirstOrDefaultAsync();
-
+                    (payableWeight >= e.WeightFrom && payableWeight < e.WeightTo)).FirstOrDefaultAsync();
+                if (warehouseFee == null)
+                    throw new KeyNotFoundException("Không tìm thấy bảng giá cân nặng");
                 decimal? warehouseFeePrice = warehouseFee == null ? 1 : warehouseFee.Price;
 
                 if (user.FeeTQVNPerWeight > 0)
@@ -1058,28 +1096,38 @@ namespace NhapHangV2.Service.Services
                     smallPackage.PriceWeight = warehouseFeePrice;
                     smallPackage.DonGia = warehouseFeePrice;
                 }
-
                 //Tiền khối
                 var volumeFee = await unitOfWork.Repository<VolumeFee>().GetQueryable().FirstOrDefaultAsync(e => !e.Deleted
                     && e.WarehouseFromId == item.FromPlace
                     && e.WarehouseId == item.ReceivePlace
                     && e.ShippingTypeToWareHouseId == item.ShippingType
-                    && e.IsHelpMoving == true
+                    && e.IsHelpMoving == false
                     && (smallPackageVolume >= e.VolumeFrom && smallPackageVolume < e.VolumeTo));
-                feeVolume = (smallPackageVolume * volumeFee.Price);
-
+                if (volumeFee == null)
+                    throw new KeyNotFoundException("Không tìm thấy bảng giá khối");
+                if (user.FeeTQVNPerVolume > 0)
+                {
+                    feeVolume = smallPackageVolume * user.FeeTQVNPerVolume;
+                    smallPackage.PriceVolume = user.FeeTQVNPerVolume;
+                }
+                else
+                {
+                    feeVolume = smallPackageVolume * volumeFee.Price;
+                    smallPackage.PriceVolume = volumeFee.Price;
+                }
                 smallPackage.TotalPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
 
                 totalFeeVolume += feeVolume;
                 totalFeeWeight += feeWeight;
             }
             #endregion
-            decimal? feeWeightDiscount = totalFeeWeight * ckFeeWeight / 100;
-            totalFeeWeight -= feeWeightDiscount;
+            decimal? feeDelivery = totalFeeVolume > totalFeeWeight ? totalFeeVolume : totalFeeWeight;
+            decimal? feeDeliveryDiscount = feeDelivery * ckFeeWeight / 100;
+            feeDelivery -= feeDeliveryDiscount;
 
             item.TQVNWeight = item.OrderWeight = Math.Round(totalWeight.Value, 2);
             item.TQVNVolume = totalVolume;
-            item.FeeWeight = totalFeeVolume > totalFeeWeight ? totalFeeVolume : totalFeeWeight;
+            item.FeeWeight = feeDelivery;
 
             decimal? totalPriceVNDFn = 0;
             if (item.FeeWeight != null) totalPriceVNDFn += item.FeeWeight;

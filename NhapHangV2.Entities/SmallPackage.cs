@@ -287,12 +287,13 @@ namespace NhapHangV2.Entities
         {
             get
             {
-                if (Length > 0 && Width > 0 && Height > 0) {
-                    var volume = (Length * Width * Height) ?? 0;
-                    return Math.Round(volume / 6000, 2);
-                }
-                else
-                    return 0;
+                //if (Length > 0 && Width > 0 && Height > 0) {
+                //    var volume = (Length * Width * Height) ?? 0;
+                //    return Math.Round(volume / 6000, 2);
+                //}
+                //else
+                //    return 0;
+                return Weight;
             }
         }
 

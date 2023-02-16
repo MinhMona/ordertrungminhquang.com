@@ -9,6 +9,7 @@ using System.Net;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace NhapHangV2.Extensions
 {
@@ -44,7 +45,7 @@ namespace NhapHangV2.Extensions
                         context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
                         break;
                     case UnauthorizedAccessException e: //401
-                        context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                        context.Response.StatusCode = (int)HttpStatusCode.OK;
                         break;
                     case InvalidCastException e: //403
                         context.Response.StatusCode = (int)HttpStatusCode.Forbidden;
@@ -80,14 +81,20 @@ namespace NhapHangV2.Extensions
                         break;
                 }
 
+
                 var result = new AppDomainResult()
                 {
                     ResultCode = context.Response.StatusCode,
                     ResultMessage = error?.Message,
                     Success = false
-                }.ToString();
+                };
 
-                await context.Response.WriteAsync(result);
+                if (result.ResultMessage.Contains("IDX10223: Lifetime validation failed. The token is expired. ValidTo: 'System.DateTime', Current time: 'System.DateTime'."))
+                {
+                    result.ResultCode = (int)HttpStatusCode.Unauthorized;
+                    result.ResultMessage = "Unauthorized";
+                }
+                await context.Response.WriteAsync(result.ToString());
             }
         }
     }

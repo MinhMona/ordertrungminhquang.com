@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace NhapHangV2.Request
@@ -97,6 +98,11 @@ namespace NhapHangV2.Request
         /// Phí cân nặng riêng (VNĐ/KG)
         /// </summary>
         public decimal? FeeTQVNPerWeight { get; set; }
+
+        /// <summary>
+        /// Phí thể tích riêng (VNĐ/KG)
+        /// </summary>
+        public decimal? FeeTQVNPerVolume { get; set; } = 0;
 
         /// <summary>
         /// Phí mua hàng riêng (%)

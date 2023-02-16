@@ -126,7 +126,7 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Link facebook Fanpage
         /// </summary>
-        public string? FacebookFanpage { get; set; } 
+        public string? FacebookFanpage { get; set; }
 
         /// <summary>
         /// Link facebook
@@ -250,7 +250,12 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Phần trăm hoa hồng sale đơn vận chuyển hộ
         /// </summary>
-        public int? SalePayHelpPersent { get; set; } = 0;
+        public int? SalePayHelpPersent { get; set; }
+
+        /// <summary>
+        /// Phí mua hàng tối thiểu
+        /// </summary>
+        public decimal? FeeBuyProMin { get; set; }
         #endregion
 
         #region Cấu hình thông báo
@@ -365,6 +370,41 @@ namespace NhapHangV2.Request
         /// Footer Script Code (Đặt nội dung trong thẻ script)
         /// </summary>
         public string? FooterScriptCode { get; set; }
+
+        /// <summary>
+        /// application-name
+        /// </summary>
+        public string? ApplicationName { get; set; } 
+
+        /// <summary>
+        /// google-site-verification
+        /// </summary>
+        public string? GoogleSiteVerification { get; set; } 
+
+        /// <summary>
+        /// reply-to
+        /// </summary>
+        public string? ReplyTo { get; set; } 
+
+        /// <summary>
+        /// robots
+        /// </summary>
+        public string? Robots { get; set; } 
+
+        /// <summary>
+        /// og:locale
+        /// </summary>
+        public string? OGLocale { get; set; } 
+
+        /// <summary>
+        /// og:site_name
+        /// </summary>
+        public string? OGSiteName { get; set; } 
+
+        /// <summary>
+        /// og:type
+        /// </summary>
+        public string? OGType { get; set; } 
         #endregion
 
         public string? InfoContent { get; set; }
@@ -375,5 +415,10 @@ namespace NhapHangV2.Request
         public decimal? CurrencyIncome { get; set; }
         public int? ChietKhauPercent { get; set; }
         public decimal? PriceCheckOutWareDefault { get; set; }
+
+        /// <summary>
+        /// Số ngày tự động xóa giỏ hàng
+        /// </summary>
+        public int? RemoveCartDay { get; set; }
     }
 }

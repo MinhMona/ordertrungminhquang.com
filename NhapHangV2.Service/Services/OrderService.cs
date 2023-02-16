@@ -133,6 +133,13 @@ namespace NhapHangV2.Service.Services
                     decimal subfeebp = feebpnotdc * (cKFeeBuyPro / 100);
                     decimal feebp = feebpnotdc - subfeebp;
 
+                    //Phí mua hàng tối thiểu
+                    var conf = await unitOfWork.Repository<Entities.Configurations>()
+                        .GetQueryable()
+                        .OrderByDescending(x => x.Id)
+                        .FirstOrDefaultAsync();
+                    feebp = feebp > (conf.FeeBuyProMin ?? 0) ? feebp : (conf.FeeBuyProMin ?? 0);
+
                     mainOrder.FeeBuyPro = feebp;
                     mainOrder.CKFeeBuyPro = Math.Round(feebp / currency, 1);
 
@@ -232,7 +239,6 @@ namespace NhapHangV2.Service.Services
                             string subject = emailTemplate.Subject;
                             string emailContent = string.Format(emailTemplate.Body);
                             await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", String.Format(Detail_MainOrder, item.Id), item.UID, subject, emailContent);
-                            //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.Id.ToString(), "", $"/user/order-list/{item.Id}", item.UID, subject, emailContent);
 
                             mainOrder.Deposit = mainOrder.AmountDeposit;
                         }

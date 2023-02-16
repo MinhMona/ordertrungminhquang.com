@@ -68,7 +68,7 @@ namespace NhapHangV2.Models
                 switch (Status)
                 {
                     case (int)StatusPayHelp.ChuaThanhToan:
-                        return "Chưa thanh toán";
+                        return "Chờ duyệt";
                     case (int)StatusPayHelp.DaThanhToan:
                         return "Đã thanh toán";
                     case (int)StatusPayHelp.DaHuy:

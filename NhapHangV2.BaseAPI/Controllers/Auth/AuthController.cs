@@ -535,6 +535,8 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
             // Cấp mật khẩu mới
             bool success = false;
             var newPasswordRandom = RandomUtilities.RandomString(8);
+            var template = await sMSEmailTemplateService.GetByIdAsync(32);
+            string body = string.Format(template.Body, userInfo.UserName, userInfo.Email, newPasswordRandom);
             if (isValidEmail)
             {
                 userInfo.Password = SecurityUtilities.HashSHA1(newPasswordRandom);
@@ -545,8 +547,8 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                 e => e.Updated
                 };
                 success = await this.userService.UpdateFieldAsync(userInfo, includeProperties);
-
-                await emailConfigurationService.Send("Thay doi mk", newPasswordRandom, a);
+                var config = await emailConfigurationService.GetEmailConfig();
+                await emailConfigurationService.Send($"[{config.FromDisplayName}] Thay đổi mật khẩu", body, a);
             }
             else success = true;
             return new AppDomainResult()
@@ -717,7 +719,7 @@ namespace NhapHangV2.BaseAPI.Controllers.Auth
                             {
                                 new Claim(ClaimTypes.UserData, JsonConvert.SerializeObject(userLoginModel))
                             }),
-                Expires = DateTime.UtcNow.AddDays(1).AddHours(7),
+                Expires = DateTime.UtcNow.AddHours(7).AddDays(1),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
             var token = tokenHandler.CreateToken(tokenDescriptor);

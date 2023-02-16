@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
@@ -76,7 +77,10 @@ namespace NhapHangV2.Service.Services
             {
                 var smallPackage = await this.unitOfWork.Repository<SmallPackage>().GetQueryable().Where(e => !e.Deleted && e.Id == item.SmallPackageId).FirstOrDefaultAsync();
                 if (smallPackage != null)
+                {
                     item.PayableWeight = smallPackage.PayableWeight;
+                    item.VolumePayment = smallPackage.VolumePayment;
+                }
             }
             pagedList.PageIndex = baseSearch.PageIndex;
             pagedList.PageSize = baseSearch.PageSize;
@@ -95,6 +99,7 @@ namespace NhapHangV2.Service.Services
             //Lấy cân tính tiền
             var smallPackage = smallPackages.Where(e => e.TransportationOrderId == transportationOrder.Id).FirstOrDefault();
             transportationOrder.PayableWeight = (smallPackage != null && smallPackage.PayableWeight != null) ? smallPackage.PayableWeight : 0;
+            transportationOrder.VolumePayment = (smallPackage != null && smallPackage.VolumePayment != null) ? smallPackage.VolumePayment : 0;
 
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(e => !e.Deleted && e.Id == transportationOrder.UID).FirstOrDefaultAsync();
             if (user != null)
@@ -161,6 +166,7 @@ namespace NhapHangV2.Service.Services
                                 foreach (var sm in item.SmallPackages)
                                 {
                                     sm.DonGia = item.FeeWeightPerKg;
+                                    sm.PriceVolume = item.FeePerVolume;
                                     sm.OrderTransactionCode = sm.OrderTransactionCode.Replace(" ", "");
                                     unitOfWork.Repository<SmallPackage>().Update(sm);
                                 }
@@ -178,6 +184,7 @@ namespace NhapHangV2.Service.Services
                         foreach (var smallPackage in item.SmallPackages)
                         {
                             smallPackage.DonGia = item.FeeWeightPerKg;
+                            smallPackage.PriceVolume = item.FeePerVolume;
                             smallPackage.OrderTransactionCode = smallPackage.OrderTransactionCode.Replace(" ", "");
                             unitOfWork.Repository<SmallPackage>().Update(smallPackage);
                         }
@@ -190,19 +197,22 @@ namespace NhapHangV2.Service.Services
                     {
                         //Nếu chưa có thì tạo mới
                         var staffInComeNew = await CommissionTransportationOrder(item, staffInCome);
-                        await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
+                        if(staffInComeNew != null)
+                            await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
                     }
                     if (staffInCome != null && staffInCome.UID == item.SalerID)
                     {
                         //Nếu saler trùng thì cập nhật lại
                         var staffInComeNew = await CommissionTransportationOrder(item, staffInCome);
-                        unitOfWork.Repository<StaffIncome>().Update(staffInComeNew);
+                        if (staffInComeNew != null) 
+                            unitOfWork.Repository<StaffIncome>().Update(staffInComeNew);
                     }
                     else if (staffInCome != null && staffInCome.UID != item.SalerID)
                     {
                         //Nếu đổi saler thì tạo mới
                         var staffInComeNew = await CommissionTransportationOrder(item, staffInCome);
-                        await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
+                        if (staffInComeNew != null)
+                            await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
                     }
                     await unitOfWork.SaveAsync();
                     await dbContextTransaction.CommitAsync();
@@ -573,7 +583,7 @@ namespace NhapHangV2.Service.Services
                 && e.ShippingTypeToWareHouseId == item.ShippingTypeId
                 && e.IsHelpMoving == true
                 && totalWeight >= e.WeightFrom && totalWeight < e.WeightTo).FirstOrDefaultAsync();
-            decimal? warehouseFeePrice = warehouseFee == null ? 1 : warehouseFee.Price;
+            decimal? warehouseFeePrice = warehouseFee == null ? 0 : warehouseFee.Price;
             if (user.FeeTQVNPerWeight > 0)
             {
                 warehouseFeePrice = user.FeeTQVNPerWeight;
@@ -589,37 +599,40 @@ namespace NhapHangV2.Service.Services
                 && e.ShippingTypeToWareHouseId == item.ShippingTypeId
                 && e.IsHelpMoving == true
                 && (totalVolume >= e.VolumeFrom && totalVolume < e.VolumeTo));
-            decimal? feeVolume = (totalVolume * volumeFee.Price);
+            decimal? volumeFeePrice = volumeFee == null ? 0 : volumeFee.Price;
+            if (user.FeeTQVNPerVolume > 0)
+            {
+                volumeFeePrice = user.FeeTQVNPerVolume;
+            }
+            decimal? feeVolume = 0;
+            feeVolume = totalVolume * volumeFeePrice;
 
             smallPackages.ForEach(e =>
             {
                 e.PriceWeight = warehouseFeePrice;
                 e.DonGia = warehouseFeePrice;
-                e.PriceVolume = volumeFee.Price;
+                e.PriceVolume = volumeFeePrice;
                 e.TotalPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
             });
 
-            decimal? feeWeightDiscount = feeWeight * ckFeeWeight / 100;
-            feeWeight -= feeWeightDiscount;
-
             decimal? deliveryPrice = feeVolume > feeWeight ? feeVolume : feeWeight;
-            if (item.TotalPriceVND == null)
+            decimal? feeDeliveryDiscount = deliveryPrice * ckFeeWeight / 100;
+            deliveryPrice -= feeDeliveryDiscount;
+
+            if (item.DeliveryPrice != (deliveryPrice ?? 0))
             {
-                item.TotalPriceVND = (deliveryPrice ?? 0) + (item.CODFee ?? 0) + (item.IsCheckProductPrice ?? 0) + (item.IsPackedPrice ?? 0) + (item.InsuranceMoney ?? 0);
+                item.TotalPriceVND = item.TotalPriceVND - item.DeliveryPrice + (deliveryPrice ?? 0);
             }
             else
             {
-                if (item.DeliveryPrice != (deliveryPrice ?? 0))
-                {
-                    item.TotalPriceVND = item.TotalPriceVND - item.DeliveryPrice + (deliveryPrice ?? 0);
-                }
+                item.TotalPriceVND = (deliveryPrice ?? 0) + (item.CODFee ?? 0) + (item.IsCheckProductPrice ?? 0) + (item.IsPackedPrice ?? 0) + (item.InsuranceMoney ?? 0);
             }
             if (user.Currency != null && user.Currency > 0)
                 item.TotalPriceCNY = item.TotalPriceVND / user.Currency;
             else
                 item.TotalPriceCNY = item.TotalPriceVND / config.AgentCurrency;
             item.FeeWeightPerKg = warehouseFeePrice;
-            item.FeePerVolume = volumeFee.Price;
+            item.FeePerVolume = volumeFeePrice;
             item.DeliveryPrice = deliveryPrice ?? 0;
             return item;
         }
@@ -658,6 +671,8 @@ namespace NhapHangV2.Service.Services
 
                         users.Updated = currentDate;
                         users.UpdatedBy = userName;
+                        //Tính tiền tích lũy
+                        users = await userService.CreateUserTransactionMoney(users, moneyLeft);
                         unitOfWork.Repository<Users>().Update(users);
 
                         item.Status = (int?)StatusGeneralTransportationOrder.DaThanhToan;
@@ -691,8 +706,6 @@ namespace NhapHangV2.Service.Services
                         string subject = emailTemplate.Subject;
                         string emailContent = string.Format(emailTemplate.Body); //Thông báo Email
                         await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), String.Format(Detail_Transportorder_Admin, item.Id), "", null, subject, emailContent);
-                        //await sendNotificationService.SendNotification(notificationSettingTT, notiTemplate, item.Id.ToString(), $"/manager/deposit/deposit-list/{item.Id}", "", null, subject, emailContent);
-
                     }
 
                     await unitOfWork.SaveAsync();
@@ -741,6 +754,44 @@ namespace NhapHangV2.Service.Services
             return data;
         }
 
+        public async Task<bool> UpdateStaffAsync(int transportationOrderID, int salerID)
+        {
+            using (var dbContextTransaction = Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var transportationOrder = await unitOfWork.Repository<TransportationOrder>()
+                        .GetQueryable()
+                        .FirstOrDefaultAsync(x => x.Id == transportationOrderID && !x.Deleted);
+                    if (transportationOrder == null)
+                        throw new KeyNotFoundException($"Không tìm thấy đơn ký gửi #{transportationOrderID}");
+                    if (transportationOrder.SalerID != salerID)
+                    {
+                        transportationOrder.SalerID = salerID;
+                        await unitOfWork.Repository<TransportationOrder>().UpdateFieldsSaveAsync(transportationOrder, new Expression<Func<TransportationOrder, object>>[]
+                        {
+                            x=>x.SalerID
+                        });
+                        var staffInCome = await unitOfWork.Repository<StaffIncome>()
+                        .GetQueryable()
+                        .FirstOrDefaultAsync(x => x.TransportationOrderId == transportationOrderID && !x.Deleted);
+
+                        //Nếu đổi saler thì tạo mới
+                        var staffInComeNew = await CommissionTransportationOrder(transportationOrder, staffInCome);
+                        await unitOfWork.Repository<StaffIncome>().CreateAsync(staffInComeNew);
+                        await unitOfWork.SaveAsync();
+                        dbContextTransaction.Commit();
+                    }
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await dbContextTransaction.RollbackAsync();
+                    throw new AppException(ex.Message);
+                }
+            }
+
+        }
         public TransportationsAmount GetTransportationsAmount(int UID)
         {
             var storeService = serviceProvider.GetRequiredService<IStoreSqlService<TransportationsAmount>>();

@@ -274,8 +274,6 @@ namespace NhapHangV2.Models
         {
             get
             {
-                //if (OrderType != null)
-                //{
                 switch (OrderType)
                 {
                     case (int)TypeOrder.DonHangMuaHo:
@@ -287,15 +285,7 @@ namespace NhapHangV2.Models
                     default:
                         return string.Empty;
                 }
-                //}
-                //else
-                //{
-                //    if (MainOrderCodeId != null && MainOrderCodeId > 0)
-                //        return "Đơn hàng mua hộ";
-                //    else if (TransportationOrderId != null && TransportationOrderId > 0)
-                //        return "Đơn hàng ký gửi";
-                //    else return "Đơn không xác định";
-                //}
+
             }
         }
 

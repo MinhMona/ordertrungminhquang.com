@@ -395,35 +395,6 @@ namespace NhapHangV2.API.Controllers
 
             int userId = LoginContext.Instance.CurrentUser.UserId;
             success = await transportationOrderService.UpdateTransportationOrder(listId, userId);
-            //Lấy danh sách các mã vận đơn của đơn hàng
-            List<SmallPackage> smallPackageUpdates = new List<SmallPackage>();
-            if (success)
-            {
-                foreach (var item in listId)
-                {
-                    var smallPackages = await smallPackageService.GetAllByTransportationOrderId(item);
-                    smallPackageUpdates.AddRange(smallPackages);
-                }
-            }
-            //Cập nhật trạng thái đã thanh toán các mã vận đơn của đơn hàng
-            if (smallPackageUpdates.Count > 0)
-            {
-                foreach (var item in smallPackageUpdates)
-                {
-                    if (item.Status == (int?)StatusSmallPackage.DaVeKhoVN)
-                    {
-                        item.Status = (int?)StatusSmallPackage.DaThanhToan;
-                    }
-                    success = await smallPackageService.UpdateFieldAsync(item, new Expression<Func<SmallPackage, object>>[]
-                    {
-                        s => s.Status
-                    });
-                    if (!success)
-                    {
-                        throw new Exception("Lỗi cập nhật mã vận đơn");
-                    }
-                }
-            }
             if (success)
                 appDomainResult.ResultCode = (int)HttpStatusCode.OK;
             else
@@ -432,6 +403,22 @@ namespace NhapHangV2.API.Controllers
             return appDomainResult;
         }
 
+        /// <summary>
+        /// Cập nhật nhân viên sale 
+        /// </summary>
+        /// <param name="itemModel"></param>
+        /// <returns></returns>
+        [HttpPut("update-staff")]
+        [AppAuthorize(new int[] { CoreContants.Update })]
+        public async Task<AppDomainResult> UpdateStaff([FromBody] TransportationOrderRequest itemModel)
+        {
+            var result = await transportationOrderService.UpdateStaffAsync(itemModel.Id, itemModel.SalerID.Value);
+            return new AppDomainResult
+            {
+                ResultCode = (int)HttpStatusCode.OK,
+                Success = result
+            };
+        }
         #region Excel
 
         /// <summary>
@@ -520,7 +507,6 @@ namespace NhapHangV2.API.Controllers
                 return dictionaries;
             });
         }
-
         #endregion
 
 

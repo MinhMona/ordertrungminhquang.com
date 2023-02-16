@@ -53,6 +53,34 @@ namespace NhapHangV2.Service.Services
 
         }
 
+        public override async Task<bool> CreateAsync(Complain item)
+        {
+            using (var dbContextTransaction = Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().FirstOrDefaultAsync(x => x.Id == item.MainOrderId);
+                    if (mainOrder == null) throw new KeyNotFoundException("Đơn không tồn tại");
+                    mainOrder.Status = (int)StatusOrderContants.DaKhieuNai;
+                    mainOrder.IsComplain = true;
+                    await unitOfWork.Repository<MainOrder>().UpdateFieldsSaveAsync(mainOrder, new Expression<Func<MainOrder, object>>[]
+                    {
+                        x=>x.Status,
+                        x=>x.IsComplain
+                    });
+                    await unitOfWork.Repository<Complain>().CreateAsync(item);
+                    await unitOfWork.SaveAsync();
+                    await dbContextTransaction.CommitAsync();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    await dbContextTransaction.RollbackAsync();
+                    throw new Exception(ex.Message);
+                }
+            }
+        }
+
         public override async Task<Complain> GetByIdAsync(int id)
         {
             var complain = await Queryable.Where(e => e.Id == id && !e.Deleted).AsNoTracking().FirstOrDefaultAsync();
@@ -81,21 +109,30 @@ namespace NhapHangV2.Service.Services
             var item = await this.GetByIdAsync(id);
             if (item == null)
                 throw new KeyNotFoundException("Item không tồn tại");
+            var mainOrder = await mainOrderService.GetByIdAsync(item.MainOrderId ?? 0);
+            if (mainOrder == null)
+            {
+                throw new KeyNotFoundException("Không tìm thấy đơn hàng");
+            }
             var users = await userService.GetByIdAsync(item.UID ?? 0);
-
             item.Updated = currentDate;
             item.UpdatedBy = userName;
             item.Status = status;
             item.Amount = amount;
-
             int notiTemplateId = 0;
             string emailTemplateCode = "";
             switch (status)
             {
                 case (int)StatusComplain.DaHuy:
+                    mainOrder.IsComplain = false;
+                    mainOrder.Status = (int)StatusOrderContants.DaHoanThanh;
+                    unitOfWork.Repository<MainOrder>().UpdateFieldsSave(mainOrder, new Expression<Func<MainOrder, object>>[]
+                    {
+                            e => e.IsComplain,
+                            e=>e.Status
+                    });
                     //Thông báo
                     notiTemplateId = 4;
-                    emailTemplateCode = "UHKN";
                     break;
                 case (int)StatusComplain.ChuaDuyet:
                     break;
@@ -103,13 +140,11 @@ namespace NhapHangV2.Service.Services
                     break;
                 case (int)StatusComplain.DaXuLy:
                     decimal? wallet = users.Wallet + amount;
-
                     //Cập nhật cho account
                     users.Wallet = wallet;
                     users.Updated = currentDate;
                     users.UpdatedBy = users.UserName;
                     unitOfWork.Repository<Users>().Update(users);
-
                     //Lịch sử ví tiền
                     await unitOfWork.Repository<HistoryPayWallet>().CreateAsync(new HistoryPayWallet
                     {
@@ -125,10 +160,15 @@ namespace NhapHangV2.Service.Services
                         Created = currentDate,
                         CreatedBy = userName
                     });
-
+                    mainOrder.IsComplain = false;
+                    mainOrder.Status = (int)StatusOrderContants.DaHoanThanh;
+                    unitOfWork.Repository<MainOrder>().UpdateFieldsSave(mainOrder, new Expression<Func<MainOrder, object>>[]
+                    {
+                            e => e.IsComplain,
+                            e=>e.Status
+                    });
                     //Thông báo
                     notiTemplateId = 3;
-                    emailTemplateCode = "UDKN";
                     break;
                 default:
                     break;
@@ -142,30 +182,13 @@ namespace NhapHangV2.Service.Services
                 e => e.Amount
             });
 
-            var mainOrder = await mainOrderService.GetByIdAsync(item.MainOrderId ?? 0);
-            if (mainOrder == null) { }
-            else
-            {
-                mainOrder.IsComplain = false;
-                mainOrder.Status = (int)StatusOrderContants.DaHoanThanh;
-                unitOfWork.Repository<MainOrder>().UpdateFieldsSave(mainOrder, new Expression<Func<MainOrder, object>>[]
-                {
-                    e => e.IsComplain,
-                    e=>e.Status
-                });
-            }
-
             //Thông báo (Hủy và đã duyệt)
-
-            var notificationSetting = await notificationSettingService.GetByIdAsync(10);
-            var notiTemplate = await notificationTemplateService.GetByIdAsync(notiTemplateId);
-            var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync(emailTemplateCode);
-            if (emailTemplate != null)
+            if (notiTemplateId > 0)
             {
-                string subject = emailTemplate.Subject;
-                string emailContent = string.Format(emailTemplate.Body);
-                await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "", string.Format(Complain_List), users.Id, subject, emailContent);
-                //await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "", "/user/report", users.Id, subject, emailContent);
+                var notificationSetting = await notificationSettingService.GetByIdAsync(10);
+                var notiTemplate = await notificationTemplateService.GetByIdAsync(notiTemplateId);
+                var emailTemplate = await sMSEmailTemplateService.GetByCodeAsync(emailTemplateCode);
+                await sendNotificationService.SendNotification(notificationSetting, notiTemplate, item.MainOrderId.ToString(), "", string.Format(Complain_List), users.Id, String.Empty, String.Empty);
             }
             await unitOfWork.SaveAsync();
             return true;

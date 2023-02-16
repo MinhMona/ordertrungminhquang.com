@@ -437,6 +437,10 @@ namespace NhapHangV2.Models
         public decimal? TQVNWeight { get; set; }
 
         /// <summary>
+        /// TQ - VN - Cân khối
+        /// </summary>
+        public decimal? TQVNVolume { get; set; }
+        /// <summary>
         /// Phí vận chuyển TQ - VN - VNĐ
         /// </summary>
         public decimal? FeeWeight { get; set; }

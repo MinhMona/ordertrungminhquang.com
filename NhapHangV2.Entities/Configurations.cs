@@ -248,6 +248,12 @@ namespace NhapHangV2.Entities
         /// Phần trăm hoa hồng sale đơn thanh toán hộ
         /// </summary>
         public int? SalePayHelpPersent { get; set; } = 0;
+
+        /// <summary>
+        /// Phí mua hàng tối thiểu
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal? FeeBuyProMin { get; set; } = 0;
         #endregion
 
         #region Cấu hình thông báo
@@ -362,6 +368,42 @@ namespace NhapHangV2.Entities
         /// Footer Script Code (Đặt nội dung trong thẻ script)
         /// </summary>
         public string FooterScriptCode { get; set; } = string.Empty;
+
+        /// <summary>
+        /// application-name
+        /// </summary>
+        public string ApplicationName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// google-site-verification
+        /// </summary>
+        public string GoogleSiteVerification { get; set; } = string.Empty;
+
+        /// <summary>
+        /// reply-to
+        /// </summary>
+        public string ReplyTo { get; set; } = string.Empty;
+
+        /// <summary>
+        /// robots
+        /// </summary>
+        public string Robots { get; set; } = string.Empty;
+
+        /// <summary>
+        /// og:locale
+        /// </summary>
+        public string OGLocale { get; set; } = string.Empty;
+
+        /// <summary>
+        /// og:site_name
+        /// </summary>
+        public string OGSiteName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// og:type
+        /// </summary>
+        public string OGType { get; set; } = string.Empty;
+
         #endregion
 
         #region Cấu hình OneSignal

@@ -157,6 +157,11 @@ namespace NhapHangV2.Models
         public decimal? PayableWeight { get; set; }
 
         /// <summary>
+        /// Thể tích tính tiền (m3) - Lấy từ SmallPackage
+        /// </summary>
+        public decimal? VolumePayment { get; set; }
+
+        /// <summary>
         /// Phụ phí hàng đặc biệt (VNĐ) - Lấy từ SmallPackage
         /// </summary>
         public decimal? AdditionFeeVND { get; set; }
@@ -183,6 +188,12 @@ namespace NhapHangV2.Models
         /// </summary>
         [Column(TypeName = "decimal(18,2)")]
         public decimal? FeeWeightPerKg { get; set; } = 0;
+
+        /// <summary>
+        /// Tiền thể tích / m3
+        /// </summary>
+        [Column(TypeName = "decimal(18,0)")]
+        public decimal? FeePerVolume { get; set; } = 0;
 
         /// <summary>
         /// % phí cân nặng chiết khấu

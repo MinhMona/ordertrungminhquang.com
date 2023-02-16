@@ -515,9 +515,11 @@ namespace NhapHangV2.Service.Services
                                         if (staffInCome != null)
                                         {
                                             staffInCome.TotalPriceReceive = transportationOrder.DeliveryPrice * staffInCome.PercentReceive / 100;
+                                            staffInCome.OrderTotalPrice = transportationOrder.TotalPriceVND;
                                             await unitOfWork.Repository<StaffIncome>().UpdateFieldsSaveAsync(staffInCome, new Expression<Func<StaffIncome, object>>[]
                                             {
-                                                s =>s.TotalPriceReceive
+                                                s => s.TotalPriceReceive,
+                                                s => s.OrderTotalPrice
                                             });
                                         }
                                     }
@@ -662,9 +664,11 @@ namespace NhapHangV2.Service.Services
                                         if (staffInCome != null)
                                         {
                                             staffInCome.TotalPriceReceive = transportationOrder.DeliveryPrice * staffInCome.PercentReceive / 100;
+                                            staffInCome.OrderTotalPrice = transportationOrder.TotalPriceVND;
                                             await unitOfWork.Repository<StaffIncome>().UpdateFieldsSaveAsync(staffInCome, new Expression<Func<StaffIncome, object>>[]
                                             {
-                                                s =>s.TotalPriceReceive
+                                                s => s.TotalPriceReceive,
+                                                s => s.OrderTotalPrice
                                             });
                                         }
                                     }
@@ -803,6 +807,8 @@ namespace NhapHangV2.Service.Services
 
                         await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
                         await unitOfWork.SaveAsync();
+                        unitOfWork.Repository<SmallPackage>().Detach(smallPackage);
+
                         totalSuccess++;
                         continue;
                     }

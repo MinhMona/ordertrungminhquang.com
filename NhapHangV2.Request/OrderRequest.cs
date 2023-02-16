@@ -19,7 +19,6 @@ namespace NhapHangV2.Request
         /// <summary>
         /// Số lượng
         /// </summary>
-        [Range(1, int.MaxValue, ErrorMessage = "Số lượng phải lớn hơn 0")]
         public int? Quantity { get; set; }
 
         /// <summary>

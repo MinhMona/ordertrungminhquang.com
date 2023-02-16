@@ -72,7 +72,6 @@
             <summary>
             Đổi mật khẩu
             </summary>
-            <param name="userId"></param>
             <param name="changePasswordModel"></param>
             <returns></returns>
         </member>

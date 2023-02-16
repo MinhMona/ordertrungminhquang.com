@@ -361,6 +361,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<string>("IMG")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("IMGQR")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -419,7 +422,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Weight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -1437,6 +1440,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<decimal?>("AgentCurrency")
                         .HasColumnType("decimal(18,0)");
 
+                    b.Property<string>("ApplicationName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("BackgroundAuth")
                         .HasColumnType("nvarchar(max)");
 
@@ -1495,6 +1501,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<string>("FacebookFanpage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<decimal?>("FeeBuyProMin")
+                        .HasColumnType("decimal(18,0)");
+
                     b.Property<string>("FooterLeft")
                         .HasColumnType("nvarchar(max)");
 
@@ -1511,6 +1520,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("GooglePlus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("GoogleSiteVerification")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("HeaderScriptCode")
@@ -1582,6 +1594,12 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<string>("OGImage")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("OGLocale")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OGSiteName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("OGTitle")
                         .HasColumnType("nvarchar(max)");
 
@@ -1592,6 +1610,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OGTwitterTitle")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OGType")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("OGUrl")
@@ -1621,7 +1642,13 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<int>("RemoveCartDay")
                         .HasColumnType("int");
 
+                    b.Property<string>("ReplyTo")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("RestAPIKey")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Robots")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("SalePayHelpPersent")
@@ -2298,10 +2325,10 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<decimal?>("WeightFrom")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("WeightTo")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -2463,7 +2490,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("OrderWeight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<DateTime?>("PayDate")
                         .HasColumnType("datetime2");
@@ -2517,7 +2544,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal?>("TQVNWeight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("TotalPriceReal")
                         .HasColumnType("decimal(18,0)");
@@ -2847,7 +2874,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Weight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -3112,7 +3139,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal?>("Weight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -3830,7 +3857,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("decimal(18,5)");
 
                     b.Property<decimal?>("Weight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("Width")
                         .HasColumnType("decimal(18,2)");
@@ -4159,6 +4186,9 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<int?>("DatHangId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("DateUpLevel")
+                        .HasColumnType("datetime2");
+
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
@@ -4175,8 +4205,11 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<decimal?>("FeeBuyPro")
                         .HasColumnType("decimal(18,0)");
 
+                    b.Property<decimal?>("FeeTQVNPerVolume")
+                        .HasColumnType("decimal(18,0)");
+
                     b.Property<decimal?>("FeeTQVNPerWeight")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<string>("FireBaseID")
                         .HasMaxLength(100)
@@ -4234,6 +4267,9 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.Property<string>("Token")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal>("TransactionMoney")
+                        .HasColumnType("decimal(18,0)");
 
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("datetime2");
@@ -4360,10 +4396,10 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("int");
 
                     b.Property<decimal?>("WeightFrom")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("WeightTo")
-                        .HasColumnType("decimal(18,1)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

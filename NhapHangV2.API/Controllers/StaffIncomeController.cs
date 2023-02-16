@@ -60,7 +60,7 @@ namespace NhapHangV2.API.Controllers
                     staffIncomes.Add(staffIncome);
                     break;
                 case 2: //Thanh toán tất cả dựa trên baseSearch
-                    StaffIncomeSearch baseSearch = new StaffIncomeSearch { Status = 1 };
+                    StaffIncomeSearch baseSearch = new StaffIncomeSearch { Status = 1, Type = id };
                     PagedList<StaffIncome> pagedData = await this.domainService.GetPagedListData(baseSearch);
                     if (!pagedData.Items.Any())
                         throw new KeyNotFoundException("List item không tồn tại");

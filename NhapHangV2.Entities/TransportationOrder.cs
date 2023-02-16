@@ -212,6 +212,12 @@ namespace NhapHangV2.Entities
         [NotMapped]
         [Column(TypeName = "decimal(18,2)")]
         public decimal? PayableWeight { get; set; }
+        /// <summary>
+        /// Thể tích tính tiền (m3) - Lấy từ SmallPackage
+        /// </summary>
+        [NotMapped]
+        [Column(TypeName = "decimal(18,5)")]
+        public decimal? VolumePayment { get; set; }
 
         /// <summary>
         /// Phụ phí hàng đặc biệt (VNĐ) - Lấy từ SmallPackage

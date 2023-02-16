@@ -227,6 +227,11 @@ namespace NhapHangV2.Models
         public string FeeTQVNPerWeight { get; set; }
 
         /// <summary>
+        /// Phí thể tích riêng (VNĐ/KG)
+        /// </summary>
+        public decimal? FeeTQVNPerVolume { get; set; } = 0;
+
+        /// <summary>
         /// Phần trăm đặt cọc (%)
         /// </summary>
         public decimal? Deposit { get; set; }
@@ -278,5 +283,15 @@ namespace NhapHangV2.Models
         /// Tổng tiền chưa thanh toán
         /// </summary>
         public decimal? TotalUnPaidPrice { get; set; }
+
+        /// <summary>
+        /// Tiền thanh toán tích lũy
+        /// </summary>
+        public decimal TransactionMoney { get; set; }
+
+        /// <summary>
+        /// Ngày nâng cấp VIP
+        /// </summary>
+        public DateTime? DateUpLevel { get; set; }
     }
 }

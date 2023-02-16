@@ -13,15 +13,12 @@ namespace NhapHangV2.Interface.Services
     public interface ITransportationOrderService : IDomainService<TransportationOrder, TransportationOrderSearch>
     {
         Task<TransportationOrderBilling> GetBillingInfo(List<int> listID, bool isUpdated);
-
         Task<bool> UpdateAsync(IList<TransportationOrder> item, int status, int typePayment);
-
         Task<TransportationOrder> PriceAdjustment(TransportationOrder item);
-
         Task<bool> UpdateTransportationOrder(List<int> listId, int userId);
         Task<AmountStatistic> GetTotalOrderPriceByUID(int UID);
-
         List<TransportationsInfor> GetTransportationsInfor(TransportationOrderSearch transportationOrderSearch);
         TransportationsAmount GetTransportationsAmount(int UID);
+        Task<bool> UpdateStaffAsync(int transportationOrderID, int salerID);
     }
 }

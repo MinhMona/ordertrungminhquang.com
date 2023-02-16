@@ -1,6 +1,7 @@
 ﻿using NhapHangV2.Models.DomainModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -249,7 +250,12 @@ namespace NhapHangV2.Models
         /// <summary>
         /// Phần trăm hoa hồng sale đơn thanh toán hộ
         /// </summary>
-        public int? SalePayHelpPersent { get; set; } = 0;
+        public int? SalePayHelpPersent { get; set; }
+
+        /// <summary>
+        /// Phí mua hàng tối thiểu
+        /// </summary>
+        public decimal? FeeBuyProMin { get; set; }
         #endregion
 
         #region Cấu hình thông báo
@@ -271,7 +277,7 @@ namespace NhapHangV2.Models
         /// <summary>
         /// Thông báo chạy giao diện user
         /// </summary>
-        public string NotiRun { get; set; } = string.Empty;
+        public string NotiRun  { get; set; } = string.Empty;
         #endregion
 
         #region Cấu hình Footer
@@ -364,6 +370,41 @@ namespace NhapHangV2.Models
         /// Footer Script Code (Đặt nội dung trong thẻ script)
         /// </summary>
         public string FooterScriptCode { get; set; }
+
+        /// <summary>
+        /// application-name
+        /// </summary>
+        public string ApplicationName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// google-site-verification
+        /// </summary>
+        public string GoogleSiteVerification { get; set; } = string.Empty;
+
+        /// <summary>
+        /// reply-to
+        /// </summary>
+        public string ReplyTo { get; set; } = string.Empty;
+
+        /// <summary>
+        /// robots
+        /// </summary>
+        public string Robots { get; set; } = string.Empty;
+
+        /// <summary>
+        /// og:locale
+        /// </summary>
+        public string OGLocale { get; set; } = string.Empty;
+
+        /// <summary>
+        /// og:site_name
+        /// </summary>
+        public string OGSiteName { get; set; } = string.Empty;
+
+        /// <summary>
+        /// og:type
+        /// </summary>
+        public string OGType { get; set; } = string.Empty;
         #endregion
 
         public string InfoContent { get; set; }
@@ -374,5 +415,10 @@ namespace NhapHangV2.Models
         public decimal? CurrencyIncome { get; set; }
         public int? ChietKhauPercent { get; set; }
         public decimal? PriceCheckOutWareDefault { get; set; }
+
+        /// <summary>
+        /// Số ngày tự động xóa giỏ hàng
+        /// </summary>
+        public int RemoveCartDay { get; set; }
     }
 }

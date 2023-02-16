@@ -12,12 +12,14 @@ using NhapHangV2.Extensions;
 using NhapHangV2.Interface.Services;
 using NhapHangV2.Models;
 using NhapHangV2.Request;
+using NhapHangV2.Service.Services;
 using NhapHangV2.Utilities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Net;
 using System.Threading.Tasks;
 using static NhapHangV2.Utilities.CoreContants;
@@ -120,6 +122,37 @@ namespace NhapHangV2.API.Controllers
             }
             else
                 throw new AppException(ModelState.GetErrorMessage());
+
+            return appDomainResult;
+        }
+        /// <summary>
+        /// Cập nhật thông tin duyệt đơn
+        /// </summary>
+        /// <param name="itemModel"></param>
+        /// <returns></returns>
+        [HttpPut("confirm")]
+        [AppAuthorize(new int[] { CoreContants.Update })]
+        public async Task<AppDomainResult> UpdateConfirm([FromBody] PayHelpRequest itemModel)
+        {
+            AppDomainResult appDomainResult = new AppDomainResult();
+            bool success = false;
+            if (!ModelState.IsValid)
+                throw new AppException(ModelState.GetErrorMessage());
+            var item = await this.domainService.GetByIdAsync(itemModel.Id);
+            if (item == null)
+                throw new KeyNotFoundException("Item không tồn tại");
+            item.Status = (int)StatusPayHelp.DaXacNhan;
+            success = await this.domainService.UpdateFieldAsync(item, new Expression<Func<PayHelp, object>>[]
+            {
+                    s => s.Status
+            });
+            if (success)
+                appDomainResult.ResultCode = (int)HttpStatusCode.OK;
+            else
+                throw new Exception("Lỗi trong quá trình xử lý");
+            appDomainResult.Success = success;
+
+
 
             return appDomainResult;
         }

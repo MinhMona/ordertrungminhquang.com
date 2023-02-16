@@ -278,16 +278,12 @@ namespace NhapHangV2.API.Controllers
             {
                 foreach (var item in smallPackageUpdates)
                 {
-                    //if (item.Status == (int?)StatusSmallPackage.DaVeKhoVN)
-                    //{
                     item.IsPayment = true;
-                    //}
                     success = await smallPackageService.UpdateFieldAsync(item, new Expression<Func<SmallPackage, object>>[]
                     {
                         s => s.IsPayment
                     });
-                    //if (!success)
-                    //    break;
+
                 }
             }
 
@@ -411,7 +407,8 @@ namespace NhapHangV2.API.Controllers
                     feebpnotdc = priceVND * servicefee;
                 decimal subfeebp = cKFeeBuyPro > 0 ? (feebpnotdc * cKFeeBuyPro / 100) : 0;
                 decimal feebp = feebpnotdc - subfeebp;
-
+                //Phí mua hàng tối thiểu
+                feebp = feebp > (configurations.FeeBuyProMin ?? 0) ? feebp : (configurations.FeeBuyProMin ?? 0);
 
                 //Tính phí kiểm đếm
                 decimal? feeCheckProductPrice = 0;
@@ -1305,7 +1302,6 @@ namespace NhapHangV2.API.Controllers
         }
 
         #endregion
-
 
         private void UpdateCurrency(MainOrderRequest itemModel, MainOrder item, Users user, string updateSql)
         {
