@@ -58,7 +58,7 @@ namespace NhapHangV2.BaseAPI.Controllers
                     string filePath = Path.Combine(env.ContentRootPath, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.TEMP_FOLDER_NAME, fileName);
                     string folderUploadPath = string.Empty;
                     var folderUpload = configuration.GetValue<string>("MySettings:FolderUpload");
-                    folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
+                    folderUploadPath = Path.Combine(folderUpload, CoreContants.UPLOAD_FOLDER_NAME, CoreContants.UPLOAD_FOLDER_NAME); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
                     string fileUploadPath2 = Path.Combine(folderUploadPath, Path.GetFileName(filePath));
 
                     string fileUrl = "";
