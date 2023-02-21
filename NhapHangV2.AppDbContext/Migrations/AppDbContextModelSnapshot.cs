@@ -6,6 +6,8 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NhapHangV2.AppDbContext;
 
+#nullable disable
+
 namespace NhapHangV2.AppDbContext.Migrations
 {
     [DbContext(typeof(AppDbContext))]
@@ -15,16 +17,18 @@ namespace NhapHangV2.AppDbContext.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.13")
-                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                .HasAnnotation("ProductVersion", "6.0.0")
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("NhapHangV2.Entities.AccountantOutStockPayment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -61,15 +65,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountantOutStockPayment");
+                    b.ToTable("AccountantOutStockPayment", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.AdminSendUserWallet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -112,15 +117,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AdminSendUserWallet");
+                    b.ToTable("AdminSendUserWallet", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Auth.Permissions", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -153,15 +159,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Permissions");
+                    b.ToTable("Permissions", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Auth.PermitObjectPermissions", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -194,15 +201,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PermitObjectPermissions");
+                    b.ToTable("PermitObjectPermissions", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Auth.PermitObjects", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -238,15 +246,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PermitObjects");
+                    b.ToTable("PermitObjects", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Auth.UserGroups", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -279,15 +288,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserGroups");
+                    b.ToTable("UserGroups", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Auth.UserInGroups", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -317,15 +327,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserInGroups");
+                    b.ToTable("UserInGroups", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.Bank", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -376,15 +387,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Bank");
+                    b.ToTable("Bank", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.BigPackage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -426,15 +438,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BigPackage");
+                    b.ToTable("BigPackage", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.CustomerBenefits", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -479,15 +492,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerBenefits");
+                    b.ToTable("CustomerBenefits", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.CustomerTalk", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -523,15 +537,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CustomerTalk");
+                    b.ToTable("CustomerTalk", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.Menu", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -576,15 +591,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menu");
+                    b.ToTable("Menu", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.NotificationSetting", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -647,15 +663,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationSetting");
+                    b.ToTable("NotificationSetting", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.NotificationTemplate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -697,15 +714,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("NotificationTemplate");
+                    b.ToTable("NotificationTemplate", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.PageSEO", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -759,15 +777,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PageSEO");
+                    b.ToTable("PageSEO", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.PageType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -842,15 +861,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PageType");
+                    b.ToTable("PageType", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.Service", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -892,15 +912,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Service");
+                    b.ToTable("Service", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.ShippingTypeToWareHouse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -933,15 +954,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingTypeToWareHouse");
+                    b.ToTable("ShippingTypeToWareHouse", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.ShippingTypeVN", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -974,15 +996,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ShippingTypeVN");
+                    b.ToTable("ShippingTypeVN", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.Step", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1024,15 +1047,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Step");
+                    b.ToTable("Step", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.Warehouse", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1082,15 +1106,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Warehouse");
+                    b.ToTable("Warehouse", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Catalogue.WarehouseFrom", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1137,15 +1162,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WarehouseFrom");
+                    b.ToTable("WarehouseFrom", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Complain", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1188,15 +1214,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Complain");
+                    b.ToTable("Complain", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Configuration.EmailConfigurations", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1259,15 +1286,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmailConfigurations");
+                    b.ToTable("EmailConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Configuration.OTPHistories", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1312,15 +1340,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OTPHistories");
+                    b.ToTable("OTPHistories", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Configuration.SMSConfigurations", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("APIKey")
                         .HasColumnType("nvarchar(max)");
@@ -1362,15 +1391,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SMSConfigurations");
+                    b.ToTable("SMSConfigurations", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Configuration.SMSEmailTemplates", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1412,15 +1442,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SMSEmailTemplates");
+                    b.ToTable("SMSEmailTemplates", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Configurations", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("AboutText")
                         .HasColumnType("nvarchar(max)");
@@ -1705,15 +1736,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Configurations");
+                    b.ToTable("Configurations", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.ContactUs", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1752,15 +1784,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ContactUs");
+                    b.ToTable("ContactUs", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.DeviceToken", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1801,15 +1834,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("DeviceToken");
+                    b.ToTable("DeviceToken", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.ExportRequestTurn", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1871,15 +1905,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ExportRequestTurn");
+                    b.ToTable("ExportRequestTurn", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.FeeBuyPro", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1895,7 +1930,7 @@ namespace NhapHangV2.AppDbContext.Migrations
                         .HasColumnType("bit");
 
                     b.Property<decimal?>("FeePercent")
-                        .HasColumnType("decimal(18,0)");
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<decimal?>("PriceFrom")
                         .HasColumnType("decimal(18,0)");
@@ -1912,15 +1947,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FeeBuyPro");
+                    b.ToTable("FeeBuyPro", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.FeeCheckProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -1959,15 +1995,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FeeCheckProduct");
+                    b.ToTable("FeeCheckProduct", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.FeePackaged", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2000,15 +2037,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FeePackaged");
+                    b.ToTable("FeePackaged", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.FeeSupport", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2042,15 +2080,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("FeeSupport");
+                    b.ToTable("FeeSupport", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.HistoryOrderChange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2086,15 +2125,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HistoryOrderChange");
+                    b.ToTable("HistoryOrderChange", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.HistoryPayWallet", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2140,15 +2180,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HistoryPayWallet");
+                    b.ToTable("HistoryPayWallet", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.HistoryPayWalletCNY", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2191,15 +2232,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HistoryPayWalletCNY");
+                    b.ToTable("HistoryPayWalletCNY", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.HistoryScanPackage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2229,15 +2271,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HistoryScanPackage");
+                    b.ToTable("HistoryScanPackage", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.HistoryServices", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2288,15 +2331,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HistoryServices");
+                    b.ToTable("HistoryServices", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.InWareHousePrice", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2332,15 +2376,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("InWareHousePrice");
+                    b.ToTable("InWareHousePrice", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.MainOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2567,15 +2612,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MainOrder");
+                    b.ToTable("MainOrder", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.MainOrderCode", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2606,15 +2652,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("MainOrderCode");
+                    b.ToTable("MainOrderCode", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Notification", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2662,15 +2709,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Notification");
+                    b.ToTable("Notification", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2878,15 +2926,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Order");
+                    b.ToTable("Order", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.OrderComment", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -2925,15 +2974,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderComment");
+                    b.ToTable("OrderComment", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.OrderShopTemp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3015,15 +3065,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderShopTemp");
+                    b.ToTable("OrderShopTemp", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.OrderTemp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3143,15 +3194,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderTemp");
+                    b.ToTable("OrderTemp", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.OutStockSession", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3197,15 +3249,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutStockSession");
+                    b.ToTable("OutStockSession", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.OutStockSessionPackage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3247,15 +3300,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OutStockSessionPackage");
+                    b.ToTable("OutStockSessionPackage", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Page", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3342,15 +3396,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Page");
+                    b.ToTable("Page", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.PayAllOrderHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3389,15 +3444,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PayAllOrderHistory");
+                    b.ToTable("PayAllOrderHistory", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.PayHelp", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3455,15 +3511,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PayHelp");
+                    b.ToTable("PayHelp", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.PayHelpDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3496,15 +3553,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PayHelpDetail");
+                    b.ToTable("PayHelpDetail", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.PayOrderHistory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3543,15 +3601,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PayOrderHistory");
+                    b.ToTable("PayOrderHistory", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.PriceChange", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3611,15 +3670,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PriceChange");
+                    b.ToTable("PriceChange", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Refund", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3656,15 +3716,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Refund");
+                    b.ToTable("Refund", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.RequestOutStock", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3697,15 +3758,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RequestOutStock");
+                    b.ToTable("RequestOutStock", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.SmallPackage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3864,15 +3926,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SmallPackage");
+                    b.ToTable("SmallPackage", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.StaffIncome", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3923,15 +3986,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("StaffIncome");
+                    b.ToTable("StaffIncome", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.ToolConfig", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -3961,15 +4025,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ToolConfig");
+                    b.ToTable("ToolConfig", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.TransportationOrder", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -4100,15 +4165,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransportationOrder");
+                    b.ToTable("TransportationOrder", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.UserLevel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -4150,15 +4216,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UserLevel");
+                    b.ToTable("UserLevel", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Users", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -4297,15 +4364,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.VolumeFee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -4350,15 +4418,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("VolumeFee");
+                    b.ToTable("VolumeFee", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.WarehouseFee", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -4403,15 +4472,16 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WarehouseFee");
+                    b.ToTable("WarehouseFee", (string)null);
                 });
 
             modelBuilder.Entity("NhapHangV2.Entities.Withdraw", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("Active")
                         .HasColumnType("bit");
@@ -4463,7 +4533,7 @@ namespace NhapHangV2.AppDbContext.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Withdraw");
+                    b.ToTable("Withdraw", (string)null);
                 });
 #pragma warning restore 612, 618
         }

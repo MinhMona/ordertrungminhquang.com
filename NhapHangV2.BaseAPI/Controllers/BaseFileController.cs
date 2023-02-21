@@ -67,7 +67,7 @@ namespace NhapHangV2.BaseAPI.Controllers
                     {
                         FileUtilities.CreateDirectory(folderUploadPath);
                         FileUtilities.SaveToPath(fileUploadPath2, System.IO.File.ReadAllBytes(filePath));
-                        var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.UPLOAD_FOLDER_NAME}/";
+                        var currentLinkSite = $"{Extensions.HttpContext.Current.Request.Scheme}://{Extensions.HttpContext.Current.Request.Host}/{CoreContants.UPLOAD_FOLDER_NAME}/{CoreContants.UPLOAD_FOLDER_NAME}";
                         fileUrl = Path.Combine(currentLinkSite, Path.GetFileName(filePath)); //Có thể add tên thư mục vào đây để có thể đưa hình vào thư mục đó
                                                                                              // ------- END GET URL FOR FILE
                     }
@@ -75,7 +75,7 @@ namespace NhapHangV2.BaseAPI.Controllers
                     appDomainResult = new AppDomainResult()
                     {
                         Success = true,
-                        Data =  fileUrl
+                        Data = fileUrl.Replace('\\', '/')
                     };
                 }
             });

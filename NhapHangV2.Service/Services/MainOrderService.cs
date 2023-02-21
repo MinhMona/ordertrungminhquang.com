@@ -1283,6 +1283,20 @@ namespace NhapHangV2.Service.Services
             return data;
         }
 
+        public PriceInMonth GetPriceInMonth(MainOrderSearch mainOrderSearch)
+        {
+            var storeService = serviceProvider.GetRequiredService<IStoreSqlService<PriceInMonth>>();
+            List<SqlParameter> sqlParameters = new List<SqlParameter>();
+            sqlParameters.Add(new SqlParameter("@UID", mainOrderSearch.UID));
+            sqlParameters.Add(new SqlParameter("@RoleID", mainOrderSearch.RoleID));
+            sqlParameters.Add(new SqlParameter("@FromDate", mainOrderSearch.FromDate));
+            sqlParameters.Add(new SqlParameter("@ToDate", mainOrderSearch.ToDate));
+            SqlParameter[] parameters = sqlParameters.ToArray();
+            var data = storeService.GetDataFromStore(parameters, "GetPriceInMonth");
+
+            return data.FirstOrDefault();
+        }
+
         public MainOrdersInfor GetMainOrdersInfor(int UID, int orderType)
         {
             var storeService = serviceProvider.GetRequiredService<IStoreSqlService<MainOrdersInfor>>();

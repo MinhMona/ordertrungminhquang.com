@@ -745,6 +745,13 @@
             <param name="mainOrderSearch"> 1:Đơn mua hộ, 3: Đơn mua hộ khác</param>
             <returns></returns>
         </member>
+        <member name="M:NhapHangV2.API.Controllers.MainOrderController.PriceInMonth(NhapHangV2.Entities.Search.MainOrderSearch)">
+            <summary>
+            Lấy tiền trong 1 tháng
+            </summary>
+            <param name="mainOrderSearch"> 1:Đơn mua hộ, 3: Đơn mua hộ khác</param>
+            <returns></returns>
+        </member>
         <member name="M:NhapHangV2.API.Controllers.MainOrderController.GetCountAllOrder(NhapHangV2.Entities.Search.MainOrderSearch)">
             <summary>
             Tính số lượng các đơn hàng

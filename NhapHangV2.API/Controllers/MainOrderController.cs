@@ -1190,6 +1190,25 @@ namespace NhapHangV2.API.Controllers
         }
 
         /// <summary>
+        /// Lấy tiền trong 1 tháng
+        /// </summary>
+        /// <param name="mainOrderSearch"> 1:Đơn mua hộ, 3: Đơn mua hộ khác</param>
+        /// <returns></returns>
+        [HttpGet("price-in-month")]
+        [AppAuthorize(new int[] { CoreContants.View })]
+        public AppDomainResult PriceInMonth([FromQuery] MainOrderSearch mainOrderSearch)
+        {
+            var priceInMonth = mainOrderService.GetPriceInMonth(mainOrderSearch);
+            return new AppDomainResult
+            {
+                Data = priceInMonth,
+                ResultCode = (int)HttpStatusCode.OK,
+                ResultMessage = null,
+                Success = true
+            };
+        }
+
+        /// <summary>
         /// Tính số lượng các đơn hàng
         /// </summary>
         /// <returns></returns>

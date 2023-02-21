@@ -33,5 +33,6 @@ namespace NhapHangV2.Interface.Services
         List<NumberOfOrders> GetNumberOfOrders(MainOrderSearch mainOrderSearch);
         byte[] GetMainOrdersExcel(MainOrderSearch mainOrderSearch);
         CountAllOrder GetCountAllOrder(MainOrderSearch mainOrderSearch);
+        PriceInMonth GetPriceInMonth(MainOrderSearch mainOrderSearch);
     }
 }
