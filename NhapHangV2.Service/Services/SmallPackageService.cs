@@ -822,6 +822,12 @@ namespace NhapHangV2.Service.Services
                         else
                         {
                             unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                            mainOrder.Status = (int)StatusOrderContants.DaVeKhoTQ;
+                            await unitOfWork.Repository<MainOrder>().UpdateFieldsSaveAsync(mainOrder, new Expression<Func<MainOrder, object>>[]
+                            {
+                                x =>x.Status
+                            });
+                            unitOfWork.Repository<MainOrder>().Detach(mainOrder);
                             totalSuccess++;
                         }
                     }
@@ -834,6 +840,12 @@ namespace NhapHangV2.Service.Services
                         else
                         {
                             unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                            transportationOrder.Status = (int)StatusGeneralTransportationOrder.VeKhoTQ;
+                            await unitOfWork.Repository<TransportationOrder>().UpdateFieldsSaveAsync(transportationOrder, new Expression<Func<TransportationOrder, object>>[]
+                            {
+                                x =>x.Status
+                            });
+                            unitOfWork.Repository<TransportationOrder>().Detach(transportationOrder);
                             totalSuccess++;
                         }
                     }

@@ -1289,6 +1289,7 @@ namespace NhapHangV2.Service.Services
             List<SqlParameter> sqlParameters = new List<SqlParameter>();
             sqlParameters.Add(new SqlParameter("@UID", mainOrderSearch.UID));
             sqlParameters.Add(new SqlParameter("@RoleID", mainOrderSearch.RoleID));
+            sqlParameters.Add(new SqlParameter("@OrderType", mainOrderSearch.OrderType));
             sqlParameters.Add(new SqlParameter("@FromDate", mainOrderSearch.FromDate));
             sqlParameters.Add(new SqlParameter("@ToDate", mainOrderSearch.ToDate));
             SqlParameter[] parameters = sqlParameters.ToArray();
