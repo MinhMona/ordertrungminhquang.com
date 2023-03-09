@@ -34,13 +34,13 @@ namespace NhapHangV2.Service.Services
             int userId = LoginContext.Instance.CurrentUser.UserId;
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(x => x.Id == userId).FirstOrDefaultAsync();
 
-            var exists = await this.GetSingleAsync(x => !x.Deleted && x.Code.Equals(item.Code));
-            if (exists != null)
-                throw new AppException("Mã đơn hàng đã tồn tại");
-            var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.Id == item.MainOrderID).FirstOrDefaultAsync();
-            mainOrder.Status = (int?)StatusOrderContants.DaMuaHang;
+            //var exists = await this.GetSingleAsync(x => !x.Deleted && x.Code.Equals(item.Code));
+            //if (exists != null)
+            //    throw new AppException("Mã đơn hàng đã tồn tại");
+            //var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(x => x.Id == item.MainOrderID).FirstOrDefaultAsync();
+            //mainOrder.Status = (int?)StatusOrderContants.DaMuaHang;
             await unitOfWork.Repository<MainOrderCode>().CreateAsync(item);
-            unitOfWork.Repository<MainOrder>().Update(mainOrder);
+            //unitOfWork.Repository<MainOrder>().Update(mainOrder);
             await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
             {
                 MainOrderId = item.MainOrderID,

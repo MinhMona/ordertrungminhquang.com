@@ -272,7 +272,7 @@ namespace NhapHangV2.Service.Services
                 {
                     DateTime currentDate = DateTime.Now;
                     var user = await userService.GetByIdAsync(LoginContext.Instance.CurrentUser.UserId);
-                    var mainOrderUpdated = new MainOrder();
+                    var mainOrderUpdateds = new List<MainOrder>();
                     foreach (var item in items)
                     {
                         var mainOrder = new MainOrder();
@@ -383,7 +383,7 @@ namespace NhapHangV2.Service.Services
                             case (int)StatusSmallPackage.DaVeKhoTQ: //Kiểm hàng kho TQ
                                 item.DateInTQWarehouse = item.DateScanTQ = currentDate;
                                 item.StaffTQWarehouse = user.UserName;
-
+                                item.IsPayment = false;
                                 var warehouseFrom = await unitOfWork.CatalogueRepository<WarehouseFrom>().GetQueryable().Where(e => !e.Deleted && user.WarehouseFrom == e.Id).FirstOrDefaultAsync();
                                 if (warehouseFrom != null)
                                 {
@@ -464,7 +464,7 @@ namespace NhapHangV2.Service.Services
                                         }
                                     }
                                     mainOrderList.Add(mainOrder);
-                                    mainOrderUpdated = mainOrderList.LastOrDefault();
+                                    mainOrderUpdateds.Add(mainOrderList.LastOrDefault());
                                     if (historyOrderChanges.Any())
                                         await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(historyOrderChanges);
                                     await sendNotificationService.SendNotification(notificationSettingTQ, notiTemplateUserTQ, mainOrder.Id.ToString(),
@@ -533,7 +533,7 @@ namespace NhapHangV2.Service.Services
 
                                 item.DateInLasteWareHouse = item.DateScanVN = currentDate;
                                 item.StaffVNWarehouse = user.UserName;
-
+                                item.IsPayment = false;
                                 if (item.DateInVNTemp == null)
                                     item.DateInVNTemp = currentDate;
 
@@ -619,7 +619,7 @@ namespace NhapHangV2.Service.Services
                                     }
                                     //Detach
                                     mainOrderList.Add(mainOrder);
-                                    mainOrderUpdated = mainOrderList.LastOrDefault();
+                                    mainOrderUpdateds.Add(mainOrderList.LastOrDefault());
                                     if (historyOrderChanges.Any())
                                         await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(historyOrderChanges);
                                     await sendNotificationService.SendNotification(notificationSettingVN, notiTemplateUserVN, mainOrder.Id.ToString(), String.Format(Detail_MainOrder_Admin, mainOrder.Id), String.Format(Detail_MainOrder, mainOrder.Id), mainOrder.UID, string.Empty, string.Empty);
@@ -694,8 +694,12 @@ namespace NhapHangV2.Service.Services
                         unitOfWork.Repository<SmallPackage>().Update(item);
                         await unitOfWork.SaveAsync();
                     }
-                    unitOfWork.Repository<MainOrder>().Update(mainOrderUpdated);
-                    await unitOfWork.SaveAsync();
+                    foreach (var mainOrderUpdated in mainOrderUpdateds)
+                    {
+                        unitOfWork.Repository<MainOrder>().Update(mainOrderUpdated);
+                        await unitOfWork.SaveAsync();
+                        unitOfWork.Repository<MainOrder>().Detach(mainOrderUpdated);
+                    }
                     await dbContextTransaction.CommitAsync();
 
                     //Detach(tại sau khi Update có GetById thằng MainOrder, mà getby thì có cập nhật => Bug)
@@ -774,13 +778,17 @@ namespace NhapHangV2.Service.Services
                 {
                     string orderTransactionCode = catalogueMapper.OrderTransactionCode;
 
-                    var smallPackage = await Queryable.Where(e => !e.Deleted && e.OrderTransactionCode.Equals(orderTransactionCode)).FirstOrDefaultAsync();
-                    if (smallPackage != null)
+                    var smallPackages = await Queryable.Where(e => !e.Deleted && e.OrderTransactionCode.Equals(orderTransactionCode)).ToListAsync();
+                    if (smallPackages != null)
                     {
-                        smallPackage.Weight = catalogueMapper.Weight;
-                        smallPackage.BigPackageId = bigPackageId;
-                        smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
-                        smallPackage.DateInTQWarehouse = currentDate;
+                        foreach (var smallPackage in smallPackages)
+                        {
+                            smallPackage.Weight = catalogueMapper.Weight;
+                            smallPackage.BigPackageId = bigPackageId;
+                            smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
+                            smallPackage.DateInTQWarehouse = currentDate;
+                        }
+
                         if (!checkSet.Add(catalogueMapper.OrderTransactionCode))
                         {
                             duplicateCount++;
@@ -791,76 +799,80 @@ namespace NhapHangV2.Service.Services
                         }
                     }
                     //Tạo mã vận đơn mới
-                    if (smallPackage == null)
+                    if (smallPackages == null)
                     {
                         if (!checkSet.Add(catalogueMapper.OrderTransactionCode))
                         {
                             duplicateCount++;
                         }
-                        smallPackage = new SmallPackage();
-                        smallPackage.OrderTransactionCode = orderTransactionCode;
-                        smallPackage.IsTemp = true;
-                        smallPackage.Weight = catalogueMapper.Weight;
-                        smallPackage.BigPackageId = bigPackageId;
-                        smallPackage.Status = (int)StatusSmallPackage.DaVeKhoTQ;
-                        smallPackage.DateInTQWarehouse = currentDate;
+                        var smallPackageNew = new SmallPackage();
+                        smallPackageNew.OrderTransactionCode = orderTransactionCode;
+                        smallPackageNew.IsTemp = true;
+                        smallPackageNew.Weight = catalogueMapper.Weight;
+                        smallPackageNew.BigPackageId = bigPackageId;
+                        smallPackageNew.Status = (int)StatusSmallPackage.DaVeKhoTQ;
+                        smallPackageNew.DateInTQWarehouse = currentDate;
 
-                        await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
+                        await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackageNew);
                         await unitOfWork.SaveAsync();
-                        unitOfWork.Repository<SmallPackage>().Detach(smallPackage);
+                        unitOfWork.Repository<SmallPackage>().Detach(smallPackageNew);
 
                         totalSuccess++;
                         continue;
                     }
-
-                    //Đơn mua hộ
-                    if (smallPackage.MainOrderId != 0)
+                    foreach (var smallPackage in smallPackages)
                     {
-                        var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(e => !e.Deleted && e.Id == smallPackage.MainOrderId).FirstOrDefaultAsync();
-                        if (mainOrder == null)
-                            failedResult.Add(smallPackage.OrderTransactionCode);
-                        else
+                        //Đơn mua hộ
+                        if (smallPackage.MainOrderId != 0)
+                        {
+                            var mainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().Where(e => !e.Deleted && e.Id == smallPackage.MainOrderId).FirstOrDefaultAsync();
+                            if (mainOrder == null)
+                                failedResult.Add(smallPackage.OrderTransactionCode);
+                            else
+                            {
+                                unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                                mainOrder.Status = (int)StatusOrderContants.DaVeKhoTQ;
+                                mainOrder.DateTQ = currentDate;
+                                await unitOfWork.Repository<MainOrder>().UpdateFieldsSaveAsync(mainOrder, new Expression<Func<MainOrder, object>>[]
+                                {
+                                x =>x.Status,
+                                x =>x.DateTQ
+                                });
+                                unitOfWork.Repository<MainOrder>().Detach(mainOrder);
+                                totalSuccess++;
+                            }
+                        }
+                        //Đơn vận chuyển hộ
+                        else if (smallPackage.TransportationOrderId != 0)
+                        {
+                            var transportationOrder = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(e => !e.Deleted && e.Id == smallPackage.TransportationOrderId).FirstOrDefaultAsync();
+                            if (transportationOrder == null)
+                                failedResult.Add(smallPackage.OrderTransactionCode);
+                            else
+                            {
+                                unitOfWork.Repository<SmallPackage>().Update(smallPackage);
+                                transportationOrder.Status = (int)StatusGeneralTransportationOrder.VeKhoTQ;
+                                await unitOfWork.Repository<TransportationOrder>().UpdateFieldsSaveAsync(transportationOrder, new Expression<Func<TransportationOrder, object>>[]
+                                {
+                                x =>x.Status
+                                });
+                                unitOfWork.Repository<TransportationOrder>().Detach(transportationOrder);
+                                totalSuccess++;
+                            }
+                        }
+                        //Kiện trôi nổi
+                        else if (smallPackage.IsTemp.HasValue && smallPackage.IsTemp.Value)
                         {
                             unitOfWork.Repository<SmallPackage>().Update(smallPackage);
-                            mainOrder.Status = (int)StatusOrderContants.DaVeKhoTQ;
-                            await unitOfWork.Repository<MainOrder>().UpdateFieldsSaveAsync(mainOrder, new Expression<Func<MainOrder, object>>[]
-                            {
-                                x =>x.Status
-                            });
-                            unitOfWork.Repository<MainOrder>().Detach(mainOrder);
                             totalSuccess++;
                         }
-                    }
-                    //Đơn vận chuyển hộ
-                    else if (smallPackage.TransportationOrderId != 0)
-                    {
-                        var transportationOrder = await unitOfWork.Repository<TransportationOrder>().GetQueryable().Where(e => !e.Deleted && e.Id == smallPackage.TransportationOrderId).FirstOrDefaultAsync();
-                        if (transportationOrder == null)
-                            failedResult.Add(smallPackage.OrderTransactionCode);
                         else
                         {
-                            unitOfWork.Repository<SmallPackage>().Update(smallPackage);
-                            transportationOrder.Status = (int)StatusGeneralTransportationOrder.VeKhoTQ;
-                            await unitOfWork.Repository<TransportationOrder>().UpdateFieldsSaveAsync(transportationOrder, new Expression<Func<TransportationOrder, object>>[]
-                            {
-                                x =>x.Status
-                            });
-                            unitOfWork.Repository<TransportationOrder>().Detach(transportationOrder);
-                            totalSuccess++;
+                            failedResult.Add(smallPackage.OrderTransactionCode);
                         }
+                        await unitOfWork.SaveAsync();
+                        unitOfWork.Repository<SmallPackage>().Detach(smallPackage);
                     }
-                    //Kiện trôi nổi
-                    else if (smallPackage.IsTemp.HasValue && smallPackage.IsTemp.Value)
-                    {
-                        unitOfWork.Repository<SmallPackage>().Update(smallPackage);
-                        totalSuccess++;
-                    }
-                    else
-                    {
-                        failedResult.Add(smallPackage.OrderTransactionCode);
-                    }
-                    await unitOfWork.SaveAsync();
-                    unitOfWork.Repository<SmallPackage>().Detach(smallPackage);
                 }
 
                 appDomainImportResult.Data = new
@@ -884,6 +896,11 @@ namespace NhapHangV2.Service.Services
         public async Task<List<SmallPackage>> GetAllByMainOrderId(int mainOrderId)
         {
             return await unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.MainOrderId == mainOrderId).ToListAsync();
+        }
+
+        public async Task<List<SmallPackage>> GetInVietNamByMainOrderId(int mainOrderId)
+        {
+            return await unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.MainOrderId == mainOrderId && x.Status == (int)StatusSmallPackage.DaVeKhoVN).ToListAsync();
         }
 
         public async Task<List<SmallPackage>> GetAllByTransportationOrderId(int transportationOrderId)

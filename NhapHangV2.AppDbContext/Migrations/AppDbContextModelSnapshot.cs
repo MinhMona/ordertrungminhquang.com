@@ -2485,6 +2485,12 @@ namespace NhapHangV2.AppDbContext.Migrations
                     b.Property<decimal?>("InsurancePercent")
                         .HasColumnType("decimal(18,2)");
 
+                    b.Property<bool?>("IsChangeFeeWeight")
+                        .HasColumnType("bit");
+
+                    b.Property<bool?>("IsChangeTQVNWeight")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("IsCheckNotiPrice")
                         .HasColumnType("bit");
 

@@ -67,6 +67,23 @@ namespace NhapHangV2.Service.Services
             sMSEmailTemplateService = serviceProvider.GetRequiredService<ISMSEmailTemplateService>();
         }
 
+        public override async Task<bool> DeleteAsync(int id)
+        {
+            var exists = Queryable
+                .AsNoTracking()
+                .FirstOrDefault(e => e.Id == id);
+            if (exists != null)
+            {
+                exists.Status = (int)StatusOrderContants.Huy;
+                unitOfWork.Repository<MainOrder>().Update(exists);
+                await unitOfWork.SaveAsync();
+                return true;
+            }
+            else
+            {
+                throw new Exception(id + " not exists");
+            }
+        }
         protected override string GetStoreProcName()
         {
             return "MainOrder_GetPagingData";
@@ -192,7 +209,7 @@ namespace NhapHangV2.Service.Services
                                     CreatedBy = users.UserName,
                                     Created = currentDate
                                 });
-
+                                wallet -= amountDeposit;
                                 //Thêm lịch sử thanh toán mua hộ
                                 await unitOfWork.Repository<PayOrderHistory>().CreateAsync(new PayOrderHistory()
                                 {
@@ -272,7 +289,7 @@ namespace NhapHangV2.Service.Services
                                     CreatedBy = users.UserName,
                                     Created = currentDate
                                 });
-
+                                wallet -= moneyLeft;
                                 //Thêm lịch sử đơn hàng thay đổi
                                 await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(new HistoryOrderChange()
                                 {
@@ -761,6 +778,7 @@ namespace NhapHangV2.Service.Services
                 mainOrder.Surcharge = feeSupports.Sum(e => e.SupportInfoVND);
                 unitOfWork.Repository<MainOrder>().Update(mainOrder);
                 await unitOfWork.SaveAsync();
+                unitOfWork.Repository<MainOrder>().Detach(mainOrder);
             }
 
             return mainOrder;
@@ -770,6 +788,7 @@ namespace NhapHangV2.Service.Services
         {
             //Bên SmallPackage cũng có tính toán nữa đó
             DateTime currentDate = DateTime.Now;
+            var oldMainOrder = (await unitOfWork.Repository<MainOrder>().GetQueryable().Where(e => e.Id == item.Id).FirstOrDefaultAsync()).Status;
             var configurations = await configurationsService.GetSingleAsync();
             var userMainOrder = await unitOfWork.Repository<Users>().GetQueryable().Where(e => e.Id == item.UID).FirstOrDefaultAsync();
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(e => e.Id == LoginContext.Instance.CurrentUser.UserId).FirstOrDefaultAsync();
@@ -809,7 +828,7 @@ namespace NhapHangV2.Service.Services
                     volumeFeePrice = volumeFee.Price;
                 //decimal? smPriceWeight = totalWeight * warehouseFeePrice;
                 decimal? smPriceWeight = 0;
-                if (userMainOrder.FeeTQVNPerWeight > 0)
+                if ((userMainOrder.FeeTQVNPerWeight ?? 0) > 0)
                     smPriceWeight = smallPackage.PayableWeight * userMainOrder.FeeTQVNPerWeight;
                 else
                     smPriceWeight = smallPackage.PayableWeight * warehouseFeePrice;
@@ -817,7 +836,7 @@ namespace NhapHangV2.Service.Services
 
                 //decimal? smPriceVolume = totalVolume * volumeFeePrice;
                 decimal? smPriceVolume = 0;
-                if (userMainOrder.FeeTQVNPerVolume > 0)
+                if ((userMainOrder.FeeTQVNPerVolume ?? 0) > 0)
                     smPriceVolume = smallPackage.VolumePayment * userMainOrder.FeeTQVNPerVolume;
                 else
                     smPriceVolume = smallPackage.VolumePayment * volumeFeePrice;
@@ -847,9 +866,9 @@ namespace NhapHangV2.Service.Services
                     smallPackage.UID = userMainOrder.Id;
                     smallPackage.MainOrderId = item.Id;
 
-                    exists = await unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => !x.Deleted && x.OrderTransactionCode.Equals(smallPackage.OrderTransactionCode)).FirstOrDefaultAsync();
-                    if (exists != null)
-                        throw new AppException(string.Format("Mã vận đơn {0} đã tồn tại", smallPackage.OrderTransactionCode));
+                    //exists = await unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => !x.Deleted && x.OrderTransactionCode.Equals(smallPackage.OrderTransactionCode)).FirstOrDefaultAsync();
+                    //if (exists != null)
+                    //    throw new AppException(string.Format("Mã vận đơn {0} đã tồn tại", smallPackage.OrderTransactionCode));
 
                     await unitOfWork.Repository<SmallPackage>().CreateAsync(smallPackage);
                     await unitOfWork.SaveAsync();
@@ -937,6 +956,7 @@ namespace NhapHangV2.Service.Services
             decimal? feeDelivery = feeWeight > feeVolume ? feeWeight : feeVolume;
             decimal? feeDeliveryDiscount = feeDelivery * ckFeeWeight / 100;
             feeDelivery -= feeDeliveryDiscount;
+
             item.FeeWeight = feeDelivery;
 
             item.TotalPriceVND = (item.FeeWeight ?? 0) + (item.FeeShipCN ?? 0)
@@ -948,10 +968,12 @@ namespace NhapHangV2.Service.Services
             switch (item.Status)
             {
                 case (int)StatusOrderContants.DaDatCoc:
-                    item.DepositDate = currentDate;
+                    if (oldMainOrder != item.Status)
+                        item.DepositDate = currentDate;
                     break;
                 case (int)StatusOrderContants.DaMuaHang:
-                    item.DateBuy = currentDate;
+                    if (oldMainOrder != item.Status)
+                        item.DateBuy = currentDate;
 
                     //Thông báo
                     //Đơn hàng đã được mua
@@ -963,7 +985,8 @@ namespace NhapHangV2.Service.Services
                     await sendNotificationService.SendNotification(notifcationSetting, notiTemplate, item.Id.ToString(), "", string.Format(Detail_MainOrder, item.Id), item.UID, subject, emailContent);
                     break;
                 case (int)StatusOrderContants.DaVeKhoTQ:
-                    item.DateTQ = currentDate;
+                    if (oldMainOrder != item.Status)
+                        item.DateTQ = currentDate;
                     //Thông báo
                     //Đơn hàng đã đến kho TQ
                     var notiTemplateTQ = await notificationTemplateService.GetByIdAsync(20);
@@ -974,7 +997,8 @@ namespace NhapHangV2.Service.Services
                     await sendNotificationService.SendNotification(notiicationSettingTQ, notiTemplateTQ, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectTQ, emailContentTQ);
                     break;
                 case (int)StatusOrderContants.DaVeKhoVN:
-                    item.DateVN = currentDate;
+                    if (oldMainOrder != item.Status)
+                        item.DateVN = currentDate;
                     //Thông báo
                     //Đơn hàng đã đến kho VN
                     var notiTemplateVN = await notificationTemplateService.GetByIdAsync(19);
@@ -985,6 +1009,8 @@ namespace NhapHangV2.Service.Services
                     await sendNotificationService.SendNotification(notiicationSettingVN, notiTemplateVN, item.Id.ToString(), string.Format(Detail_MainOrder_Admin, item.Id), string.Format(Detail_MainOrder, item.Id), item.UID, subjectVN, emailContentVN);
                     break;
                 case (int)StatusOrderContants.KhachDaThanhToan:
+                    if (oldMainOrder != item.Status)
+                        item.PayDate = currentDate;
                     var smallPackagePaid = item.SmallPackages;
                     if (smallPackagePaid.Count > 0)
                     {
@@ -996,7 +1022,8 @@ namespace NhapHangV2.Service.Services
                     }
                     break;
                 case (int)StatusOrderContants.DaHoanThanh:
-                    item.CompleteDate = currentDate;
+                    if (oldMainOrder != item.Status)
+                        item.CompleteDate = currentDate;
                     var smallPackageUpdates = item.SmallPackages;
                     if (smallPackageUpdates.Count > 0)
                     {
@@ -1012,16 +1039,156 @@ namespace NhapHangV2.Service.Services
             }
 
             //Tính phí đơn hàng
-            Commission(item.StaffIncomes);
+            //Commission(item.StaffIncomes);
+            foreach (var staffIncome in item.StaffIncomes)
+            {
+                if (staffIncome.Deleted)
+                {
+                    //Xóa luôn
+                    unitOfWork.Repository<StaffIncome>().Delete(staffIncome);
+                    continue;
+                }
+
+                if (staffIncome.Id == 0)
+                    await unitOfWork.Repository<StaffIncome>().CreateAsync(staffIncome);
+                else
+                    unitOfWork.Repository<StaffIncome>().Update(staffIncome);
+            }
 
             //Lịch sử thay đổi của đơn hàng
             await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(item.HistoryOrderChanges);
 
             unitOfWork.Repository<MainOrder>().Update(item);
             await unitOfWork.SaveAsync();
+            unitOfWork.Repository<MainOrder>().Detach(item);
+
             return true;
         }
 
+        /// <summary>
+        /// Cập nhật cân nặng trong chi tiết đơn
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="weight"></param>
+        /// <returns></returns>
+        public async Task<bool> UpdateMainOrderWeight(int id, decimal weight)
+        {
+            using (var transactionDbContext = Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var oldMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().FirstOrDefaultAsync(x => x.Id == id);
+                    if (weight != (oldMainOrder.TQVNWeight ?? 0))
+                    {
+                        var history = new HistoryOrderChange()
+                        {
+                            MainOrderId = oldMainOrder.Id,
+                            HistoryContent = $"{LoginContext.Instance.CurrentUser.UserName} đã đổi cân nặng từ {oldMainOrder.TQVNWeight ?? 0} kg sang {weight} kg.",
+                            UID = LoginContext.Instance.CurrentUser.UserId,
+                            Type = (int?)TypeHistoryOrderChange.CanNangDonHang,
+                            CreatedBy = LoginContext.Instance.CurrentUser.UserName
+                        };
+                        var warehouseFee = await unitOfWork.Repository<WarehouseFee>().GetQueryable().Where(e => !e.Deleted &&
+                            e.WarehouseFromId == oldMainOrder.FromPlace && e.WarehouseId == oldMainOrder.ReceivePlace && e.ShippingTypeToWareHouseId == oldMainOrder.ShippingType && e.IsHelpMoving == false &&
+                            weight >= e.WeightFrom && weight < e.WeightTo).FirstOrDefaultAsync();
+
+                        decimal? warehouseFeePrice = 0;
+                        if (warehouseFee != null)
+                            warehouseFeePrice = warehouseFee.Price;
+
+                        //Phí cân nặng vận chuyển TQ - VN
+                        decimal feeWeight = 0;
+                        var userMainOrder = await unitOfWork.Repository<Users>().GetQueryable().FirstOrDefaultAsync(x => x.Id == oldMainOrder.UID);
+                        decimal? smPriceWeight = 0;
+                        if ((userMainOrder.FeeTQVNPerWeight ?? 0) > 0)
+                            smPriceWeight = weight * userMainOrder.FeeTQVNPerWeight;
+                        else
+                            smPriceWeight = weight * warehouseFeePrice;
+                        feeWeight += (smPriceWeight ?? 0);
+
+                        decimal feeVolume = 0;
+                        var smallPackages = await unitOfWork.Repository<SmallPackage>().GetQueryable().Where(x => x.MainOrderId == oldMainOrder.Id).ToListAsync();
+                        foreach (var smallPackage in smallPackages)
+                        {
+                            decimal volumeFeePrice = 0;
+                            var volumeFeeSM = await unitOfWork.Repository<VolumeFee>().GetQueryable().Where(e => !e.Deleted &&
+                                e.WarehouseFromId == oldMainOrder.FromPlace && e.WarehouseId == oldMainOrder.ReceivePlace && e.ShippingTypeToWareHouseId == oldMainOrder.ShippingType && e.IsHelpMoving == false &&
+                                smallPackage.VolumePayment >= e.VolumeFrom && smallPackage.VolumePayment < e.VolumeTo).FirstOrDefaultAsync();
+
+                            if (volumeFeeSM != null)
+                                volumeFeePrice = volumeFeeSM.Price ?? 0;
+
+                            decimal? smPriceVolume = 0;
+                            if ((userMainOrder.FeeTQVNPerVolume ?? 0) > 0)
+                                smPriceVolume = smallPackage.VolumePayment * userMainOrder.FeeTQVNPerVolume;
+                            else
+                                smPriceVolume = smallPackage.VolumePayment * volumeFeePrice;
+                            feeVolume += (smPriceVolume ?? 0);
+
+                        }
+                        var userLevelMainOrder = await unitOfWork.Repository<UserLevel>().GetQueryable().Where(e => !e.Deleted && userMainOrder.LevelId == e.Id).FirstOrDefaultAsync();
+                        decimal? ckFeeWeight = userLevelMainOrder == null ? 1 : userLevelMainOrder.FeeWeight;
+
+                        decimal? feeDelivery = feeWeight > feeVolume ? feeWeight : feeVolume;
+                        decimal? feeDeliveryDiscount = feeDelivery * ckFeeWeight / 100;
+                        feeDelivery -= feeDeliveryDiscount;
+                        oldMainOrder.TotalPriceVND = (oldMainOrder.TotalPriceVND - oldMainOrder.FeeWeight + feeDelivery);
+                        oldMainOrder.FeeWeight = feeDelivery;
+                        oldMainOrder.TQVNWeight = weight;
+                        await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(history);
+                        unitOfWork.Repository<MainOrder>().Update(oldMainOrder);
+                        await unitOfWork.SaveAsync();
+                        unitOfWork.Repository<MainOrder>().Detach(oldMainOrder);
+
+                        await transactionDbContext.CommitAsync();
+                    }
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    await transactionDbContext.RollbackAsync();
+                    throw new AppException(ex.Message);
+                }
+            }
+        }
+        public async Task<bool> UpdateMainOrderDelivery(int id, decimal deliveryPrice)
+        {
+            using (var transactionDbContext = Context.Database.BeginTransaction())
+            {
+                try
+                {
+                    var oldMainOrder = await unitOfWork.Repository<MainOrder>().GetQueryable().FirstOrDefaultAsync(x => x.Id == id);
+                    if (deliveryPrice != (oldMainOrder.FeeWeight ?? 0))
+                    {
+                        var history = new HistoryOrderChange()
+                        {
+                            MainOrderId = oldMainOrder.Id,
+                            HistoryContent = $"{LoginContext.Instance.CurrentUser.UserName} đã đổi phí vận chuyển từ {oldMainOrder.FeeWeight ?? 0} VND sang {deliveryPrice} VND.",
+                            UID = LoginContext.Instance.CurrentUser.UserId,
+                            Type = (int?)TypeHistoryOrderChange.CanNangDonHang,
+                            CreatedBy = LoginContext.Instance.CurrentUser.UserName
+                        };
+
+                        oldMainOrder.TotalPriceVND = (oldMainOrder.TotalPriceVND - oldMainOrder.FeeWeight + deliveryPrice);
+                        oldMainOrder.FeeWeight = deliveryPrice;
+                        await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(history);
+                        unitOfWork.Repository<MainOrder>().Update(oldMainOrder);
+                        await unitOfWork.SaveAsync();
+                        unitOfWork.Repository<MainOrder>().Detach(oldMainOrder);
+
+                        await transactionDbContext.CommitAsync();
+                    }
+                    return true;
+
+                }
+                catch (Exception ex)
+                {
+                    await transactionDbContext.RollbackAsync();
+                    throw new AppException(ex.Message);
+                }
+            }
+        }
         /// <summary>
         /// Tính lại tiền khi thay đổi SmallPackage (công thức giống của UpdateAsync)
         /// </summary>
@@ -1029,6 +1196,7 @@ namespace NhapHangV2.Service.Services
         /// <returns></returns>
         public async Task<MainOrder> PriceAdjustment(MainOrder item)
         {
+
             var smallPackages = item.SmallPackages;
             var user = await unitOfWork.Repository<Users>().GetQueryable().Where(e => !e.Deleted && e.Id == item.UID).FirstOrDefaultAsync();
             var userLevel = await unitOfWork.Repository<UserLevel>().GetQueryable().Where(e => !e.Deleted && e.Id == user.LevelId).FirstOrDefaultAsync();
@@ -1063,6 +1231,7 @@ namespace NhapHangV2.Service.Services
             //}
             #endregion
             #region Tính phí vận chuyển của từng mã vận đơn rồi cộng lại
+            decimal? feeDelivery = 0;
             decimal? totalFeeWeight = 0;
             decimal? totalFeeVolume = 0;
             foreach (var smallPackage in smallPackages)
@@ -1119,15 +1288,30 @@ namespace NhapHangV2.Service.Services
 
                 totalFeeVolume += feeVolume;
                 totalFeeWeight += feeWeight;
+                feeDelivery += feeVolume > feeWeight ? feeVolume : feeWeight;
             }
             #endregion
-            decimal? feeDelivery = totalFeeVolume > totalFeeWeight ? totalFeeVolume : totalFeeWeight;
+
             decimal? feeDeliveryDiscount = feeDelivery * ckFeeWeight / 100;
             feeDelivery -= feeDeliveryDiscount;
 
-            item.TQVNWeight = item.OrderWeight = Math.Round(totalWeight.Value, 2);
+            bool isChangeTQVNWeight = item.IsChangeFeeWeight != null ? item.IsChangeFeeWeight.Value : false;
+            bool isChangeFeeWeight = item.IsChangeFeeWeight != null ? item.IsChangeFeeWeight.Value : false; ;
+
+
+            if (isChangeTQVNWeight == false)
+            {
+                item.TQVNWeight = item.OrderWeight = Math.Round(totalWeight.Value, 2);
+            }
+
             item.TQVNVolume = totalVolume;
-            item.FeeWeight = feeDelivery;
+
+            if (isChangeFeeWeight == false)
+            {
+                if (isChangeTQVNWeight == false)
+                    item.FeeWeight = feeDelivery;
+            }
+
 
             decimal? totalPriceVNDFn = 0;
             if (item.FeeWeight != null) totalPriceVNDFn += item.FeeWeight;
@@ -1139,15 +1323,27 @@ namespace NhapHangV2.Service.Services
             if (item.PriceVND != null) totalPriceVNDFn += item.PriceVND;
             if (item.Surcharge != null) totalPriceVNDFn += item.Surcharge;
             if (item.InsuranceMoney != null) totalPriceVNDFn += item.InsuranceMoney;
-            item.TotalPriceVND = Math.Round(totalPriceVNDFn.Value, 2);
+            item.TotalPriceVND = Math.Round(totalPriceVNDFn.Value, 0);
             return item;
         }
 
         public async Task<bool> UpdateStaff(MainOrder item)
         {
             //Tính phí đơn hàng
-            Commission(item.StaffIncomes);
+            foreach (var staffIncome in item.StaffIncomes)
+            {
+                if (staffIncome.Deleted)
+                {
+                    //Xóa luôn
+                    unitOfWork.Repository<StaffIncome>().Delete(staffIncome);
+                    continue;
+                }
 
+                if (staffIncome.Id == 0)
+                    await unitOfWork.Repository<StaffIncome>().CreateAsync(staffIncome);
+                else
+                    unitOfWork.Repository<StaffIncome>().Update(staffIncome);
+            }
             //Lịch sử thay đổi của đơn hàng
             await unitOfWork.Repository<HistoryOrderChange>().CreateAsync(item.HistoryOrderChanges);
 
